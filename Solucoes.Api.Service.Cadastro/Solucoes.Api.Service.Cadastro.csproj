@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Solucoes.Api.Mapper\Solucoes.Api.Mapper.csproj" />
+    <ProjectReference Include="..\Solucoes.Api.Repositorios\Solucoes.Api.Repositorios.csproj" />
+    <ProjectReference Include="..\Solucoes.Api.Service.Movimentacao\Solucoes.Api.Service.Movimentacao.csproj" />
+    <ProjectReference Include="..\Solucoes.Modelo.Dtos\Solucoes.Modelo.Dtos.csproj" />
+    <ProjectReference Include="..\Solucoes.Modelo.Service\Solucoes.Modelo.Service.csproj" />
+  </ItemGroup>
+
+</Project>

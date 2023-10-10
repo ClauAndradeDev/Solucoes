@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Solucoes.Modelo.Dtos\Solucoes.Modelo.Dtos.csproj" />
+    <ProjectReference Include="..\Solucoes.Modelo.Entidades\Solucoes.Modelo.Entidades.csproj" />
+    <ProjectReference Include="..\Solucoes.Modelo.Repositorio\Solucoes.Modelo.Repositorio.csproj" />
+    <ProjectReference Include="..\Solucoes.Modelo\Solucoes.Modelo.csproj" />
+  </ItemGroup>
+
+</Project>

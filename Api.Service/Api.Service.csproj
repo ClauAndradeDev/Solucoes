@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Api.Mapper\Api.Mapper.csproj" />
+    <ProjectReference Include="..\Modelo.Repositorio\Modelo.Repositorio.csproj" />
+    <ProjectReference Include="..\Modelo.Service\Modelo.Service.csproj" />
+    <ProjectReference Include="..\Modelo\Modelo.csproj" />
+  </ItemGroup>
+
+</Project>
