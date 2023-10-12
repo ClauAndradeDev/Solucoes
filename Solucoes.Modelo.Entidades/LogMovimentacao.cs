@@ -1,4 +1,5 @@
-﻿using Solucoes.Modelo.Enums;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Solucoes.Modelo.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,12 +14,13 @@ namespace Solucoes.Modelo.Entidades
     {
         public string? Tabela { get; set; }
         public JsonArray? Conteudo { get; set; }
-        public int IdRegistro { get; set; }
         public SituacaoRegistroEnum Movimentacao { get; set; }
 
         [ForeignKey(nameof(IdUsuario))]
         public int IdUsuario { get; set; }
         public virtual Usuario? Usuarios { get; set; }
+
+       public int Registro { get; set; }
 
     }
 }

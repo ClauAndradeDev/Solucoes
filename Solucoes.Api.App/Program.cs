@@ -3,6 +3,7 @@ using Solucoes.Api.App.Contexto;
 using Solucoes.Api.Mapper;
 using Solucoes.Api.Repositorios;
 using Solucoes.Api.Service.Cadastro;
+using Solucoes.Api.Service.Movimentacao;
 using Solucoes.Modelo.Contexto;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +40,7 @@ builder.Services.AddTransient<ChamadoRepositorio>();
 builder.Services.AddTransient<UsuarioService>();
 builder.Services.AddTransient<PlataformaService>();
 builder.Services.AddTransient<SetorEmpresaService>();
+builder.Services.AddTransient<LogMovimentacaoService>();
 
 builder.Services.AddTransient<Mapper>();
 

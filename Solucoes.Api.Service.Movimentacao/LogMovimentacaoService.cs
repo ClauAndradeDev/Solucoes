@@ -18,14 +18,17 @@ namespace Solucoes.Api.Service.Movimentacao
             
 
         }
-        public async Task<LogMovimentacaoDto> InserirLogMov(Object objeto, int situacao, string tabela)
+        public async Task<LogMovimentacaoDto> InserirLogMov(Object objeto, int situacao, string tabela, int idTabela)
         {
-            var logMov = new LogMovimentacaoDto();
-
-            logMov.DataAlteracao = DateTime.Today;
-            logMov.Movimentacao = (Modelo.Enums.SituacaoRegistroEnum)situacao;
-            logMov.Tabela = tabela;
-            logMov.Conteudo = (System.Text.Json.Nodes.JsonArray?)Helpers.ConverterObjectJson(objeto);
+            var logMov = new LogMovimentacaoDto
+            {
+                DataAlteracao = DateTime.Now,
+                Movimentacao = (Modelo.Enums.SituacaoRegistroEnum)situacao,
+                Tabela = tabela,
+                Conteudo = (System.Text.Json.Nodes.JsonArray?)Helpers.ConverterObjectJson(objeto),
+                Registro = idTabela,
+                CodUsuario = 1
+            };
 
             var result = await base.Insert(logMov);
 

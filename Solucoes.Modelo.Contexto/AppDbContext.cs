@@ -22,6 +22,7 @@ namespace Solucoes.Modelo.Contexto
         public DbSet<ReuniaoItem> ReuniaoItems { get; set; }
         public DbSet<SetorEmpresa> SetorEmpresas { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<LogMovimentacao> LogMovimentacoes { get; set; }
 
 
 
@@ -43,9 +44,11 @@ namespace Solucoes.Modelo.Contexto
         //    optionsBuilder.UseLazyLoadingProxies();
         //}
 
+
+
         public string ObterStringConexao()
         {
-            return "Server=DESKTOP-2GS16G0\\SQLEXPRESS;Database=SolucoesDb;User Id=sa;Password=@Itapoa2023;Trusted_Connection=True;TrustServerCertificate=True";
+            return "Server=CLAUANDRADE\\SQLEXPRESS;Database=SolucoesDb;User Id=sa;Password=@Itapoa2023;Trusted_Connection=True;TrustServerCertificate=True";
         }
 
 

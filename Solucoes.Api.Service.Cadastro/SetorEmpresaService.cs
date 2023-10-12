@@ -1,4 +1,5 @@
 ﻿using Solucoes.Api.Repositorios;
+using Solucoes.Api.Service.Movimentacao;
 using Solucoes.Modelo.Dtos;
 using Solucoes.Modelo.Entidades;
 using System;
@@ -11,13 +12,13 @@ namespace Solucoes.Api.Service.Cadastro
 {
     public class SetorEmpresaService : CrudServices<SetorEmpresa, SetorEmpresaDto>
     {
-        public LogMovimentacaoRepositorio LogMovimentacaoRepositorio { get; set; }
+        public LogMovimentacaoService LogMovimentacaoService { get; set; }
         public SetorEmpresaService(SetorEmpresaRepositorio setornEmpresaRepositorio
-            , LogMovimentacaoRepositorio logMovimentacaoRepositorio
+            , LogMovimentacaoService logMovimentacaoService
             , Mapper.Mapper mapper) :
             base(setornEmpresaRepositorio, mapper)
         {
-            LogMovimentacaoRepositorio = logMovimentacaoRepositorio;
+            LogMovimentacaoService = logMovimentacaoService;
         }
 
         public override async Task<SetorEmpresaDto> Insert(SetorEmpresaDto setor)
@@ -25,7 +26,7 @@ namespace Solucoes.Api.Service.Cadastro
             var setorDto = await base.Insert(setor);
             var setorModel = await base.ReturnModel(setorDto.Codigo);
 
-            await InserirLogMovimentacao(setorModel, 1);
+            await LogMovimentacaoService.InserirLogMov(setorModel, 1, "Setor", setorModel.Id);
 
             var result = await base.FindByCodigo(setorModel.Id);
 
@@ -37,7 +38,7 @@ namespace Solucoes.Api.Service.Cadastro
             var setorDto = await base.Update(id, setor);
             var setorModel = await base.ReturnModel(setorDto.Codigo);
 
-            await InserirLogMovimentacao(setorModel, 2);
+            await LogMovimentacaoService.InserirLogMov(setorModel, 2, "Setor", setorModel.Id);
 
             var result = await base.FindByCodigo(setorModel.Id);
 
@@ -49,24 +50,9 @@ namespace Solucoes.Api.Service.Cadastro
             var setorDto = await base.FindByCodigo(id);
             var setorModel = await base.ReturnModel(setorDto.Codigo);
 
-            await InserirLogMovimentacao(setorModel, 3);
+            await LogMovimentacaoService.InserirLogMov(setorModel, 3, "Setor", setorModel.Id);
 
             await base.Delete(setorDto.Codigo);
-        }
-
-        public async Task InserirLogMovimentacao(SetorEmpresa setor, int situacao)
-        {
-            //registrar logMovimentação
-            var logMov = new LogMovimentacao();
-            var tabela = "SetorEmpresa";
-            var conteudo = setor;
-
-            logMov.DataAlteracao = DateTime.Today;
-            logMov.Movimentacao = (Modelo.Enums.SituacaoRegistroEnum)situacao;
-            logMov.Tabela = tabela;
-            logMov.Conteudo = (System.Text.Json.Nodes.JsonArray?)Helpers.ConverterObjectJson(conteudo);
-
-            await LogMovimentacaoRepositorio.Add(logMov);
         }
     }
 }

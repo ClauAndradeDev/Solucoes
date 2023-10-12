@@ -31,9 +31,7 @@ namespace Solucoes.Api.Service.Cadastro
 
             var result = await base.FindByCodigo(plataformaModel.Id);
 
-            //chama metodo para inserir LogMovimentacao
-            //await InserirLogMovimentacao(plataformaModel, 1);
-            var logMovPlataforma = await LogMovimentacaoService.InserirLogMov(plataformaModel, 1, "Plataforma");
+            var logMovPlataforma = await LogMovimentacaoService.InserirLogMov(plataformaModel, 1, "Plataforma", plataformaModel.Id);
 
             return result;
         }
@@ -45,8 +43,7 @@ namespace Solucoes.Api.Service.Cadastro
 
             var result = await base.FindByCodigo(plataformaModel.Id);
 
-            //chama metodo para inserir LogMovimentacao
-            var logMovUsuario = await LogMovimentacaoService.InserirLogMov(plataformaModel, 2, "Usuario");
+            var logMovUsuario = await LogMovimentacaoService.InserirLogMov(plataformaModel, 2, "Usuario", plataformaModel.Id);
 
             return result;
         }
@@ -56,7 +53,7 @@ namespace Solucoes.Api.Service.Cadastro
             var plataformaDto = await base.FindByCodigo(id);
             var plataformaModel = await base.ReturnModel(plataformaDto.Codigo);
 
-            var logMovUsuario = await LogMovimentacaoService.InserirLogMov(plataformaModel, 3, "Usuario");
+            var logMovUsuario = await LogMovimentacaoService.InserirLogMov(plataformaModel, 3, "Usuario", plataformaModel.Id);
 
             if (logMovUsuario != null)
             {
@@ -64,28 +61,5 @@ namespace Solucoes.Api.Service.Cadastro
             }
             
         }
-
-        //public async Task InserirLogMovimentacao(Plataforma plataforma, int situacao)
-        //{
-        //    //Inclusao = 1,
-        //    //Alteracao = 2,
-        //    //Exclusao = 3
-
-        //    //registrar logMovimentação
-        //    var logMov = new LogMovimentacao();
-        //    var tabela = "Plataforma";
-        //    var conteudo = plataforma;
-
-        //    logMov.DataAlteracao = DateTime.Today;
-        //    logMov.Movimentacao = (Modelo.Enums.SituacaoRegistroEnum)situacao;
-        //    logMov.Tabela = tabela;
-        //    logMov.Conteudo = (System.Text.Json.Nodes.JsonArray?)Helpers.ConverterObjectJson(conteudo);
-
-        //    await LogMovimentacaoRepositorio.Add(logMov);
-        //}
-
-
-
-
     }
 }

@@ -31,7 +31,7 @@ namespace Solucoes.Api.Service.Cadastro
             var pessoaDto = await base.Insert(pessoa);
             var pessoaModel = await base.ReturnModel(pessoaDto.Codigo);
 
-            var logMovPessoa = await LogMovimentacaoService.InserirLogMov(pessoaModel, 1, "Pessoa");
+            await LogMovimentacaoService.InserirLogMov(pessoaModel, 1, "Pessoa", pessoaModel.Id);
 
             var result = await base.FindByCodigo(pessoaModel.Id);
 
@@ -49,7 +49,7 @@ namespace Solucoes.Api.Service.Cadastro
             //await InserirLogMov(pessoaModel, 1, "Pessoa");
             //await InserirLogMov(endereco, 1, "Endereco");
 
-            var logMovPessoa = await LogMovimentacaoService.InserirLogMov(pessoaModel, 1, "Pessoa");
+            await LogMovimentacaoService.InserirLogMov(pessoaModel, 1, "Pessoa", pessoaModel.Id);
 
             var result = Mapper.Map<EnderecoDto>(enderecoModel);
 
@@ -71,7 +71,8 @@ namespace Solucoes.Api.Service.Cadastro
 
             var result = Mapper.Map<EnderecoDto>(enderecoModel);
 
-            var logMovEndereco = await LogMovimentacaoService.InserirLogMov(enderecoModel, 2, "Endereco");
+            await LogMovimentacaoService.InserirLogMov(enderecoModel, 2, "Endereco", enderecoModel.Id);
+            await LogMovimentacaoService.InserirLogMov(pessoaModel, 2, "Pessoa", pessoaModel.Id);
 
             return result;
         }
@@ -81,8 +82,8 @@ namespace Solucoes.Api.Service.Cadastro
             var pessoaDto = await base.Update(id, pessoa);
             var pessoaModel = await base.ReturnModel(pessoaDto.Codigo);
 
-            //await InserirLogMov(pessoaModel, 2, "Pessoa");
-            var logMovPessoa = await LogMovimentacaoService.InserirLogMov(pessoaModel, 2, "Pessoa");
+            await LogMovimentacaoService.InserirLogMov(pessoaModel, 2, "Pessoa", pessoaModel.Id);
+            
             var result = await base.FindByCodigo(pessoaModel.Id);
 
             return result;
@@ -97,13 +98,13 @@ namespace Solucoes.Api.Service.Cadastro
 
             var contatoModel = pessoaModel.Contatos.FirstOrDefault(cp => cp.IdPessoa == id);
 
-            var logMovEndereco = await LogMovimentacaoService.InserirLogMov(enderecoModel, 3, "Endereco");
+            var logMovEndereco = await LogMovimentacaoService.InserirLogMov(enderecoModel, 3, "Endereco", enderecoModel.Id);
             if (logMovEndereco!= null)
             {
-                var logMovContato = await LogMovimentacaoService.InserirLogMov(contatoModel, 3, "Contato");
+                var logMovContato = await LogMovimentacaoService.InserirLogMov(contatoModel, 3, "Contato", contatoModel.Id);
                 if (logMovContato != null)
                 {
-                    var logMovPessoa = await LogMovimentacaoService.InserirLogMov(pessoaModel, 3, "Pessoa");
+                    var logMovPessoa = await LogMovimentacaoService.InserirLogMov(pessoaModel, 3, "Pessoa", pessoaModel.Id);
                     if (logMovPessoa != null)
                     {
                         await base.Delete(pessoaDto.Codigo);
@@ -124,9 +125,9 @@ namespace Solucoes.Api.Service.Cadastro
 
             var pessoaDto = await base.FindByCodigo(codPessoa);
 
-            if (!(pessoaModel is null))
+            if (pessoaModel is not null)
             {
-                var logMov = await LogMovimentacaoService.InserirLogMov(enderecoModel, 3, "Endereco");
+                var logMov = await LogMovimentacaoService.InserirLogMov(enderecoModel, 3, "Endereco", enderecoModel.Id);
                 if (logMov != null)
                 {
                     await EnderecoRepositorio.Remove(codEndereco);

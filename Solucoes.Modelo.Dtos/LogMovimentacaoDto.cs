@@ -13,7 +13,7 @@ namespace Solucoes.Modelo.Dtos
     {
         public string? Tabela { get; set; }
         public JsonArray? Conteudo { get; set; }
-        public int CodRegistro { get; set; }
+        public int Registro { get; set; }
         public SituacaoRegistroEnum Movimentacao { get; set; }
         public int CodUsuario { get; set; }
     }
