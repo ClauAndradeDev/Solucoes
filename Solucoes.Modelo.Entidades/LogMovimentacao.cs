@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Entidades
 {
+    [Table("LogMovimento")]
     public class LogMovimentacao: MovimentacaoModelo
     {
         public string? Tabela { get; set; }

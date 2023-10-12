@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Entidades
 {
+    [Table("Chamado")]
     public class Chamado: CadastroModelo
     {
         public string? Titulo { get; set; }
@@ -17,11 +18,15 @@ namespace Solucoes.Modelo.Entidades
 
         [ForeignKey(nameof(IdEmpresa))]
         public int IdEmpresa { get; set; }
-        public virtual Empresa? Empresas { get; set; }
+        //public virtual Empresa? Empresas { get; set; }
 
         [ForeignKey(nameof(IdPlataforma))]
         public int IdPlataforma { get; set; }
-        public virtual Plataforma? Plataformas { get; set; }
+        //public virtual Plataforma? Plataformas { get; set; }
+
+        [ForeignKey(nameof(IdUsuario))]
+        public int IdUsuario { get; set; }
+        //public virtual Usuario? Usuarios { get; set; }
 
     }
 }

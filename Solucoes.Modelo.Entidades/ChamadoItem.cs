@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Entidades
 {
+    [Table("ChamadoItem")]
     public class ChamadoItem: MovimentacaoModelo
     {
        
@@ -15,6 +16,6 @@ namespace Solucoes.Modelo.Entidades
 
         [ForeignKey(nameof(IdChamado))]
         public int IdChamado { get; set; }
-        public virtual Chamado? Chamados { get; set; }
+        //public virtual Chamado? Chamados { get; set; }
     }
 }

@@ -16,5 +16,6 @@ namespace Solucoes.Modelo.Dtos
 
         public virtual EmpresaDto[]? Empresas { get; set; }
         public virtual PlataformaDto[]? Plataformas { get; set; }
+        public virtual UsuarioDto[]? Usuarios { get; set;}
     }
 }

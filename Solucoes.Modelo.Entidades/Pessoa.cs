@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Entidades
 {
+    [Table("Pessoa")]
     public class Pessoa: CadastroModelo
     {
         public string? NomeRazaoSocial { get; set; }
@@ -21,6 +23,7 @@ namespace Solucoes.Modelo.Entidades
 
         public virtual ICollection<Endereco>? Enderecos { get; set; }
         public virtual ICollection<Contato>? Contatos { get; set; }
+        public virtual ICollection<Empresa>? Empresas { get; set; }
 
 
     }

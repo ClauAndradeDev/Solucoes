@@ -30,7 +30,7 @@ builder.Services.AddTransient<ReuniaoRepositorio>();
 builder.Services.AddTransient<ReuniaoItemRepositorio>();
 builder.Services.AddTransient<PlataformaRepositorio>();
 builder.Services.AddTransient<PessoaRepositorio>();
-builder.Services.AddTransient<LogMovimentacaoRepositorio>();
+//builder.Services.AddTransient<LogMovimentacaoRepositorio>();
 builder.Services.AddTransient<EnderecoRepositorio>();
 builder.Services.AddTransient<EmpresaRepositorio>();
 builder.Services.AddTransient<ContatoRepositorio>();
@@ -40,7 +40,10 @@ builder.Services.AddTransient<ChamadoRepositorio>();
 builder.Services.AddTransient<UsuarioService>();
 builder.Services.AddTransient<PlataformaService>();
 builder.Services.AddTransient<SetorEmpresaService>();
-builder.Services.AddTransient<LogMovimentacaoService>();
+//builder.Services.AddTransient<LogMovimentacaoService>();
+builder.Services.AddTransient<PessoaService>();
+
+
 
 builder.Services.AddTransient<Mapper>();
 

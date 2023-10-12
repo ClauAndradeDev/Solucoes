@@ -17,7 +17,10 @@ namespace Solucoes.Modelo.Dtos
         public string? Telefone { get; set; }
         public bool WhatsApp { get; set; }
         public bool TipoEmpresa { get; set; }
+        public bool TipoUsuario { get; set; }
 
         public virtual EnderecoDto[]? Enderecos { get; set; }
+        public virtual ContatoDto[]? Contatos { get; set; }
+        public virtual EmpresaDto[]? Empresas { get; set; }
     }
 }

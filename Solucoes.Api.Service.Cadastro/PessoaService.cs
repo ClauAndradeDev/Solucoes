@@ -14,24 +14,39 @@ namespace Solucoes.Api.Service.Cadastro
 {
     public class PessoaService : CrudServices<Pessoa, PessoaDto>
     {
-        public LogMovimentacaoRepositorio LogMovimentacaoRepositorio { get; set; }
+        //public LogMovimentacaoRepositorio LogMovimentacaoRepositorio { get; set; }
         public EnderecoRepositorio EnderecoRepositorio { get; set; }
-        public LogMovimentacaoService LogMovimentacaoService { get; set; }
+        public EmpresaRepositorio EmpresaRepositorio { get; set; }
+        //public LogMovimentacaoService LogMovimentacaoService { get; set; }
+        public ContatoRepositorio ContatoRepositorio { get; set; }
         public PessoaService(PessoaRepositorio pessoaRepositorio,
-            LogMovimentacaoRepositorio logMovimentacaoRepositorio,
+            //LogMovimentacaoRepositorio logMovimentacaoRepositorio,
+            EmpresaRepositorio empresaRepositorio,
+            ContatoRepositorio contatoRepositorio,
             EnderecoRepositorio enderecoRepositorio,
             Mapper.Mapper mapper) : base(pessoaRepositorio, mapper)
         {
-            LogMovimentacaoRepositorio = logMovimentacaoRepositorio;
+            //LogMovimentacaoRepositorio = logMovimentacaoRepositorio;
+            ContatoRepositorio = contatoRepositorio;
             EnderecoRepositorio = enderecoRepositorio;
+            EmpresaRepositorio = empresaRepositorio;
         }
 
         public override async Task<PessoaDto> Insert(PessoaDto pessoa)
         {
+            pessoa.DataCadastro = DateTime.Now;
+
             var pessoaDto = await base.Insert(pessoa);
             var pessoaModel = await base.ReturnModel(pessoaDto.Codigo);
 
-            await LogMovimentacaoService.InserirLogMov(pessoaModel, 1, "Pessoa", pessoaModel.Id);
+            if (pessoaModel.TipoEmpresa)
+            {
+                var empresaModel = Mapper.Map<Empresa>(pessoa.Empresas);
+                empresaModel.IdPessoa = pessoaModel.Id;
+                var empresaDto = await EmpresaRepositorio.Add(empresaModel);
+                var result1 = Mapper.Map<EmpresaDto>(empresaModel);
+            }
+            //await LogMovimentacaoService.InserirLogMov(pessoaModel, 1, "Pessoa", pessoaModel.Id);
 
             var result = await base.FindByCodigo(pessoaModel.Id);
 
@@ -39,17 +54,40 @@ namespace Solucoes.Api.Service.Cadastro
             return result;
         }
 
+        public async Task<ContatoDto> AdicionarContato(int idPessoa, TipoContatoEnum tipoContato, ContatoDto contato)
+        {
+            var contatoModel = Mapper.Map<Contato>(contato);
+            contatoModel = await ContatoRepositorio.Add(contatoModel);
+
+            var result = Mapper.Map<ContatoDto>(contatoModel);
+
+            return result;
+        }
+
+        public async Task<ContatoDto> AlteraContato(int idPessoa, TipoContatoEnum tipoContato, ContatoDto contato)
+        {
+            var contatoModel = await ContatoRepositorio.FindById(contato.Codigo);
+            contatoModel.TipoContato = tipoContato;
+            contatoModel.Nome = contato.Nome;
+            contatoModel.Situacao = contato.Situacao;
+            contatoModel.Email = contato.Email;
+            contatoModel.Telefone = contato.Telefone;
+
+            contatoModel = await ContatoRepositorio.Replace(contatoModel.Id, contatoModel);
+            var result = Mapper.Map<ContatoDto>(contatoModel);
+
+            return result;
+        }
+
         public async Task<EnderecoDto> AdicionarEndereco(int idPessoa, TipoEnderecoEnum tipoEndereco, EnderecoDto endereco)
         {
-            var pessoaModel = await Repositorio.FindById(idPessoa);
+            //var pessoaModel = await Repositorio.FindById(idPessoa);
 
             var enderecoModel = Mapper.Map<Endereco>(endereco);
             enderecoModel = await EnderecoRepositorio.Add(enderecoModel);
 
-            //await InserirLogMov(pessoaModel, 1, "Pessoa");
-            //await InserirLogMov(endereco, 1, "Endereco");
-
-            await LogMovimentacaoService.InserirLogMov(pessoaModel, 1, "Pessoa", pessoaModel.Id);
+            //await LogMovimentacaoService.InserirLogMov(enderecoModel, 1, "Endereço", enderecoModel.Id);
+            //await LogMovimentacaoService.InserirLogMov(pessoaModel, 1, "Pessoa", pessoaModel.Id);
 
             var result = Mapper.Map<EnderecoDto>(enderecoModel);
 
@@ -58,7 +96,7 @@ namespace Solucoes.Api.Service.Cadastro
 
         public async Task<EnderecoDto> AlterarEndereco(int idPessoa, TipoEnderecoEnum tipoEndereco, EnderecoDto endereco)
         {
-            var pessoaModel = await Repositorio.FindById(idPessoa);
+            //var pessoaModel = await Repositorio.FindById(idPessoa);
             var enderecoModel = await EnderecoRepositorio.FindById(endereco.Codigo);
             enderecoModel.Logradouro = endereco.Logradouro;
             enderecoModel.Numero = endereco.Numero;
@@ -66,13 +104,31 @@ namespace Solucoes.Api.Service.Cadastro
             enderecoModel.CEP = endereco.CEP;
             enderecoModel.Cidade = endereco.Cidade;
             enderecoModel.Estado = endereco.Estado;
+            enderecoModel.TipoEndereco = tipoEndereco;
 
             enderecoModel = await EnderecoRepositorio.Replace(enderecoModel.Id, enderecoModel);
 
             var result = Mapper.Map<EnderecoDto>(enderecoModel);
 
-            await LogMovimentacaoService.InserirLogMov(enderecoModel, 2, "Endereco", enderecoModel.Id);
-            await LogMovimentacaoService.InserirLogMov(pessoaModel, 2, "Pessoa", pessoaModel.Id);
+            //await LogMovimentacaoService.InserirLogMov(enderecoModel, 2, "Endereco", enderecoModel.Id);
+            //await LogMovimentacaoService.InserirLogMov(pessoaModel, 2, "Pessoa", pessoaModel.Id);
+
+            return result;
+        }
+
+        public async Task<ContatoDto> AlterarContato(int idPessoa, TipoContatoEnum tipoContato, ContatoDto contato)
+        {
+            //var pessoaModel = await Repositorio.FindById(idPessoa);
+            var contatoModel = await ContatoRepositorio.FindById(contato.Codigo);
+            contatoModel.Nome = contato.Nome;
+            contatoModel.Telefone = contato.Telefone;
+            contatoModel.Email = contato.Email;
+            contatoModel.Situacao = contato.Situacao;
+            contatoModel.TipoContato = tipoContato;
+
+            contatoModel = await ContatoRepositorio.Replace(contatoModel.Id, contatoModel);
+
+            var result = Mapper.Map<ContatoDto>(contatoModel);
 
             return result;
         }
@@ -82,8 +138,8 @@ namespace Solucoes.Api.Service.Cadastro
             var pessoaDto = await base.Update(id, pessoa);
             var pessoaModel = await base.ReturnModel(pessoaDto.Codigo);
 
-            await LogMovimentacaoService.InserirLogMov(pessoaModel, 2, "Pessoa", pessoaModel.Id);
-            
+            //await LogMovimentacaoService.InserirLogMov(pessoaModel, 2, "Pessoa", pessoaModel.Id);
+
             var result = await base.FindByCodigo(pessoaModel.Id);
 
             return result;
@@ -94,29 +150,40 @@ namespace Solucoes.Api.Service.Cadastro
             var pessoaDto = await base.FindByCodigo(id);
             var pessoaModel = await base.ReturnModel(pessoaDto.Codigo);
 
-            var enderecoModel = pessoaModel.Enderecos.FirstOrDefault(ep => ep.IdPessoa == id);
+            //var enderecoModel = pessoaModel.Enderecos.FirstOrDefault(ep => ep.IdPessoa == id);
 
-            var contatoModel = pessoaModel.Contatos.FirstOrDefault(cp => cp.IdPessoa == id);
+            //var contatoModel = pessoaModel.Contatos.FirstOrDefault(cp => cp.IdPessoa == id);
 
-            var logMovEndereco = await LogMovimentacaoService.InserirLogMov(enderecoModel, 3, "Endereco", enderecoModel.Id);
-            if (logMovEndereco!= null)
-            {
-                var logMovContato = await LogMovimentacaoService.InserirLogMov(contatoModel, 3, "Contato", contatoModel.Id);
-                if (logMovContato != null)
-                {
-                    var logMovPessoa = await LogMovimentacaoService.InserirLogMov(pessoaModel, 3, "Pessoa", pessoaModel.Id);
-                    if (logMovPessoa != null)
-                    {
-                        await base.Delete(pessoaDto.Codigo);
-                    }
-                }
-               
-            }
+            //var logMovEndereco = await LogMovimentacaoService.InserirLogMov(enderecoModel, 3, "Endereco", enderecoModel.Id);
+            //if (logMovEndereco!= null)
+            //{
+            //    var logMovContato = await LogMovimentacaoService.InserirLogMov(contatoModel, 3, "Contato", contatoModel.Id);
+            //    if (logMovContato != null)
+            //    {
+            //        var logMovPessoa = await LogMovimentacaoService.InserirLogMov(pessoaModel, 3, "Pessoa", pessoaModel.Id);
+            //        if (logMovPessoa != null)
+            //        {
+            await base.Delete(pessoaDto.Codigo);
+            //        }
+            //    }
 
-            
+            //}
+
+
 
         }
 
+        public async Task DeleteContato(int codPessoa, int codContato)
+        {
+            var pessoaModel = await Repositorio.FindById(codPessoa);
+            var contatoModel = pessoaModel.Contatos
+                            .FirstOrDefault(cc => cc.Id == codContato);
+            var contatoDto = await base.FindByCodigo(codPessoa);
+            if (pessoaModel is not null)
+            {
+                await ContatoRepositorio.Remove(codContato);
+            }
+        }
         public async Task DeleteEndereco(int codPessoa, int codEndereco)
         {
             var pessoaModel = await Repositorio.FindById(codPessoa);
@@ -127,27 +194,14 @@ namespace Solucoes.Api.Service.Cadastro
 
             if (pessoaModel is not null)
             {
-                var logMov = await LogMovimentacaoService.InserirLogMov(enderecoModel, 3, "Endereco", enderecoModel.Id);
-                if (logMov != null)
-                {
-                    await EnderecoRepositorio.Remove(codEndereco);
-                }
-                
+                //var logMov = await LogMovimentacaoService.InserirLogMov(enderecoModel, 3, "Endereco", enderecoModel.Id);
+                //if (logMov != null)
+                //{
+                await EnderecoRepositorio.Remove(codEndereco);
+                //}
+
             }
 
         }
-
-        //public async Task InserirLogMov(Object objeto, int situacao, string tabela)
-        //{
-        //    var logMov = new LogMovimentacao();
-
-
-        //    logMov.DataAlteracao = DateTime.Today;
-        //    logMov.Movimentacao = (Modelo.Enums.SituacaoRegistroEnum)situacao;
-        //    logMov.Tabela = tabela;
-        //    logMov.Conteudo = (System.Text.Json.Nodes.JsonArray?)Helpers.ConverterObjectJson(objeto);
-
-        //    await LogMovimentacaoRepositorio.Add(logMov);
-        //}
     }
 }

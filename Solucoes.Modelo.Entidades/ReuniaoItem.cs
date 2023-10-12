@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Entidades
 {
+    [Table("ReuniaoItem")]
     public class ReuniaoItem: MovimentacaoModelo
     {
         
@@ -18,7 +19,7 @@ namespace Solucoes.Modelo.Entidades
 
         [ForeignKey(nameof(IdReuniao))]
         public int IdReuniao { get; set; }
-        public virtual Reuniao? Reuniaos { get; set; }
+        //public virtual Reuniao? Reuniaos { get; set; }
 
     }
 }

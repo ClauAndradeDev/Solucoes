@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Entidades
 {
+    [Table("SetorEmpresa")]
     public class SetorEmpresa: CadastroModelo
     {
        
@@ -14,6 +15,6 @@ namespace Solucoes.Modelo.Entidades
 
         [ForeignKey(nameof(IdEmpresa))]
         public int IdEmpresa { get; set; }
-        public virtual Empresa? Empresas { get; set; }
+        //public virtual Empresa? Empresas { get; set; }
     }
 }

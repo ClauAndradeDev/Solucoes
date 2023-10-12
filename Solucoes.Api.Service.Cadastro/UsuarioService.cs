@@ -15,20 +15,20 @@ namespace Solucoes.Api.Service.Cadastro
     {
         //public LogMovimentacaoRepositorio LogMovimentacaoRepositorio { get; set; }
         public PessoaRepositorio PessoaRepositorio { get; set; }
-        public LogMovimentacaoService LogMovimentacaoService { get; set; }
+       // public LogMovimentacaoService LogMovimentacaoService { get; set; }
         public UsuarioService(UsuarioRepositorio usuarioRepositorio,
                             Mapper.Mapper mapper,
-                            LogMovimentacaoService logMovimentacaoService,
+                           // LogMovimentacaoService logMovimentacaoService,
                             PessoaRepositorio pesoaRepositorio) :
             base(usuarioRepositorio, mapper)
         {
-            LogMovimentacaoService = logMovimentacaoService;
+            //LogMovimentacaoService = logMovimentacaoService;
             PessoaRepositorio = pesoaRepositorio;
         }
 
         public override async Task<UsuarioDto> Insert(UsuarioDto usuario)
         {
-            
+            usuario.DataCadastro = DateTime.Now;
             var usuarioDto = await base.Insert(usuario);
             var usuarioModel = await base.ReturnModel(usuarioDto.Codigo);
 
@@ -43,8 +43,7 @@ namespace Solucoes.Api.Service.Cadastro
 
            var result = await base.FindByCodigo(usuarioModel.Id);
 
-            //await InserirLogMovimentacao(usuarioModel, 1);
-            var logMovUsuario = await LogMovimentacaoService.InserirLogMov(usuarioModel, 1, "Usuario", usuarioModel.Id);
+           //var logMovUsuario = await LogMovimentacaoService.InserirLogMov(usuarioModel, 1, "Usuario", usuarioModel.Id);
 
             return result;
         }
@@ -56,8 +55,7 @@ namespace Solucoes.Api.Service.Cadastro
 
             var result = await base.FindByCodigo(usuarioModel.Id);
 
-            //await InserirLogMovimentacao(usuarioModel, 2);
-            var LogMovUsuario = await LogMovimentacaoService.InserirLogMov(usuarioModel, 2, "Usuario", usuarioModel.Id);
+           //var LogMovUsuario = await LogMovimentacaoService.InserirLogMov(usuarioModel, 2, "Usuario", usuarioModel.Id);
 
             return result;
         }
@@ -67,7 +65,7 @@ namespace Solucoes.Api.Service.Cadastro
             var usuarioDto = await base.FindByCodigo(id);
             var usuarioModel = await base.ReturnModel(usuarioDto.Codigo);
 
-            var logMovUsuario = await LogMovimentacaoService.InserirLogMov(usuarioModel, 3, "Usuario", usuarioModel.Id);
+           // var logMovUsuario = await LogMovimentacaoService.InserirLogMov(usuarioModel, 3, "Usuario", usuarioModel.Id);
 
             await base.Delete(usuarioDto.Codigo);
         }

@@ -18,7 +18,8 @@ namespace Solucoes.Modelo.Dtos
         public string? Estado { get; set; }
         public TipoEnderecoEnum TipoEndereco { get; set; }
 
-         public int CodPessoa { get; set; }
-       
+        // public int? CodPessoa { get; set; }
+        public virtual PessoaDto[]? Pessoas { get; set; }
+
     }
 }

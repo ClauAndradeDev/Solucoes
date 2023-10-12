@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Entidades
 {
+    [Table("Usuario")]
     public class Usuario: CadastroModelo
     {
         public string? Login { get; set; }
@@ -14,6 +15,6 @@ namespace Solucoes.Modelo.Entidades
         
         [ForeignKey(nameof(IdPessoa))]
         public int? IdPessoa { get; set; }
-        public virtual Pessoa? Pessoas { set; get; }
+        //public virtual Pessoa? Pessoas { set; get; }
     }
 }

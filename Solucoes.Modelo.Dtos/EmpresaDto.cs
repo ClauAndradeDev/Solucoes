@@ -8,5 +8,8 @@ namespace Solucoes.Modelo.Dtos
 {
     public class EmpresaDto: PessoaDto
     {
+        public string? IEMunicipal { get; set; }
+        //public int? CodPessoa { get; set; }
+        public virtual PessoaDto[]? Pessoas { get; set; }
     }
 }
