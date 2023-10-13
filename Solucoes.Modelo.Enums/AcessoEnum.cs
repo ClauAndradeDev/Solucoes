@@ -10,7 +10,6 @@ namespace Solucoes.Modelo.Enums
     {
         Adminitração,
         ClienteUsuario, 
-        ClienteEmpresa,
         Comercial,
         Desenvolvimento,
         Financeiro,

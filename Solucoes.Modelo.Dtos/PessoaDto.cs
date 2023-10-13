@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Solucoes.Modelo.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,8 +17,9 @@ namespace Solucoes.Modelo.Dtos
         public string? Email { get; set; }
         public string? Telefone { get; set; }
         public bool WhatsApp { get; set; }
-        public bool TipoEmpresa { get; set; }
-        public bool TipoUsuario { get; set; }
+        public TipoPessoaEnumcs TipoPessoa { get; set; }
+        public PerfilPessoaEnum PerfilPessoa { get; set; }
+        public AcessoEnum Acesso { get; set; }
 
         public virtual EnderecoDto[]? Enderecos { get; set; }
         public virtual ContatoDto[]? Contatos { get; set; }

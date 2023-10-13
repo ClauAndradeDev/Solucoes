@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Solucoes.Modelo.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -8,14 +9,21 @@ using System.Threading.Tasks;
 namespace Solucoes.Modelo.Entidades
 {
     [Table("Empresa")]
-    public class Empresa: Pessoa
+    public class Empresa: CadastroModelo
     {
-        //quais outras informações necessárias para essa solicitação
+        public string? NomeRazaoSocial { get; set; }
+        public string? SobreNomeFantasia { get; set; }
+        public string? CPFCNPJ { get; set; }
+        public string? RGIE { get; set; }
+        public DateTime DataAbertura { get; set; }
+        public string? Email { get; set; }
+        public string? Telefone { get; set; }
+        public bool WhatsApp { get; set; }
         public string? IEMunicipal { get; set; }
+        public TipoPessoaEnumcs TipoEmpresa { get; set; }
 
-        [ForeignKey(nameof(IdPessoa))]
-        public int? IdPessoa { get; set; }
-        //public virtual Pessoa? Pessoa { get; set; }
+
+        public virtual ICollection<Endereco>? Enderecos { get; set; }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Solucoes.Modelo.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -18,12 +19,17 @@ namespace Solucoes.Modelo.Entidades
         public string? Email { get; set; }
         public string? Telefone { get; set; }
         public bool WhatsApp { get; set; }
-        public bool TipoEmpresa { get; set; }
-        public bool TipoUsuario { get; set; }
+        public TipoPessoaEnumcs TipoPessoa { get; set; }
+        public PerfilPessoaEnum PerfilPessoa { get; set; }
+        public AcessoEnum Acesso { get; set; }
+
+        [ForeignKey(nameof(IdEmpresa))]
+        public int IdEmpresa { get; set; }
+        public virtual Empresa? Empresas { get; set; }
 
         public virtual ICollection<Endereco>? Enderecos { get; set; }
         public virtual ICollection<Contato>? Contatos { get; set; }
-        public virtual ICollection<Empresa>? Empresas { get; set; }
+       
 
 
     }
