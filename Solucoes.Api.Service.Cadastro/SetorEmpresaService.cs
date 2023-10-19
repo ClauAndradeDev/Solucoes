@@ -13,36 +13,59 @@ namespace Solucoes.Api.Service.Cadastro
     public class SetorEmpresaService : CrudServices<SetorEmpresa, SetorEmpresaDto>
     {
         //public LogMovimentacaoService LogMovimentacaoService { get; set; }
-        public SetorEmpresaService(SetorEmpresaRepositorio setornEmpresaRepositorio
-            //, LogMovimentacaoService logMovimentacaoService
-            , Mapper.Mapper mapper) :
-            base(setornEmpresaRepositorio, mapper)
+        public EmpresaRepositorio EmpresaRepositorio { get; set; }
+        public SetorEmpresaService(SetorEmpresaRepositorio setorEmpresaRepositorio,
+                            //, LogMovimentacaoService logMovimentacaoService
+                            EmpresaRepositorio empresaRepositorio
+                            , Mapper.Mapper mapper) :
+        base(setorEmpresaRepositorio, mapper)
         {
-          //  LogMovimentacaoService = logMovimentacaoService;
+            EmpresaRepositorio = empresaRepositorio;
+            //  LogMovimentacaoService = logMovimentacaoService;
         }
 
-        public override async Task<SetorEmpresaDto> Insert(SetorEmpresaDto setor)
+        public async Task<SetorEmpresaDto> InsertSetor(int codEmpresa, SetorEmpresaDto setor)
         {
-            setor.DataCadastro = DateTime.Now;
-            var setorDto = await base.Insert(setor);
-            var setorModel = await base.ReturnModel(setorDto.Codigo);
+            var empresaModel = await EmpresaRepositorio.FindById(codEmpresa);
+            var setorModel = Mapper.Map<SetorEmpresa>(setor);
 
-            //await LogMovimentacaoService.InserirLogMov(setorModel, 1, "Setor", setorModel.Id);
+            if (empresaModel != null)
+            {
 
-            var result = await base.FindByCodigo(setorModel.Id);
+                setorModel.DataCadastro = DateTime.Now;
+                setorModel.EmpresaId = empresaModel.Id;
+
+                await Repositorio.Add(setorModel);
+                //await LogMovimentacaoService.InserirLogMov(setorModel, 1, "Setor", setorModel.Id);
+
+            }
+            var setorDto = Mapper.Map<SetorEmpresaDto>(setorModel);
+            var result = await base.FindByCodigo(setorDto.Codigo);
 
             return result;
         }
 
-        public override async Task<SetorEmpresaDto> Update(int id, SetorEmpresaDto setor)
+        public async Task<SetorEmpresaDto> AlterarSetorEmpresa(int codEmpresa, SetorEmpresaDto setor)
         {
-            var setorDto = await base.Update(id, setor);
-            var setorModel = await base.ReturnModel(setorDto.Codigo);
+            var empresaModel = await EmpresaRepositorio.FindById(codEmpresa);
+
+            var setorModel = await Repositorio.FindById(setor.Codigo);
+            if ((empresaModel != null) && (empresaModel.Id == setorModel.EmpresaId))
+            {
+                setorModel.Descricao = setor.Descricao;
+                setorModel.Situacao = setor.Situacao;
+
+                await Repositorio.Replace(setorModel.Id, setorModel);
+            }
+            
+
+            //var setorDto = base.ModelToDto(setorModel);
+            // await base.Update(setorDto.Codigo, setorDto);
 
             //await LogMovimentacaoService.InserirLogMov(setorModel, 2, "Setor", setorModel.Id);
 
-            var result = await base.FindByCodigo(setorModel.Id);
-
+            var setorDto = Mapper.Map<SetorEmpresaDto>(setorModel);
+            var result = await base.FindByCodigo(setorDto.Codigo);
             return result;
         }
 

@@ -19,9 +19,9 @@ namespace Solucoes.Api.App.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Post(SetorEmpresaDto setorEmpresa)
+        public async Task<IActionResult> Post(int codigo, SetorEmpresaDto setorEmpresa)
         {
-            var result = await SetorEmpresaService.Insert(setorEmpresa);
+            var result = await SetorEmpresaService.InsertSetor(codigo, setorEmpresa);
             return Ok(result);
         }
 
@@ -29,6 +29,7 @@ namespace Solucoes.Api.App.Controllers
         public async Task<IActionResult> Get(int codigo)
         {
             var result = await SetorEmpresaService.FindByCodigo(codigo);
+            //var result = await SetorEmpresaService.FindByIdModel(codigo);
             return Ok(result);
         }
 
@@ -42,7 +43,7 @@ namespace Solucoes.Api.App.Controllers
         [HttpPut("{codigo}")]
         public async Task<IActionResult> Put(int codigo, SetorEmpresaDto setorEmpresa)
         {
-            var result = await SetorEmpresaService.Update(codigo, setorEmpresa);
+            var result = await SetorEmpresaService.AlterarSetorEmpresa(codigo, setorEmpresa);
             return Ok(result);
         }
 

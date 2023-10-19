@@ -13,8 +13,8 @@ namespace Solucoes.Modelo.Entidades
         public string? Login { get; set; }
         public string? Senha { get; set; }
         
-        [ForeignKey(nameof(IdPessoa))]
-        public int? IdPessoa { get; set; }
-        //public virtual Pessoa? Pessoas { set; get; }
+        [ForeignKey(nameof(PessoaId))]
+        public int? PessoaId { get; set; }
+        public virtual Pessoa? Pessoas { set; get; }
     }
 }

@@ -17,9 +17,9 @@ namespace Solucoes.Modelo.Entidades
         public DateTime HoraInicial { get; set; }
         public DateTime HoraFinal { get; set; }
 
-        [ForeignKey(nameof(IdReuniao))]
-        public int IdReuniao { get; set; }
-        //public virtual Reuniao? Reuniaos { get; set; }
+        [ForeignKey(nameof(ReuniaoId))]
+        public int ReuniaoId { get; set; }
+        public virtual Reuniao? Reuniaos { get; set; }
 
     }
 }

@@ -10,11 +10,11 @@ namespace Solucoes.Modelo.Entidades
     [Table("SetorEmpresa")]
     public class SetorEmpresa: CadastroModelo
     {
-       
         public string? Descricao { get; set; }
 
-        [ForeignKey(nameof(IdEmpresa))]
-        public int IdEmpresa { get; set; }
-        //public virtual Empresa? Empresas { get; set; }
+        [ForeignKey(nameof(EmpresaId))]
+        public int? EmpresaId { get; set; }
+        public virtual Empresa? Empresas { get; set; }
+        
     }
 }

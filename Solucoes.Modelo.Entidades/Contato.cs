@@ -16,8 +16,8 @@ namespace Solucoes.Modelo.Entidades
         public string? Email { get; set; }
         public TipoContatoEnum TipoContato { get; set; }
 
-        [ForeignKey(nameof(IdPessoa))]
-        public int? IdPessoa { get; set; }
-        //public virtual Pessoa? Pessoas { get; set; }
+        [ForeignKey(nameof(PessoaId))]
+        public int? PessoaId { get; set; }
+        public virtual Pessoa? Pessoas { get; set; }
     }
 }

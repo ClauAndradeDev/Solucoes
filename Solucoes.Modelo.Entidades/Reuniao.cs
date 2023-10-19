@@ -20,13 +20,13 @@ namespace Solucoes.Modelo.Entidades
         public DateTime HoraFinal { get; set; }
         public DateTime DataRetorno { get; set; }
 
-        [ForeignKey(nameof(IdChamado))]
-        public int? IdChamado { get; set; }
-        //public virtual Chamado? Chamados { get; set; }
+        [ForeignKey(nameof(ChamadoId))]
+        public int? ChamadoId { get; set; }
+        public virtual Chamado? Chamados { get; set; }
 
-        [ForeignKey(nameof(IdEmpresa))]
-        public int? IdEmpresa { get; set; }
-        //public virtual Empresa? Empresas { get; set; }   
+        [ForeignKey(nameof(EmpresaId))]
+        public int? EmpresaId { get; set; }
+        public virtual Empresa? Empresas { get; set; }   
         
 
     }

@@ -20,6 +20,6 @@ namespace Solucoes.Modelo.Dtos
 
         // public int? CodPessoa { get; set; }
         public virtual PessoaDto[]? Pessoas { get; set; }
-
+        public virtual EmpresaDto[]? Empresas { get; set; }
     }
 }

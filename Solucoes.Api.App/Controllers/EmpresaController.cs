@@ -8,48 +8,47 @@ namespace Solucoes.Api.App.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PessoaController : ControllerBase
+    public class EmpresaController : ControllerBase
     {
+        public EmpresaService EmpresaService { get; set; }
 
-        public PessoaService PessoaService { get; set; }
-
-        public PessoaController(PessoaService pessoaService)
+        public EmpresaController(EmpresaService empresaService)
         {
-            PessoaService = pessoaService;
+            EmpresaService = empresaService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(PessoaDto pessoa)
+        public async Task<IActionResult> Post(EmpresaDto empresa)
         {
-            var result = await PessoaService.Insert(pessoa);
+            var result = await EmpresaService.Insert(empresa);
             return Ok(result);
         }
 
         [HttpGet("{codigo}")]
         public async Task<IActionResult> Get(int codigo)
         {
-            var result = await PessoaService.FindByCodigo(codigo);
+            var result = await EmpresaService.FindByCodigo(codigo);
             return Ok(result);
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = await PessoaService.All();
+            var result = await EmpresaService.All();
             return Ok(result);
         }
 
         [HttpPut("{codigo}")]
-        public async Task<IActionResult> Put(int codigo, PessoaDto pessoa)
+        public async Task<IActionResult> Put(int codigo, EmpresaDto empresa)
         {
-            var result = await PessoaService.Update(codigo, pessoa);
+            var result = await EmpresaService.Update(codigo, empresa);
             return Ok(result);
         }
 
         [HttpDelete("{codigo}")]
         public async Task<IActionResult> Delete(int codigo)
         {
-            await PessoaService.Delete(codigo);
+            await EmpresaService.Delete(codigo);
             return Ok();
         }
 
@@ -57,44 +56,45 @@ namespace Solucoes.Api.App.Controllers
         [HttpPost("{codigo}/endereco")]
         public async Task<ActionResult> PostEndereco(int codigo, EnderecoDto endereco)
         {
-            var result = await PessoaService.AdicionarEndereco(codigo, endereco);
+            var result = await EmpresaService.AdicionarEndereco(codigo, endereco);
             return Ok(result);
         }
 
         [HttpPut("{codigo}/endereco/{codigoEndereco}")]
         public async Task<ActionResult> AlterarEndereco(TipoEnderecoEnum tipo, EnderecoDto endereco)
         {
-            var result = await PessoaService.AlterarEndereco(tipo, endereco);
+            var result = await EmpresaService.AlterarEndereco(tipo, endereco);
             return Ok(result);
         }
 
         [HttpDelete("{codigo}/endereco/{codigoEndereco}")]
         public async Task<ActionResult> DeleteEndereco(int codigo, int codigoEndereco)
         {
-            await PessoaService.DeleteEndereco(codigo, codigoEndereco);
+            await EmpresaService.DeleteEndereco(codigo, codigoEndereco);
             return Ok();
         }
 
-        //rotas Contato
-        [HttpPost("{codigo}/contato")]
-        public async Task<ActionResult> PostContato(int codigo, ContatoDto contato)
+        //rotas SetorEmpresa
+        [HttpPost("{codigo}/setor")]
+        public async Task<ActionResult> PostSetor(int codigo, SetorEmpresaDto setor)
         {
-            var result = await PessoaService.AdicionarContato(codigo, contato);
+            var result = await EmpresaService.AdicionarSetorEmpresa(codigo, setor);
             return Ok(result);
         }
 
-        [HttpPut("{codigo}/endereco/{codigoContato}")]
-        public async Task<ActionResult> AlterarContato(int codPessoa, TipoContatoEnum tipo, ContatoDto contato)
+        [HttpPut("{codigo}/setor/{codigoSetor}")]
+        public async Task<ActionResult> AlterarSetor(int codigo, SetorEmpresaDto setor)
         {
-            var result = await PessoaService.AlterarContato(codPessoa, tipo, contato);
+            var result = await EmpresaService.AlterarSetorEmpresa(codigo, setor);
             return Ok(result);
         }
 
-        [HttpDelete("{codigo}/contato/{codigoContato}")]
-        public async Task<ActionResult> DeleteContato(int codigo, int codigoContato)
+        [HttpDelete("{codigo}/setor/{codigoSetor}")]
+        public async Task<ActionResult> DeleteSetorEmpresa(int codigo, int codigoSetor)
         {
-            await PessoaService.DeleteContato(codigo, codigoContato);
+            await EmpresaService.DeleteSetorEmpresa(codigo, codigoSetor);
             return Ok();
         }
+
     }
 }

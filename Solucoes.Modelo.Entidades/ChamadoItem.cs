@@ -14,8 +14,8 @@ namespace Solucoes.Modelo.Entidades
         public DateTime DataRegistro { get; set; }
         public string? Conteudo { get; set; }
 
-        [ForeignKey(nameof(IdChamado))]
-        public int IdChamado { get; set; }
-        //public virtual Chamado? Chamados { get; set; }
+        [ForeignKey(nameof(ChamadoId))]
+        public int ChamadoId { get; set; }
+        public virtual Chamado? Chamados { get; set; }
     }
 }

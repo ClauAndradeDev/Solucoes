@@ -48,7 +48,8 @@ namespace Solucoes.Modelo.Contexto
 
         public string ObterStringConexao()
         {
-            return "Server=CLAUANDRADE\\SQLEXPRESS;Database=SolucoesDb;User Id=sa;Password=@Itapoa2023;Trusted_Connection=True;TrustServerCertificate=True";
+            return "Data Source=DESKTOP-IO0A64E\\SQLEXPRESS;Initial Catalog=SolucoesDb;User Id=sa;Password=@Itapoa2023;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+                //"Server=DESKTOP-IO0A64E\\SQLEXPRESS;Database=SolucoesDb;User Id=sa;Password=@Itapoa2023;Trusted_Connection=True;TrustServerCertificate=True";
         }
 
 

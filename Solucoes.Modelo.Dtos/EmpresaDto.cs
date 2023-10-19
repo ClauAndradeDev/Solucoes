@@ -21,5 +21,7 @@ namespace Solucoes.Modelo.Dtos
         public TipoPessoaEnumcs TipoEmpresa { get; set; }
 
         public virtual EnderecoDto[]? Enderecos { get; set; }
+        public virtual PessoaDto[]? Pessoas { get; set; }
+        public virtual SetorEmpresaDto[]? Setores { get; set; }
     }
 }

@@ -39,13 +39,13 @@ namespace Solucoes.Api.Service.Cadastro
             var pessoaDto = await base.Insert(pessoa);
             var pessoaModel = await base.ReturnModel(pessoaDto.Codigo);
 
-            if (pessoaModel.TipoEmpresa)
-            {
-                var empresaModel = Mapper.Map<Empresa>(pessoa.Empresas);
-                empresaModel.IdPessoa = pessoaModel.Id;
-                var empresaDto = await EmpresaRepositorio.Add(empresaModel);
-                var result1 = Mapper.Map<EmpresaDto>(empresaModel);
-            }
+            //if (pessoaModel.TipoEmpresa)
+            //{
+            //    var empresaModel = Mapper.Map<Empresa>(pessoa.Empresas);
+            //    empresaModel.IdPessoa = pessoaModel.Id;
+            //    var empresaDto = await EmpresaRepositorio.Add(empresaModel);
+            //    var result1 = Mapper.Map<EmpresaDto>(empresaModel);
+            //}
             //await LogMovimentacaoService.InserirLogMov(pessoaModel, 1, "Pessoa", pessoaModel.Id);
 
             var result = await base.FindByCodigo(pessoaModel.Id);
@@ -54,9 +54,11 @@ namespace Solucoes.Api.Service.Cadastro
             return result;
         }
 
-        public async Task<ContatoDto> AdicionarContato(int idPessoa, TipoContatoEnum tipoContato, ContatoDto contato)
+        public async Task<ContatoDto> AdicionarContato(int idPessoa, ContatoDto contato)
         {
             var contatoModel = Mapper.Map<Contato>(contato);
+            contatoModel.PessoaId = idPessoa;
+            //contatoModel.TipoContato = tipoContato;
             contatoModel = await ContatoRepositorio.Add(contatoModel);
 
             var result = Mapper.Map<ContatoDto>(contatoModel);
@@ -64,7 +66,7 @@ namespace Solucoes.Api.Service.Cadastro
             return result;
         }
 
-        public async Task<ContatoDto> AlteraContato(int idPessoa, TipoContatoEnum tipoContato, ContatoDto contato)
+        public async Task<ContatoDto> AlteraContato(TipoContatoEnum tipoContato, ContatoDto contato)
         {
             var contatoModel = await ContatoRepositorio.FindById(contato.Codigo);
             contatoModel.TipoContato = tipoContato;
@@ -79,11 +81,12 @@ namespace Solucoes.Api.Service.Cadastro
             return result;
         }
 
-        public async Task<EnderecoDto> AdicionarEndereco(int idPessoa, TipoEnderecoEnum tipoEndereco, EnderecoDto endereco)
+        public async Task<EnderecoDto> AdicionarEndereco(int idPessoa, EnderecoDto endereco)
         {
             //var pessoaModel = await Repositorio.FindById(idPessoa);
 
             var enderecoModel = Mapper.Map<Endereco>(endereco);
+            enderecoModel.PessoaId = idPessoa;
             enderecoModel = await EnderecoRepositorio.Add(enderecoModel);
 
             //await LogMovimentacaoService.InserirLogMov(enderecoModel, 1, "Endereço", enderecoModel.Id);
@@ -94,7 +97,7 @@ namespace Solucoes.Api.Service.Cadastro
             return result;
         }
 
-        public async Task<EnderecoDto> AlterarEndereco(int idPessoa, TipoEnderecoEnum tipoEndereco, EnderecoDto endereco)
+        public async Task<EnderecoDto> AlterarEndereco(TipoEnderecoEnum tipoEndereco, EnderecoDto endereco)
         {
             //var pessoaModel = await Repositorio.FindById(idPessoa);
             var enderecoModel = await EnderecoRepositorio.FindById(endereco.Codigo);

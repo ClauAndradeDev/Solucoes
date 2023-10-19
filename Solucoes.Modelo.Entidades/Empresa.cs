@@ -24,6 +24,8 @@ namespace Solucoes.Modelo.Entidades
 
 
         public virtual ICollection<Endereco>? Enderecos { get; set; }
+        public virtual ICollection<Pessoa>? Pessoas { get; set; }
+        public virtual ICollection<SetorEmpresa>? Setores { get; set; }
 
     }
 }

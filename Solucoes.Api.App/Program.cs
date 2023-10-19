@@ -42,6 +42,7 @@ builder.Services.AddTransient<PlataformaService>();
 builder.Services.AddTransient<SetorEmpresaService>();
 //builder.Services.AddTransient<LogMovimentacaoService>();
 builder.Services.AddTransient<PessoaService>();
+builder.Services.AddTransient<EmpresaService>();
 
 
 

@@ -16,17 +16,17 @@ namespace Solucoes.Modelo.Entidades
         public TipoChamadoEnum TipoChamado { get; set; }
         public DateTime DataAbertura { get; set; }
 
-        [ForeignKey(nameof(IdEmpresa))]
-        public int IdEmpresa { get; set; }
+        [ForeignKey(nameof(EmpresaId))]
+        public int EmpresaId { get; set; }
         //public virtual Empresa? Empresas { get; set; }
 
-        [ForeignKey(nameof(IdPlataforma))]
-        public int IdPlataforma { get; set; }
-        //public virtual Plataforma? Plataformas { get; set; }
+        [ForeignKey(nameof(PlataformaId))]
+        public int PlataformaId { get; set; }
+        public virtual Plataforma? Plataformas { get; set; }
 
-        [ForeignKey(nameof(IdUsuario))]
-        public int IdUsuario { get; set; }
-        //public virtual Usuario? Usuarios { get; set; }
+        [ForeignKey(nameof(UsuarioId))]
+        public int UsuarioId { get; set; }
+        public virtual Usuario? Usuarios { get; set; }
 
     }
 }

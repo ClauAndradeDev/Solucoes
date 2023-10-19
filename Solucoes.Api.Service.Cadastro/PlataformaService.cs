@@ -39,7 +39,7 @@ namespace Solucoes.Api.Service.Cadastro
 
         public override async Task<PlataformaDto> Update(int id, PlataformaDto plataforma)
         {
-
+            plataforma.DataCadastro = DateTime.Now;
             var plataformaDto = await base.Update(id, plataforma);
             var plataformaModel = await base.ReturnModel(plataformaDto.Codigo);
 

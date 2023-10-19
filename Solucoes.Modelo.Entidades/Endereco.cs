@@ -19,8 +19,12 @@ namespace Solucoes.Modelo.Entidades
         public string? Estado { get; set; }
         public TipoEnderecoEnum TipoEndereco { get; set; }
         
-        [ForeignKey(nameof(IdPessoa))]
-        public int? IdPessoa { get; set; }
-        //public virtual Pessoa? Pessoas { get; set; }
+        [ForeignKey(nameof(PessoaId))]
+        public int? PessoaId { get; set; }
+        public virtual Pessoa? Pessoas { get; set; }
+
+        [ForeignKey(nameof(EmpresaId))]
+        public int? EmpresaId { get; set; }
+        public virtual Empresa? Empresas { get; set; }
     }
 }

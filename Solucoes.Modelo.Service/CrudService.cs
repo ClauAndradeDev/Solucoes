@@ -49,6 +49,7 @@ namespace Solucoes.Modelo.Service
         {
             var model = await Repositorio.FindById(codigo);
             var result = ModelToDto(model);
+
             return result;
         }
 
