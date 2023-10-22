@@ -43,10 +43,23 @@ namespace Solucoes.Api.Service.Cadastro
         public async Task<EmpresaDto> AlterarEmpresa(int codEmpresa, EmpresaDto empresa)
         {
             //empresa.DataCadastro = DateTime.Now;
-            var empresaDto = await base.Update(codEmpresa, empresa);
-            var empresaModel = await base.ReturnModel(empresaDto.Codigo);
+            //var empresaDto = await base.Update(codEmpresa, empresa);
+            
+            var empresaModel = await base.ReturnModel(empresa.Codigo);
+            empresaModel.NomeRazaoSocial = empresa.NomeRazaoSocial;
+            empresaModel.SobreNomeFantasia = empresa.SobreNomeFantasia;
+            empresaModel.IEMunicipal = empresa.IEMunicipal;
+            empresaModel.RGIE = empresa.RGIE;
+            empresaModel.DataAbertura = empresa.DataAbertura;
+            empresaModel.Email = empresa.Email;
+            empresaModel.Situacao = empresa.Situacao;
+            empresaModel.Telefone = empresa.Telefone;
+            empresaModel.TipoEmpresa = empresa.TipoEmpresa;
+            empresaModel.WhatsApp = empresa.WhatsApp;
 
-            var result = await base.FindByCodigo(empresaModel.Id);
+            var empresaAlterada = await Repositorio.Replace(empresaModel.Id, empresaModel);
+
+            var result = await base.FindByCodigo(empresaAlterada.Id);
 
             return result;
         }
@@ -82,6 +95,7 @@ namespace Solucoes.Api.Service.Cadastro
             var empresaModel = await Repositorio.FindById(idEmpresa);
             var enderecoModel = Mapper.Map<Endereco>(endereco);
             enderecoModel.EmpresaId = empresaModel.Id;
+            enderecoModel.DataCadastro = DateTime.Now;
             enderecoModel = await EnderecoRepositorio.Add(enderecoModel);
 
             var result = Mapper.Map<EnderecoDto>(enderecoModel);
@@ -126,7 +140,7 @@ namespace Solucoes.Api.Service.Cadastro
         /*SETOR EMPRESA*/
         public async Task<SetorEmpresaDto> AdicionarSetorEmpresa(int idEmpresa, SetorEmpresaDto setor)
         {
-            var result = await SetorEmpresaService.InsertSetor(idEmpresa, setor);
+            var result = await SetorEmpresaService.InsertSetorEmpresa(idEmpresa, setor);
             //var empresaModel = await Repositorio.FindById(idEmpresa);
             //var setorEmpresaModel = Mapper.Map<SetorEmpresa>(setor);
             //setorEmpresaModel.EmpresaId = empresaModel.Id;

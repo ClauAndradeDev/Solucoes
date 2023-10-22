@@ -28,7 +28,7 @@ namespace Solucoes.Modelo.Repositorio
         }
         public virtual async Task<TEntity> Replace(int id, TEntity model)
         {
-            //var originalModel = await FindById(id);
+            var originalModel = await FindById(id);
             //DbSet.Remove(originalModel);
             //model.Id = id;
             //DbSet.Add(model);

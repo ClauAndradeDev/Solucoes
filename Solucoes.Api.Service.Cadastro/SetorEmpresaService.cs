@@ -26,11 +26,36 @@ namespace Solucoes.Api.Service.Cadastro
             //  LogMovimentacaoService = logMovimentacaoService;
         }
 
-        public async Task<SetorEmpresaDto> InsertSetor(int codEmpresa, SetorEmpresaDto setor)
+        public async Task<SetorEmpresaDto> InsertSetor(SetorEmpresaDto setor)
         {
-            var empresaModel = await EmpresaRepositorio.FindById(codEmpresa);
+           // var empresaModel = await EmpresaRepositorio.FindById(codEmpresa);
 
             var setorModel = Mapper.Map<SetorEmpresa>(setor);
+
+
+            //if (empresaModel != null)
+            //{
+
+            setorModel.DataCadastro = DateTime.Now;
+            //setorModel.EmpresaId = empresaModel.Id;
+
+            await Repositorio.Add(setorModel);
+
+            //    //await LogMovimentacaoService.InserirLogMov(setorModel, 1, "Setor", setorModel.Id);
+
+            //}
+            //var setorDto = Mapper.Map<SetorEmpresaDto>(setorModel);
+            var result = await base.FindByCodigo(setor.Codigo);
+
+            return result;
+        }
+
+        public async Task<SetorEmpresaDto> InsertSetorEmpresa(int codEmpresa, SetorEmpresaDto setor)
+        {
+             var empresaModel = await EmpresaRepositorio.FindById(codEmpresa);
+
+            var setorModel = Mapper.Map<SetorEmpresa>(setor);
+
 
             if (empresaModel != null)
             {
@@ -39,10 +64,11 @@ namespace Solucoes.Api.Service.Cadastro
                 setorModel.EmpresaId = empresaModel.Id;
 
                 await Repositorio.Add(setorModel);
+
                 //await LogMovimentacaoService.InserirLogMov(setorModel, 1, "Setor", setorModel.Id);
 
             }
-            var setorDto = Mapper.Map<SetorEmpresaDto>(setorModel);
+            //var setorDto = Mapper.Map<SetorEmpresaDto>(setorModel);
             var result = await base.FindByCodigo(setor.Codigo);
 
             return result;
@@ -67,19 +93,19 @@ namespace Solucoes.Api.Service.Cadastro
 
             //await LogMovimentacaoService.InserirLogMov(setorModel, 2, "Setor", setorModel.Id);
 
-            var setorDto = Mapper.Map<SetorEmpresaDto>(setorModel);
-            var result = await base.FindByCodigo(setorDto.Codigo);
+            var result = Mapper.Map<SetorEmpresaDto>(setorModel);
+            //var result = await base.FindByCodigo(setorModel.Id);
             return result;
         }
 
         public override async Task Delete(int id)
         {
-            var setorDto = await base.FindByCodigo(id);
+            //var setorDto = await base.FindByCodigo(id);
             //var setorModel = await base.ReturnModel(setorDto.Codigo);
 
             //await LogMovimentacaoService.InserirLogMov(setorModel, 3, "Setor", setorModel.Id);
 
-            await base.Delete(setorDto.Codigo);
+            await base.Delete(id);
         }
 
         public async Task<SetorEmpresaDto> BuscarSetorPorEmpresa(int codEmpresa)
@@ -89,8 +115,8 @@ namespace Solucoes.Api.Service.Cadastro
 
             var result = Mapper.Map<SetorEmpresaDto>(setores);
             return result;
-         
-           
+
+
 
             //var setorDto = Mapper.Map<SetorEmpresaDto>(setorModel);
             //var result = await base.FindByCodigo(setorDto.Codigo);

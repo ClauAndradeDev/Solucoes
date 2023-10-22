@@ -20,7 +20,7 @@ namespace Solucoes.Api.App.Controllers
         [HttpPost]
         public async Task<IActionResult> InserirEmpresa(EmpresaDto empresa)
         {
-            var result = await EmpresaService.Insert(empresa);
+            var result = await EmpresaService.InserirEmpresa(empresa);
             return Ok(result);
         }
 
@@ -95,6 +95,13 @@ namespace Solucoes.Api.App.Controllers
         {
             await EmpresaService.DeleteSetorEmpresa(codigo, codigoSetor);
             return Ok();
+        }
+
+        [HttpGet("{codigo}/setor/")]
+        public async Task<ActionResult> BuscarSetorPorEmpresa(int codigo)
+        {
+            var result = await EmpresaService.SetorEmpresaService.BuscarSetorPorEmpresa(codigo);
+            return Ok(result);
         }
 
     }
