@@ -18,7 +18,7 @@ namespace Solucoes.Api.App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(EmpresaDto empresa)
+        public async Task<IActionResult> InserirEmpresa(EmpresaDto empresa)
         {
             var result = await EmpresaService.Insert(empresa);
             return Ok(result);
@@ -39,16 +39,17 @@ namespace Solucoes.Api.App.Controllers
         }
 
         [HttpPut("{codigo}")]
-        public async Task<IActionResult> Put(int codigo, EmpresaDto empresa)
+        public async Task<IActionResult> AlterarEmpresa(int codigo, EmpresaDto empresa)
         {
-            var result = await EmpresaService.Update(codigo, empresa);
+            var result = await EmpresaService.AlterarEmpresa(codigo, empresa);
             return Ok(result);
         }
 
         [HttpDelete("{codigo}")]
         public async Task<IActionResult> Delete(int codigo)
         {
-            await EmpresaService.Delete(codigo);
+            await EmpresaService.ExcluirEmpresa(codigo);
+            //await EmpresaService.Delete(codigo);
             return Ok();
         }
 

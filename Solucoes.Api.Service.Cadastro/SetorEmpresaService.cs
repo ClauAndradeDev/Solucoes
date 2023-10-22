@@ -1,4 +1,6 @@
-﻿using Solucoes.Api.Repositorios;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Solucoes.Api.Repositorios;
 using Solucoes.Api.Service.Movimentacao;
 using Solucoes.Modelo.Dtos;
 using Solucoes.Modelo.Entidades;
@@ -27,6 +29,7 @@ namespace Solucoes.Api.Service.Cadastro
         public async Task<SetorEmpresaDto> InsertSetor(int codEmpresa, SetorEmpresaDto setor)
         {
             var empresaModel = await EmpresaRepositorio.FindById(codEmpresa);
+
             var setorModel = Mapper.Map<SetorEmpresa>(setor);
 
             if (empresaModel != null)
@@ -40,7 +43,7 @@ namespace Solucoes.Api.Service.Cadastro
 
             }
             var setorDto = Mapper.Map<SetorEmpresaDto>(setorModel);
-            var result = await base.FindByCodigo(setorDto.Codigo);
+            var result = await base.FindByCodigo(setor.Codigo);
 
             return result;
         }
@@ -57,7 +60,7 @@ namespace Solucoes.Api.Service.Cadastro
 
                 await Repositorio.Replace(setorModel.Id, setorModel);
             }
-            
+
 
             //var setorDto = base.ModelToDto(setorModel);
             // await base.Update(setorDto.Codigo, setorDto);
@@ -77,6 +80,22 @@ namespace Solucoes.Api.Service.Cadastro
             //await LogMovimentacaoService.InserirLogMov(setorModel, 3, "Setor", setorModel.Id);
 
             await base.Delete(setorDto.Codigo);
+        }
+
+        public async Task<SetorEmpresaDto> BuscarSetorPorEmpresa(int codEmpresa)
+        {
+            var empresa = await EmpresaRepositorio.FindById(codEmpresa);
+            var setores = empresa.Setores.ToArray();
+
+            var result = Mapper.Map<SetorEmpresaDto>(setores);
+            return result;
+         
+           
+
+            //var setorDto = Mapper.Map<SetorEmpresaDto>(setorModel);
+            //var result = await base.FindByCodigo(setorDto.Codigo);
+            //return result;
+
         }
     }
 }

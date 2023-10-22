@@ -348,7 +348,7 @@ namespace Solucoes.Api.Mapper
             cfg.CreateMap<SetorEmpresaDto, SetorEmpresa>()
                 .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.Codigo))
                 .ForMember(model => model.DataCadastro, opt => opt.MapFrom(dto => dto.DataCadastro))
-                //.ForMember(model => model.EmpresaId, opt => opt.MapFrom(dto => dto.Empresas))
+                .ForMember(model => model.Empresas, opt => opt.MapFrom(dto => dto.Empresas))
                 .ForMember(model => model.Descricao, opt => opt.MapFrom(dto => dto.Descricao))
                 .ForMember(model => model.Situacao, opt => opt.MapFrom(dto => dto.Situacao))
                 .IgnoreAllUnmapped();

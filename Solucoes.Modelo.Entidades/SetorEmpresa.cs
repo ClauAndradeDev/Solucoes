@@ -16,5 +16,6 @@ namespace Solucoes.Modelo.Entidades
         public int? EmpresaId { get; set; }
         public virtual Empresa? Empresas { get; set; }
         
+        
     }
 }

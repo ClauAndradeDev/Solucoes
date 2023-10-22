@@ -20,16 +20,17 @@ namespace Solucoes.Api.Service.Cadastro
             EnderecoRepositorio enderecoRepositorio,
             SetorEmpresaRepositorio setorEmpresaRepositorio,
             SetorEmpresaService setorEmpresaService,
-            Mapper.Mapper mapper): 
-            base (empresaRepositorio, mapper)
+            Mapper.Mapper mapper) :
+            base(empresaRepositorio, mapper)
         {
             EnderecoRepositorio = enderecoRepositorio;
             SetorEmpresaRepositorio = setorEmpresaRepositorio;
             SetorEmpresaService = setorEmpresaService;
         }
 
-        public override async Task<EmpresaDto> Insert(EmpresaDto empresa)
+        public async Task<EmpresaDto> InserirEmpresa(EmpresaDto empresa)
         {
+
             empresa.DataCadastro = DateTime.Now;
             var empresaDto = await base.Insert(empresa);
             var empresaModel = await base.ReturnModel(empresaDto.Codigo);
@@ -39,7 +40,7 @@ namespace Solucoes.Api.Service.Cadastro
             return result;
         }
 
-        public override async Task<EmpresaDto> Update(int codEmpresa, EmpresaDto empresa)
+        public async Task<EmpresaDto> AlterarEmpresa(int codEmpresa, EmpresaDto empresa)
         {
             //empresa.DataCadastro = DateTime.Now;
             var empresaDto = await base.Update(codEmpresa, empresa);
@@ -50,6 +51,32 @@ namespace Solucoes.Api.Service.Cadastro
             return result;
         }
 
+        public async Task<EmpresaDto> ExcluirEmpresa(int codEmpresa)
+        {
+
+
+            var empresaModel = await base.FindByCodigo(codEmpresa);
+            
+            
+            var setoresExistentes = await SetorEmpresaService.BuscarSetorPorEmpresa(codEmpresa);
+            var empresadto = Mapper.Map<EmpresaDto>(empresaModel);
+
+            if (setoresExistentes == null)
+            {
+                
+                //excluir
+                await base.Delete(empresadto.Codigo);
+              
+            }
+            //else
+            //{
+            //    //mensagem
+            //}
+            return empresadto;
+        }
+
+
+        /*ENDEREÇO EMPRESA*/
         public async Task<EnderecoDto> AdicionarEndereco(int idEmpresa, EnderecoDto endereco)
         {
             var empresaModel = await Repositorio.FindById(idEmpresa);
@@ -62,7 +89,6 @@ namespace Solucoes.Api.Service.Cadastro
             return result;
         }
 
-
         public async Task<EnderecoDto> AlterarEndereco(TipoEnderecoEnum tipoEndereco, EnderecoDto endereco)
         {
             //enderecoModel = Mapper.Map<Endereco>(endereco);
@@ -74,7 +100,7 @@ namespace Solucoes.Api.Service.Cadastro
             enderecoModel.Cidade = endereco.Cidade;
             enderecoModel.Estado = endereco.Estado;
             enderecoModel.TipoEndereco = tipoEndereco;
-            
+
             enderecoModel = await EnderecoRepositorio.Replace(enderecoModel.Id, enderecoModel);
 
             var result = Mapper.Map<EnderecoDto>(enderecoModel);
@@ -97,9 +123,10 @@ namespace Solucoes.Api.Service.Cadastro
 
         }
 
+        /*SETOR EMPRESA*/
         public async Task<SetorEmpresaDto> AdicionarSetorEmpresa(int idEmpresa, SetorEmpresaDto setor)
         {
-            var result = await  SetorEmpresaService.InsertSetor(idEmpresa, setor);
+            var result = await SetorEmpresaService.InsertSetor(idEmpresa, setor);
             //var empresaModel = await Repositorio.FindById(idEmpresa);
             //var setorEmpresaModel = Mapper.Map<SetorEmpresa>(setor);
             //setorEmpresaModel.EmpresaId = empresaModel.Id;
@@ -124,12 +151,12 @@ namespace Solucoes.Api.Service.Cadastro
             //await SetorEmpresaRepositorio.Replace(setorEmpresaModel.Id, setorEmpresaModel);
 
             //var setorEmpDto = Mapper.Map<SetorEmpresaDto>(setorEmpresaModel);
-            
+
             //var result =  await SetorEmpresaService.Update(setor.Codigo, SetorEmpDto);
 
 
             return result;
-            
+
         }
 
         public async Task DeleteSetorEmpresa(int codEmpresa, int codSetor)
@@ -141,7 +168,7 @@ namespace Solucoes.Api.Service.Cadastro
                 await SetorEmpresaService.Delete(codSetor);
             }
 
-            
+
             //var empresaModel = await Repositorio.FindById(codEmpresa);
             //var setorModel = await SetorEmpresaRepositorio.FindById(codSetor);
 
