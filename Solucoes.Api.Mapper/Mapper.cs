@@ -78,9 +78,23 @@ namespace Solucoes.Api.Mapper
                 .ForMember(dto => dto.Telefone, opt => opt.MapFrom(model => model.Telefone))
                 .ForMember(dto => dto.WhatsApp, opt => opt.MapFrom(model => model.WhatsApp))
                 .ForMember(dto => dto.TipoEmpresa, opt => opt.MapFrom(model => model.TipoEmpresa))
-                .ForMember(dto => dto.Enderecos, opt => opt.MapFrom(model => model.Enderecos))
+                .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Situacao))
+                .IgnoreAllUnmapped();
+
+            cfg.CreateMap<Empresa, EmpresaComPessoaDto>()
+                .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Id))
+                .ForMember(dto => dto.IEMunicipal, opt => opt.MapFrom(model => model.IEMunicipal))
+                .ForMember(dto => dto.DataCadastro, opt => opt.MapFrom(model => model.DataCadastro))
+                .ForMember(dto => dto.NomeRazaoSocial, opt => opt.MapFrom(model => model.NomeRazaoSocial))
+                .ForMember(dto => dto.SobreNomeFantasia, opt => opt.MapFrom(model => model.SobreNomeFantasia))
+                .ForMember(dto => dto.CPFCNPJ, opt => opt.MapFrom(model => model.CPFCNPJ))
+                .ForMember(dto => dto.RGIE, opt => opt.MapFrom(model => model.RGIE))
+                .ForMember(dto => dto.DataAbertura, opt => opt.MapFrom(model => model.DataAbertura))
+                .ForMember(dto => dto.Email, opt => opt.MapFrom(model => model.Email))
+                .ForMember(dto => dto.Telefone, opt => opt.MapFrom(model => model.Telefone))
+                .ForMember(dto => dto.WhatsApp, opt => opt.MapFrom(model => model.WhatsApp))
+                .ForMember(dto => dto.TipoEmpresa, opt => opt.MapFrom(model => model.TipoEmpresa))
                 .ForMember(dto => dto.Pessoas, opt => opt.MapFrom(model => model.Pessoas))
-                .ForMember(dto => dto.Setores, opt => opt.MapFrom(model => model.Setores))
                 .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Situacao))
                 .IgnoreAllUnmapped();
             #endregion

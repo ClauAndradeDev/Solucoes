@@ -9,7 +9,7 @@ namespace Solucoes.Modelo.Dtos
 {
     public class EmpresaDto: CadastroModeloDto
     {
-        public string? NomeRazaoSocial { get; set; }
+        public string? NomeRazaoSocial {get; set; }
         public string? SobreNomeFantasia { get; set; }
         public string? CPFCNPJ { get; set; }
         public string? RGIE { get; set; }
@@ -20,8 +20,8 @@ namespace Solucoes.Modelo.Dtos
         public string? IEMunicipal { get; set; }
         public TipoPessoaEnumcs TipoEmpresa { get; set; }
 
-        public virtual EnderecoDto[]? Enderecos { get; set; }
-        public virtual PessoaDto[]? Pessoas { get; set; }
-        public virtual SetorEmpresaDto[]? Setores { get; set; }
+        public EnderecoDto[]? Enderecos { get; set; }
+        public PessoaDto[]? Pessoas { get; set; }
+        public SetorEmpresaDto[]? Setores { get; set; }
     }
 }
