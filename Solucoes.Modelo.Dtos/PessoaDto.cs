@@ -23,6 +23,5 @@ namespace Solucoes.Modelo.Dtos
 
         public virtual EnderecoDto[]? Enderecos { get; set; }
         public virtual ContatoDto[]? Contatos { get; set; }
-        public virtual EmpresaDto[]? Empresas { get; set; }
     }
 }

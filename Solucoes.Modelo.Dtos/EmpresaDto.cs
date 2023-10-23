@@ -19,9 +19,13 @@ namespace Solucoes.Modelo.Dtos
         public bool WhatsApp { get; set; }
         public string? IEMunicipal { get; set; }
         public TipoPessoaEnumcs TipoEmpresa { get; set; }
+        public string? Logradouro { get; set; }
+        public string? Numero { get; set; }
+        public string? Bairro { get; set; }
+        public string? CEP { get; set; }
+        public string? Cidade { get; set; }
+        public string? Estado { get; set; }
 
-        public virtual EnderecoDto[]? Enderecos { get; set; }
-        public virtual PessoaDto[]? Pessoas { get; set; }
-        public virtual SetorEmpresaDto[]? Setores { get; set; }
+        public SetorEmpresaDto[]? Setores { get; set; }
     }
 }

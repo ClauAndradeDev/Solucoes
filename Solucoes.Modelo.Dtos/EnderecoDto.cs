@@ -19,7 +19,6 @@ namespace Solucoes.Modelo.Dtos
         public TipoEnderecoEnum TipoEndereco { get; set; }
 
         // public int? CodPessoa { get; set; }
-        public virtual PessoaDto[]? Pessoas { get; set; }
-        public virtual EmpresaDto[]? Empresas { get; set; }
+        public PessoaDto[]? Pessoas { get; set; }
     }
 }

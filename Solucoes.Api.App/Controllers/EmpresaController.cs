@@ -53,28 +53,7 @@ namespace Solucoes.Api.App.Controllers
             return Ok();
         }
 
-        //rotas Endereco
-        [HttpPost("{codigo}/endereco")]
-        public async Task<ActionResult> PostEndereco(int codigo, EnderecoDto endereco)
-        {
-            var result = await EmpresaService.AdicionarEndereco(codigo, endereco);
-            return Ok(result);
-        }
-
-        [HttpPut("{codigo}/endereco/{codigoEndereco}")]
-        public async Task<ActionResult> AlterarEndereco(TipoEnderecoEnum tipo, EnderecoDto endereco)
-        {
-            var result = await EmpresaService.AlterarEndereco(tipo, endereco);
-            return Ok(result);
-        }
-
-        [HttpDelete("{codigo}/endereco/{codigoEndereco}")]
-        public async Task<ActionResult> DeleteEndereco(int codigo, int codigoEndereco)
-        {
-            await EmpresaService.DeleteEndereco(codigo, codigoEndereco);
-            return Ok();
-        }
-
+      
         //rotas SetorEmpresa
         [HttpPost("{codigo}/setor")]
         public async Task<ActionResult> PostSetor(int codigo, SetorEmpresaDto setor)

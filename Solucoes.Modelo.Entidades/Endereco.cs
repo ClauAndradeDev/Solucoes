@@ -23,8 +23,5 @@ namespace Solucoes.Modelo.Entidades
         public int? PessoaId { get; set; }
         public virtual Pessoa? Pessoas { get; set; }
 
-        [ForeignKey(nameof(EmpresaId))]
-        public int? EmpresaId { get; set; }
-        public virtual Empresa? Empresas { get; set; }
     }
 }

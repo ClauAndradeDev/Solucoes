@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Solucoes.Modelo.Contexto;
 
@@ -11,9 +12,11 @@ using Solucoes.Modelo.Contexto;
 namespace Solucoes.Api.App.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231022231112_EmpresaPessoa")]
+    partial class EmpresaPessoa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,6 +254,9 @@ namespace Solucoes.Api.App.Migrations
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("EmpresaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Estado")
                         .HasColumnType("nvarchar(max)");
 
@@ -270,6 +276,8 @@ namespace Solucoes.Api.App.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmpresaId");
 
                     b.HasIndex("PessoaId");
 
@@ -299,6 +307,9 @@ namespace Solucoes.Api.App.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("EmpresaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("NomeRazaoSocial")
                         .HasColumnType("nvarchar(max)");
 
@@ -324,6 +335,8 @@ namespace Solucoes.Api.App.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmpresaId");
 
                     b.ToTable("Pessoa");
                 });
@@ -562,11 +575,26 @@ namespace Solucoes.Api.App.Migrations
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Endereco", b =>
                 {
+                    b.HasOne("Solucoes.Modelo.Entidades.Empresa", "Empresas")
+                        .WithMany()
+                        .HasForeignKey("EmpresaId");
+
                     b.HasOne("Solucoes.Modelo.Entidades.Pessoa", "Pessoas")
                         .WithMany("Enderecos")
                         .HasForeignKey("PessoaId");
 
+                    b.Navigation("Empresas");
+
                     b.Navigation("Pessoas");
+                });
+
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.Pessoa", b =>
+                {
+                    b.HasOne("Solucoes.Modelo.Entidades.Empresa", "Empresas")
+                        .WithMany()
+                        .HasForeignKey("EmpresaId");
+
+                    b.Navigation("Empresas");
                 });
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Reuniao", b =>
