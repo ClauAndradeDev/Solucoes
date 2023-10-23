@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace Solucoes.Modelo.Repositorio
 {
@@ -29,11 +30,17 @@ namespace Solucoes.Modelo.Repositorio
         public virtual async Task<TEntity> Replace(int id, TEntity model)
         {
             var originalModel = await FindById(id);
-            //DbSet.Remove(originalModel);
-            //model.Id = id;
-            //DbSet.Add(model);
-            DbSet.Update(model);
-            
+
+            if (originalModel is null) 
+            {
+                //Claudia, coloque uma exception correta aqui. Eu não me lembro mais, mas é alguma
+                //coisa relacionada à NotFoundEntityExcepetion. Pesquise no Google
+                //Essa exception é muito genérica.
+                throw new Exception("Nenhum elementos encontrado para atualização!");
+            }
+
+            model.Id = id;
+            Context.Entry(originalModel).CurrentValues.SetValues(model);
             await Context.SaveChangesAsync();
             return model;
         }

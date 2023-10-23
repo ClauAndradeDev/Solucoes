@@ -22,6 +22,7 @@ namespace Solucoes.Modelo.Contexto
         public DbSet<ReuniaoItem> ReuniaoItems { get; set; }
         public DbSet<SetorEmpresa> SetorEmpresas { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<EmpresaPessoas> EmpresaPessoas { get; set; }
         //public DbSet<LogMovimentacao> LogMovimentacoes { get; set; }
 
 

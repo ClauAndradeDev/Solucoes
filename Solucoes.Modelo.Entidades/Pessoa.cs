@@ -23,10 +23,6 @@ namespace Solucoes.Modelo.Entidades
         public PerfilPessoaEnum PerfilPessoa { get; set; }
         public AcessoEnum Acesso { get; set; }
 
-        [ForeignKey(nameof(EmpresaId))]
-        public int? EmpresaId { get; set; }
-        public virtual Empresa? Empresas { get; set; }
-
         public virtual ICollection<Endereco>? Enderecos { get; set; }
         public virtual ICollection<Contato>? Contatos { get; set; }
 

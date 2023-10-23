@@ -42,26 +42,28 @@ namespace Solucoes.Api.Service.Cadastro
 
         public async Task<EmpresaDto> AlterarEmpresa(int codEmpresa, EmpresaDto empresa)
         {
-            //empresa.DataCadastro = DateTime.Now;
-            //var empresaDto = await base.Update(codEmpresa, empresa);
+            var empresaModel = await base.ReturnModel(codEmpresa);
+            var empresaAlteradaModel = Mapper.Map<Empresa>(empresa);
+            empresaAlteradaModel.DataCadastro = empresaModel.DataCadastro;
             
-            var empresaModel = await base.ReturnModel(empresa.Codigo);
-            empresaModel.NomeRazaoSocial = empresa.NomeRazaoSocial;
-            empresaModel.SobreNomeFantasia = empresa.SobreNomeFantasia;
-            empresaModel.IEMunicipal = empresa.IEMunicipal;
-            empresaModel.RGIE = empresa.RGIE;
-            empresaModel.DataAbertura = empresa.DataAbertura;
-            empresaModel.Email = empresa.Email;
-            empresaModel.Situacao = empresa.Situacao;
-            empresaModel.Telefone = empresa.Telefone;
-            empresaModel.TipoEmpresa = empresa.TipoEmpresa;
-            empresaModel.WhatsApp = empresa.WhatsApp;
 
-            var empresaAlterada = await Repositorio.Replace(empresaModel.Id, empresaModel);
+            var empresaAlterada = await Repositorio.Replace(empresaAlteradaModel.Id, empresaAlteradaModel);
 
             var result = await base.FindByCodigo(empresaAlterada.Id);
 
             return result;
+
+            //var empresaModel = await Repositorio.FindById(codEmpresa);
+
+            //var empresaAlteradaModel = Mapper.Map<Empresa>(empresa);
+            //empresaAlteradaModel.DataCadastro = empresaModel.DataCadastro;
+
+
+            //var empresaAlterada = await Repositorio.Replace(empresaAlteradaModel.Id, empresaAlteradaModel);
+
+            //var result = Mapper.Map<EmpresaDto>(empresaAlterada);
+
+            //return result;
         }
 
         public async Task<EmpresaDto> ExcluirEmpresa(int codEmpresa)
@@ -71,71 +73,26 @@ namespace Solucoes.Api.Service.Cadastro
             var empresaModel = await base.FindByCodigo(codEmpresa);
             
             
-            var setoresExistentes = await SetorEmpresaService.BuscarSetorPorEmpresa(codEmpresa);
-            var empresadto = Mapper.Map<EmpresaDto>(empresaModel);
-
-            if (setoresExistentes == null)
-            {
-                
-                //excluir
-                await base.Delete(empresadto.Codigo);
-              
-            }
-            //else
+            //var setoresExistentes = await SetorEmpresaService.BuscarSetorPorEmpresa(codEmpresa);
+            var empresaDto = Mapper.Map<EmpresaDto>(empresaModel);
+            await base.Delete(empresaDto.Codigo);
+            //if (setoresExistentes == null)
             //{
-            //    //mensagem
+                
+            //    //excluir
+            //    await base.Delete(empresaDto.Codigo);
+              
             //}
-            return empresadto;
+            
+            return empresaDto;
         }
 
-
-        /*ENDEREÇO EMPRESA*/
-        public async Task<EnderecoDto> AdicionarEndereco(int idEmpresa, EnderecoDto endereco)
-        {
-            var empresaModel = await Repositorio.FindById(idEmpresa);
-            var enderecoModel = Mapper.Map<Endereco>(endereco);
-            enderecoModel.EmpresaId = empresaModel.Id;
-            enderecoModel.DataCadastro = DateTime.Now;
-            enderecoModel = await EnderecoRepositorio.Add(enderecoModel);
-
-            var result = Mapper.Map<EnderecoDto>(enderecoModel);
-
-            return result;
-        }
-
-        public async Task<EnderecoDto> AlterarEndereco(TipoEnderecoEnum tipoEndereco, EnderecoDto endereco)
-        {
-            //enderecoModel = Mapper.Map<Endereco>(endereco);
-            var enderecoModel = await EnderecoRepositorio.FindById(endereco.Codigo);
-            enderecoModel.Logradouro = endereco.Logradouro;
-            enderecoModel.Numero = endereco.Numero;
-            enderecoModel.Bairro = endereco.Bairro;
-            enderecoModel.CEP = endereco.CEP;
-            enderecoModel.Cidade = endereco.Cidade;
-            enderecoModel.Estado = endereco.Estado;
-            enderecoModel.TipoEndereco = tipoEndereco;
-
-            enderecoModel = await EnderecoRepositorio.Replace(enderecoModel.Id, enderecoModel);
-
-            var result = Mapper.Map<EnderecoDto>(enderecoModel);
-
-            return result;
-        }
-
-        public async Task DeleteEndereco(int codEmpresa, int codEndereco)
-        {
-            var empresaModel = await Repositorio.FindById(codEmpresa);
-            var enderecoModel = empresaModel.Enderecos
-                                .FirstOrDefault(ee => ee.Id == codEndereco);
-
-            var pessoaDto = await base.FindByCodigo(codEmpresa);
-
-            if (empresaModel is not null)
-            {
-                await EnderecoRepositorio.Remove(codEndereco);
-            }
-
-        }
+        /*VINCULAR EMPRESA - PESSOA*/
+        //public async Task<EmpresaPessoasDto> VincularEmpresaPessoa(int codEmpresa, int codPessoa)
+        //{
+        //    var result = await 
+        //}
+      
 
         /*SETOR EMPRESA*/
         public async Task<SetorEmpresaDto> AdicionarSetorEmpresa(int idEmpresa, SetorEmpresaDto setor)
