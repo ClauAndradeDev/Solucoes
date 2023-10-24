@@ -126,13 +126,20 @@ namespace Solucoes.Api.Mapper
                 .IgnoreAllUnmapped();
             #endregion
 
-            #region Plataforma -> PlataformaDto
+            #region Plataforma -> PlataformaDto/PlataformaEmpresaDto
             cfg.CreateMap<Plataforma, PlataformaDto>()
                 .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Id))
                 .ForMember(dto => dto.DataCadastro, opt => opt.MapFrom(model => model.DataCadastro))
                 .ForMember(dto => dto.Descricao, opt => opt.MapFrom(model => model.Descricao))
                 .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Situacao))
                 .IgnoreAllUnmapped();
+
+            cfg.CreateMap<Plataforma, PlataformaEmpresaDto>()
+               .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Id))
+               .ForMember(dto => dto.DataCadastro, opt => opt.MapFrom(model => model.DataCadastro))
+               .ForMember(dto => dto.Descricao, opt => opt.MapFrom(model => model.Descricao))
+               .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Situacao))
+               .IgnoreAllUnmapped();
             #endregion
 
             #region Reuniao -> ReuniaoDto

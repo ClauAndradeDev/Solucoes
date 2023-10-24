@@ -83,5 +83,34 @@ namespace Solucoes.Api.App.Controllers
             return Ok(result);
         }
 
+
+        //rotas PlataformaEmpresa
+        [HttpPost("{codigo}/plataforma")]
+        public async Task<ActionResult> AdicionarPlataforma(int codigo, PlataformaDto plataforma)
+        {
+            var result = await EmpresaService.AdicionarPlataformaEmpresa(codigo, plataforma);
+            return Ok(result);
+        }
+
+        [HttpPut("{codigo}/plataforma/")]
+        public async Task<ActionResult> AlterarPlataforma(int codigo, PlataformaDto plataforma)
+        {
+            var result = await EmpresaService.AlterarPlataformaEmpresa(codigo, plataforma);
+            return Ok(result);
+        }
+
+        [HttpDelete("{codigo}/plataforma/{codigoPlataforma}")]
+        public async Task<ActionResult> DeletePlataformaEmpresa(int codigo, int codigoPlataforma)
+        {
+            await EmpresaService.DeletePlataformaEmpresa(codigo, codigoPlataforma);
+            return Ok();
+        }
+
+        [HttpGet("{codigo}/plataforma/")]
+        public async Task<ActionResult> BuscarPlataformaPorEmpresa(int codigo)
+        {
+            var result = await EmpresaService.PlataformaService.BuscarPlataformaPorEmpresa(codigo);
+            return Ok(result);
+        }
     }
 }

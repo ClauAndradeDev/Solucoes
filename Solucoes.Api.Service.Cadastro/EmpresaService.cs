@@ -1,4 +1,5 @@
 ﻿using AutoMapper.Execution;
+using Microsoft.Identity.Client;
 using Solucoes.Api.Mapper;
 using Solucoes.Api.Repositorios;
 using Solucoes.Modelo.Dtos;
@@ -17,16 +18,22 @@ namespace Solucoes.Api.Service.Cadastro
         public EnderecoRepositorio EnderecoRepositorio { get; set; }
         public SetorEmpresaRepositorio SetorEmpresaRepositorio { get; set; }
         public SetorEmpresaService SetorEmpresaService { get; set; }
+        public PlataformaService PlataformaService { get; set; }
+        public PlataformaRepositorio PlataformaRepositorio { get; set; }
         public EmpresaService(EmpresaRepositorio empresaRepositorio,
             EnderecoRepositorio enderecoRepositorio,
             SetorEmpresaRepositorio setorEmpresaRepositorio,
             SetorEmpresaService setorEmpresaService,
+            PlataformaService plataformaService,
+            PlataformaRepositorio plataformaRepositorio,
             Mapper.Mapper mapper) :
             base(empresaRepositorio, mapper)
         {
             EnderecoRepositorio = enderecoRepositorio;
             SetorEmpresaRepositorio = setorEmpresaRepositorio;
             SetorEmpresaService = setorEmpresaService;
+            PlataformaService = plataformaService;
+            PlataformaRepositorio = plataformaRepositorio;
         }
 
         public async Task<EmpresaDto> InserirEmpresa(EmpresaDto empresa)
@@ -54,17 +61,6 @@ namespace Solucoes.Api.Service.Cadastro
 
             return result;
 
-            //var empresaModel = await Repositorio.FindById(codEmpresa);
-
-            //var empresaAlteradaModel = Mapper.Map<Empresa>(empresa);
-            //empresaAlteradaModel.DataCadastro = empresaModel.DataCadastro;
-
-
-            //var empresaAlterada = await Repositorio.Replace(empresaAlteradaModel.Id, empresaAlteradaModel);
-
-            //var result = Mapper.Map<EmpresaDto>(empresaAlterada);
-
-            //return result;
         }
 
         public async Task<EmpresaDto> ExcluirEmpresa(int codEmpresa)
@@ -75,62 +71,97 @@ namespace Solucoes.Api.Service.Cadastro
             var setoresExistentes = await SetorEmpresaService.BuscarSetorPorEmpresa(codEmpresa);
             var listaSetores = await SetorEmpresaService.All();
 
-            if (setoresExistentes == null)
+            var plataformaExistentes = await PlataformaService.BuscarPlataformaPorEmpresa(codEmpresa);
+            var listaPlataforma = await PlataformaService.All();
+
+            if ((setoresExistentes == null) && (plataformaExistentes == null))
             {
                 await base.Delete(empresaDto.Codigo);
             }
-            else
+            else //if ((setoresExistentes != null) || (plataformaExistentes != null))
             {
-
-                    var setorModel = new Setor();
-                foreach (var item in setoresExistentes.ToArray())
+                if (setoresExistentes != null)
                 {
-                    foreach (var item1 in listaSetores)
+                    foreach (var item in setoresExistentes.ToArray())
                     {
-
-                        if (item.Codigo == item1.Codigo)
+                        foreach (var item1 in listaSetores)
                         {
-                            item.Situacao = SituacaoCadastralEnum.Inativo;
 
+                            if (item.Codigo == item1.Codigo)
+                            {
+                                item.Situacao = SituacaoCadastralEnum.Inativo;
+                            }
                         }
+
+                        var setor = await SetorEmpresaRepositorio.FindById(item.Codigo);
+
+                        var setorModelModificado = Mapper.Map<Setor>(item);
+
+                        setorModelModificado.EmpresaId = setor.EmpresaId;
+                        setorModelModificado.Empresa = setor.Empresa;
+
+                        await SetorEmpresaRepositorio.Replace(setorModelModificado.Id, setorModelModificado);
                     }
+                }
+                if (plataformaExistentes != null)
+                {
+                    foreach (var item in plataformaExistentes.ToArray())
+                    {
+                        foreach (var item1 in listaPlataforma)
+                        {
+                            if (item.Codigo == item1.Codigo)
+                            {
+                                item.Situacao = SituacaoCadastralEnum.Inativo;
+                            }
+                        }
 
-                    var setor = await SetorEmpresaRepositorio.FindById(item.Codigo);
+                        var plataforma = await PlataformaRepositorio.FindById(item.Codigo);
+                        var plataformaModificada = Mapper.Map<Plataforma>(item);
 
-                    var setorModelModificado = Mapper.Map<Setor>(item);
+                        plataformaModificada.EmpresaId = plataforma.EmpresaId;
+                        plataformaModificada.Empresa = plataforma.Empresa;
 
-                    setorModelModificado.EmpresaId = setor.EmpresaId;
-                    setorModelModificado.Empresa = setor.Empresa;
-
-                    await SetorEmpresaRepositorio.Replace(setorModelModificado.Id, setorModelModificado);
+                        await PlataformaRepositorio.Replace(plataformaModificada.Id, plataformaModificada);
+                    }
                 }
 
                 empresaDto.Situacao = SituacaoCadastralEnum.Inativo;
+                //}
+                //else if (plataformaExistentes != null)
+                //{
+                //    foreach (var item in plataformaExistentes.ToArray())
+                //    {
+                //        foreach (var item1 in listaPlataforma)
+                //        {
+                //            if (item.Codigo == item1.Codigo)
+                //            {
+                //                item.Situacao = SituacaoCadastralEnum.Inativo;
+                //            }
+                //        }
+
+                //        var plataforma = await PlataformaRepositorio.FindById(item.Codigo);
+                //        var plataformaModificada = Mapper.Map<Plataforma>(item);
+
+                //        plataformaModificada.EmpresaId = plataforma.EmpresaId;
+                //        plataformaModificada.Empresa = plataforma.Empresa;
+
+                //        await PlataformaRepositorio.Replace(plataformaModificada.Id, plataformaModificada);
+                //    }
+                //empresaDto.Situacao = SituacaoCadastralEnum.Inativo;
             }
+
+
             var empresaModel = Mapper.Map<Empresa>(empresaDto);
             await Repositorio.Replace(empresaModel.Id, empresaModel);
 
             return empresaDto;
         }
 
-        /*VINCULAR EMPRESA - PESSOA*/
-        //public async Task<EmpresaPessoasDto> VincularEmpresaPessoa(int codEmpresa, int codPessoa)
-        //{
-        //    var result = await 
-        //}
-
 
         /*SETOR EMPRESA*/
         public async Task<SetorDto> AdicionarSetorEmpresa(int idEmpresa, SetorDto setor)
         {
             var result = await SetorEmpresaService.InsertSetorEmpresa(idEmpresa, setor);
-            //var empresaModel = await Repositorio.FindById(idEmpresa);
-            //var setorEmpresaModel = Mapper.Map<SetorEmpresa>(setor);
-            //setorEmpresaModel.EmpresaId = empresaModel.Id;
-            //setorEmpresaModel.DataCadastro = DateTime.Now;
-            //setorEmpresaModel = await SetorEmpresaRepositorio.Add(setorEmpresaModel);
-
-            //var result = Mapper.Map<SetorEmpresaDto>(setorEmpresaModel);
 
             return result;
         }
@@ -139,18 +170,6 @@ namespace Solucoes.Api.Service.Cadastro
         {
 
             var result = await SetorEmpresaService.AlterarSetorEmpresa(codEmpresa, setor);
-            //var empresaModel = await Repositorio.FindById(idEmpresa);
-            //var setorEmpresaModel = Mapper.Map<SetorEmpresa>(setor);
-            //setorEmpresaModel.EmpresaId = empresaModel.Id;
-            //setorEmpresaModel.Descricao = setor.Descricao;
-            //setorEmpresaModel.Situacao = setor.Situacao;
-
-            //await SetorEmpresaRepositorio.Replace(setorEmpresaModel.Id, setorEmpresaModel);
-
-            //var setorEmpDto = Mapper.Map<SetorEmpresaDto>(setorEmpresaModel);
-
-            //var result =  await SetorEmpresaService.Update(setor.Codigo, SetorEmpDto);
-
 
             return result;
 
@@ -159,27 +178,40 @@ namespace Solucoes.Api.Service.Cadastro
         public async Task DeleteSetorEmpresa(int codEmpresa, int codSetor)
         {
             var empresaModel = await Repositorio.FindById(codEmpresa);
+            var setorModel = await SetorEmpresaRepositorio.FindById(codSetor);
             //var setorModel = empresaModel.Setores.FirstOrDefault(st=>st.Id == codSetor);
-            if (empresaModel != null)
+            //futuramente se setor estirver vinculado com Reunião, precisa fazer validação
+            if ((empresaModel != null) && (setorModel != null))
             {
                 await SetorEmpresaService.Delete(codSetor);
             }
-
-
-            //var empresaModel = await Repositorio.FindById(codEmpresa);
-            //var setorModel = await SetorEmpresaRepositorio.FindById(codSetor);
-
-            //var setorModel = empresaModel.Setores
-            //                    .FirstOrDefault(ss => ss.Id == codSetor);
-
-            //var pessoaDto = await base.FindByCodigo(codEmpresa);
-
-            //if (empresaModel is not null)
-            //{
-            //    await EnderecoRepositorio.Remove(codSetor);
-            //}
-
         }
 
+        /*PLATAFORMA EMPRESA*/
+
+        public async Task<PlataformaDto> AdicionarPlataformaEmpresa(int codEmpresa, PlataformaDto plataforma)
+        {
+            var result = await PlataformaService.InsertPlataformaEmpresa(codEmpresa, plataforma);
+            return result;
+        }
+
+        public async Task<PlataformaDto> AlterarPlataformaEmpresa(int codEmpresa, PlataformaDto plataforma)
+        {
+            var result = await PlataformaService.AlterarPlataformaEmpresa(codEmpresa, plataforma);
+            return result;
+        }
+
+        public async Task DeletePlataformaEmpresa(int codEmpresa, int codPlataforma)
+        {
+            var empresaModel = await Repositorio.FindById(codEmpresa);
+            var plataformaModel = await PlataformaRepositorio.FindById(codPlataforma);
+
+            if ((empresaModel != null) && (plataformaModel != null))
+            {
+                await PlataformaRepositorio.Remove(plataformaModel.Id);
+            }
+        }
     }
+
+
 }
