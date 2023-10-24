@@ -1,4 +1,5 @@
-﻿using Solucoes.Api.Mapper;
+﻿using AutoMapper.Execution;
+using Solucoes.Api.Mapper;
 using Solucoes.Api.Repositorios;
 using Solucoes.Modelo.Dtos;
 using Solucoes.Modelo.Entidades;
@@ -45,7 +46,7 @@ namespace Solucoes.Api.Service.Cadastro
             var empresaModel = await base.ReturnModel(codEmpresa);
             var empresaAlteradaModel = Mapper.Map<Empresa>(empresa);
             empresaAlteradaModel.DataCadastro = empresaModel.DataCadastro;
-            
+
 
             var empresaAlterada = await Repositorio.Replace(empresaAlteradaModel.Id, empresaAlteradaModel);
 
@@ -69,21 +70,46 @@ namespace Solucoes.Api.Service.Cadastro
         public async Task<EmpresaDto> ExcluirEmpresa(int codEmpresa)
         {
 
+            var empresaDto = await base.FindByCodigo(codEmpresa);
 
-            var empresaModel = await base.FindByCodigo(codEmpresa);
-            
-            
-            //var setoresExistentes = await SetorEmpresaService.BuscarSetorPorEmpresa(codEmpresa);
-            var empresaDto = Mapper.Map<EmpresaDto>(empresaModel);
-            await base.Delete(empresaDto.Codigo);
-            //if (setoresExistentes == null)
-            //{
-                
-            //    //excluir
-            //    await base.Delete(empresaDto.Codigo);
-              
-            //}
-            
+            var setoresExistentes = await SetorEmpresaService.BuscarSetorPorEmpresa(codEmpresa);
+            var listaSetores = await SetorEmpresaService.All();
+
+            if (setoresExistentes == null)
+            {
+                await base.Delete(empresaDto.Codigo);
+            }
+            else
+            {
+
+                    var setorModel = new Setor();
+                foreach (var item in setoresExistentes.ToArray())
+                {
+                    foreach (var item1 in listaSetores)
+                    {
+
+                        if (item.Codigo == item1.Codigo)
+                        {
+                            item.Situacao = SituacaoCadastralEnum.Inativo;
+
+                        }
+                    }
+
+                    var setor = await SetorEmpresaRepositorio.FindById(item.Codigo);
+
+                    var setorModelModificado = Mapper.Map<Setor>(item);
+
+                    setorModelModificado.EmpresaId = setor.EmpresaId;
+                    setorModelModificado.Empresa = setor.Empresa;
+
+                    await SetorEmpresaRepositorio.Replace(setorModelModificado.Id, setorModelModificado);
+                }
+
+                empresaDto.Situacao = SituacaoCadastralEnum.Inativo;
+            }
+            var empresaModel = Mapper.Map<Empresa>(empresaDto);
+            await Repositorio.Replace(empresaModel.Id, empresaModel);
+
             return empresaDto;
         }
 
@@ -92,10 +118,10 @@ namespace Solucoes.Api.Service.Cadastro
         //{
         //    var result = await 
         //}
-      
+
 
         /*SETOR EMPRESA*/
-        public async Task<SetorEmpresaDto> AdicionarSetorEmpresa(int idEmpresa, SetorEmpresaDto setor)
+        public async Task<SetorDto> AdicionarSetorEmpresa(int idEmpresa, SetorDto setor)
         {
             var result = await SetorEmpresaService.InsertSetorEmpresa(idEmpresa, setor);
             //var empresaModel = await Repositorio.FindById(idEmpresa);
@@ -109,7 +135,7 @@ namespace Solucoes.Api.Service.Cadastro
             return result;
         }
 
-        public async Task<SetorEmpresaDto> AlterarSetorEmpresa(int codEmpresa, SetorEmpresaDto setor)
+        public async Task<SetorDto> AlterarSetorEmpresa(int codEmpresa, SetorDto setor)
         {
 
             var result = await SetorEmpresaService.AlterarSetorEmpresa(codEmpresa, setor);

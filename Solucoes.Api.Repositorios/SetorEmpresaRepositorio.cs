@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Api.Repositorios
 {
-    public class SetorEmpresaRepositorio : BaseRepositorio<SetorEmpresa>
+    public class SetorEmpresaRepositorio : BaseRepositorio<Setor>
     {
         public SetorEmpresaRepositorio(AppDbContext context) : base(context)
         {

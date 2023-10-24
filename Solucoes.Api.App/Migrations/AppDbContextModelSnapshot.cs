@@ -445,7 +445,7 @@ namespace Solucoes.Api.App.Migrations
                     b.ToTable("ReuniaoItem");
                 });
 
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.SetorEmpresa", b =>
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.Setor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -469,7 +469,7 @@ namespace Solucoes.Api.App.Migrations
 
                     b.HasIndex("EmpresaId");
 
-                    b.ToTable("SetorEmpresa");
+                    b.ToTable("Setor");
                 });
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Usuario", b =>
@@ -595,7 +595,7 @@ namespace Solucoes.Api.App.Migrations
                     b.Navigation("Reuniaos");
                 });
 
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.SetorEmpresa", b =>
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.Setor", b =>
                 {
                     b.HasOne("Solucoes.Modelo.Entidades.Empresa", "Empresas")
                         .WithMany("Setores")

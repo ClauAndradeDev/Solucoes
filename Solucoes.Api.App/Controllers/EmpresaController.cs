@@ -56,14 +56,14 @@ namespace Solucoes.Api.App.Controllers
       
         //rotas SetorEmpresa
         [HttpPost("{codigo}/setor")]
-        public async Task<ActionResult> PostSetor(int codigo, SetorEmpresaDto setor)
+        public async Task<ActionResult> PostSetor(int codigo, SetorDto setor)
         {
             var result = await EmpresaService.AdicionarSetorEmpresa(codigo, setor);
             return Ok(result);
         }
 
         [HttpPut("{codigo}/setor/{codigoSetor}")]
-        public async Task<ActionResult> AlterarSetor(int codigo, SetorEmpresaDto setor)
+        public async Task<ActionResult> AlterarSetor(int codigo, SetorDto setor)
         {
             var result = await EmpresaService.AlterarSetorEmpresa(codigo, setor);
             return Ok(result);

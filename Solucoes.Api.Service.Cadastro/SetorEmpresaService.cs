@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Api.Service.Cadastro
 {
-    public class SetorEmpresaService : CrudServices<SetorEmpresa, SetorEmpresaDto>
+    public class SetorEmpresaService : CrudServices<Setor, SetorDto>
     {
         //public LogMovimentacaoService LogMovimentacaoService { get; set; }
         public EmpresaRepositorio EmpresaRepositorio { get; set; }
@@ -26,11 +26,11 @@ namespace Solucoes.Api.Service.Cadastro
             //  LogMovimentacaoService = logMovimentacaoService;
         }
 
-        public async Task<SetorEmpresaDto> InsertSetor(SetorEmpresaDto setor)
+        public async Task<SetorDto> InsertSetor(SetorDto setor)
         {
-           // var empresaModel = await EmpresaRepositorio.FindById(codEmpresa);
+            // var empresaModel = await EmpresaRepositorio.FindById(codEmpresa);
 
-            var setorModel = Mapper.Map<SetorEmpresa>(setor);
+            var setorModel = Mapper.Map<Setor>(setor);
 
 
             //if (empresaModel != null)
@@ -50,31 +50,42 @@ namespace Solucoes.Api.Service.Cadastro
             return result;
         }
 
-        public async Task<SetorEmpresaDto> InsertSetorEmpresa(int codEmpresa, SetorEmpresaDto setor)
+        public async Task<SetorDto> InsertSetorEmpresa(int codEmpresa, SetorDto setor)
         {
-             var empresaModel = await EmpresaRepositorio.FindById(codEmpresa);
+            var empresaModel = await EmpresaRepositorio.FindById(codEmpresa);
 
-            var setorModel = Mapper.Map<SetorEmpresa>(setor);
+            var setorModel = Mapper.Map<Setor>(setor);
+            var result = new SetorDto();
 
 
             if (empresaModel != null)
             {
+                var setorJaExiste = empresaModel.Setores.Where(x => x.Descricao == setorModel.Descricao).Any();
+                var setorCodigo = empresaModel.Setores.FirstOrDefault(x=>x.Descricao == setorModel.Descricao);
+                if (setorJaExiste)
+                {
+                    result = await base.FindByCodigo(setorCodigo.Id);
+                    //throw new Exception("Setor já cadastrado para essa empresa");
+                    
+                }
+                else
+                {
+                    setorModel.DataCadastro = DateTime.Now;
+                    setorModel.EmpresaId = empresaModel.Id;
 
-                setorModel.DataCadastro = DateTime.Now;
-                setorModel.EmpresaId = empresaModel.Id;
+                    setorModel = await Repositorio.Add(setorModel);
+                    result = await base.FindByCodigo(setorModel.Id);
+                }
 
-                await Repositorio.Add(setorModel);
 
                 //await LogMovimentacaoService.InserirLogMov(setorModel, 1, "Setor", setorModel.Id);
 
-            }
-            //var setorDto = Mapper.Map<SetorEmpresaDto>(setorModel);
-            var result = await base.FindByCodigo(setor.Codigo);
+            }          
 
             return result;
         }
 
-        public async Task<SetorEmpresaDto> AlterarSetorEmpresa(int codEmpresa, SetorEmpresaDto setor)
+        public async Task<SetorDto> AlterarSetorEmpresa(int codEmpresa, SetorDto setor)
         {
             var empresaModel = await EmpresaRepositorio.FindById(codEmpresa);
 
@@ -93,7 +104,7 @@ namespace Solucoes.Api.Service.Cadastro
 
             //await LogMovimentacaoService.InserirLogMov(setorModel, 2, "Setor", setorModel.Id);
 
-            var result = Mapper.Map<SetorEmpresaDto>(setorModel);
+            var result = Mapper.Map<SetorDto>(setorModel);
             //var result = await base.FindByCodigo(setorModel.Id);
             return result;
         }
@@ -108,12 +119,13 @@ namespace Solucoes.Api.Service.Cadastro
             await base.Delete(id);
         }
 
-        public async Task<SetorEmpresaDto> BuscarSetorPorEmpresa(int codEmpresa)
+        public async Task<SetorEmpresaDto[]> BuscarSetorPorEmpresa(int codEmpresa)
         {
             var empresa = await EmpresaRepositorio.FindById(codEmpresa);
-            var setores = empresa.Setores.ToArray();
+            var setores = empresa.Setores;
+            setores ??= new Setor[] { };
 
-            var result = Mapper.Map<SetorEmpresaDto>(setores);
+            var result = Mapper.Map<SetorEmpresaDto[]>(setores);
             return result;
 
 
