@@ -12,8 +12,8 @@ using Solucoes.Modelo.Contexto;
 namespace Solucoes.Api.App.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231022232024_Alteração Pessoa")]
-    partial class AlteraçãoPessoa
+    [Migration("20231023033205_Inicializando")]
+    partial class Inicializando
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -448,7 +448,7 @@ namespace Solucoes.Api.App.Migrations
                     b.ToTable("ReuniaoItem");
                 });
 
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.SetorEmpresa", b =>
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.Setor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -472,7 +472,7 @@ namespace Solucoes.Api.App.Migrations
 
                     b.HasIndex("EmpresaId");
 
-                    b.ToTable("SetorEmpresa");
+                    b.ToTable("Setor");
                 });
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Usuario", b =>
@@ -598,7 +598,7 @@ namespace Solucoes.Api.App.Migrations
                     b.Navigation("Reuniaos");
                 });
 
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.SetorEmpresa", b =>
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.Setor", b =>
                 {
                     b.HasOne("Solucoes.Modelo.Entidades.Empresa", "Empresas")
                         .WithMany("Setores")

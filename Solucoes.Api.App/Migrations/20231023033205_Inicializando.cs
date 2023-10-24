@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Solucoes.Api.App.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicio : Migration
+    public partial class Inicializando : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,27 +27,18 @@ namespace Solucoes.Api.App.Migrations
                     WhatsApp = table.Column<bool>(type: "bit", nullable: false),
                     IEMunicipal = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TipoEmpresa = table.Column<int>(type: "int", nullable: false),
+                    Logradouro = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Numero = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Bairro = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CEP = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Cidade = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Situacao = table.Column<int>(type: "int", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Empresa", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Plataforma",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Situacao = table.Column<int>(type: "int", nullable: false),
-                    DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Plataforma", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,40 +58,48 @@ namespace Solucoes.Api.App.Migrations
                     TipoPessoa = table.Column<int>(type: "int", nullable: false),
                     PerfilPessoa = table.Column<int>(type: "int", nullable: false),
                     Acesso = table.Column<int>(type: "int", nullable: false),
-                    EmpresaId = table.Column<int>(type: "int", nullable: true),
                     Situacao = table.Column<int>(type: "int", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pessoa", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pessoa_Empresa_EmpresaId",
-                        column: x => x.EmpresaId,
-                        principalTable: "Empresa",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "SetorEmpresa",
+                name: "Plataforma",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmpresaId = table.Column<int>(type: "int", nullable: false),
                     Situacao = table.Column<int>(type: "int", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SetorEmpresa", x => x.Id);
+                    table.PrimaryKey("PK_Plataforma", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Setor",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmpresaId = table.Column<int>(type: "int", nullable: true),
+                    Situacao = table.Column<int>(type: "int", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Setor", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SetorEmpresa_Empresa_EmpresaId",
+                        name: "FK_Setor_Empresa_EmpresaId",
                         column: x => x.EmpresaId,
                         principalTable: "Empresa",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -128,6 +127,34 @@ namespace Solucoes.Api.App.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmpresaPessoas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmpresaId = table.Column<int>(type: "int", nullable: false),
+                    PessoaId = table.Column<int>(type: "int", nullable: false),
+                    Situacao = table.Column<int>(type: "int", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmpresaPessoas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmpresaPessoas_Empresa_EmpresaId",
+                        column: x => x.EmpresaId,
+                        principalTable: "Empresa",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmpresaPessoas_Pessoa_PessoaId",
+                        column: x => x.PessoaId,
+                        principalTable: "Pessoa",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Endereco",
                 columns: table => new
                 {
@@ -141,18 +168,12 @@ namespace Solucoes.Api.App.Migrations
                     Estado = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TipoEndereco = table.Column<int>(type: "int", nullable: false),
                     PessoaId = table.Column<int>(type: "int", nullable: true),
-                    EmpresaId = table.Column<int>(type: "int", nullable: true),
                     Situacao = table.Column<int>(type: "int", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Endereco", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Endereco_Empresa_EmpresaId",
-                        column: x => x.EmpresaId,
-                        principalTable: "Empresa",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Endereco_Pessoa_PessoaId",
                         column: x => x.PessoaId,
@@ -320,19 +341,19 @@ namespace Solucoes.Api.App.Migrations
                 column: "PessoaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Endereco_EmpresaId",
-                table: "Endereco",
+                name: "IX_EmpresaPessoas_EmpresaId",
+                table: "EmpresaPessoas",
                 column: "EmpresaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmpresaPessoas_PessoaId",
+                table: "EmpresaPessoas",
+                column: "PessoaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Endereco_PessoaId",
                 table: "Endereco",
                 column: "PessoaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pessoa_EmpresaId",
-                table: "Pessoa",
-                column: "EmpresaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reuniao_ChamadoId",
@@ -350,8 +371,8 @@ namespace Solucoes.Api.App.Migrations
                 column: "ReuniaoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SetorEmpresa_EmpresaId",
-                table: "SetorEmpresa",
+                name: "IX_Setor_EmpresaId",
+                table: "Setor",
                 column: "EmpresaId");
 
             migrationBuilder.CreateIndex(
@@ -370,19 +391,25 @@ namespace Solucoes.Api.App.Migrations
                 name: "Contato");
 
             migrationBuilder.DropTable(
+                name: "EmpresaPessoas");
+
+            migrationBuilder.DropTable(
                 name: "Endereco");
 
             migrationBuilder.DropTable(
                 name: "ReuniaoItem");
 
             migrationBuilder.DropTable(
-                name: "SetorEmpresa");
+                name: "Setor");
 
             migrationBuilder.DropTable(
                 name: "Reuniao");
 
             migrationBuilder.DropTable(
                 name: "Chamado");
+
+            migrationBuilder.DropTable(
+                name: "Empresa");
 
             migrationBuilder.DropTable(
                 name: "Plataforma");
@@ -392,9 +419,6 @@ namespace Solucoes.Api.App.Migrations
 
             migrationBuilder.DropTable(
                 name: "Pessoa");
-
-            migrationBuilder.DropTable(
-                name: "Empresa");
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Solucoes.Modelo.Dtos
         public DateTime DataAbertura { get; set; }
         public string? Email { get; set; }
         public string? Telefone { get; set; }
-        public bool WhatsApp { get; set; }
+        public bool? WhatsApp { get; set; }
         public string? IEMunicipal { get; set; }
         public TipoPessoaEnumcs TipoEmpresa { get; set; }
         public string? Logradouro { get; set; }
@@ -26,6 +26,6 @@ namespace Solucoes.Modelo.Dtos
         public string? Cidade { get; set; }
         public string? Estado { get; set; }
 
-        public SetorEmpresaDto[]? Setores { get; set; }
+        public SetorDto[]? Setores { get; set; }
     }
 }

@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Dtos
 {
-    public class SetorEmpresaDto : SetorDto
+    public class SetorDto: CadastroModeloDto
     {
+        public string? Descricao { get; set; }
+
+        public  EmpresaDto? Empresa { get; set; }
+        
     }
 }
