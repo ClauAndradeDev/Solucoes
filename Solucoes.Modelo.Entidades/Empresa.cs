@@ -29,6 +29,7 @@ namespace Solucoes.Modelo.Entidades
         public string? Estado { get; set; }
 
         public virtual ICollection<Setor>? Setores { get; set; }
+        public virtual ICollection<Plataforma>? Plataforma { get; set; }
 
     }
 }
