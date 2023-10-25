@@ -92,6 +92,18 @@ namespace Solucoes.Api.Service.Cadastro
         //    await base.Delete(id);
         //}
 
+        public async Task ExcluirSetorEmpresa(int codEmpresa, int codSetor)
+        {
+            var empresaModel = await EmpresaRepositorio.FindById(codEmpresa);
+            var setorModel = await Repositorio.FindById(codSetor);
+            //var setorModel = empresaModel.Setores.FirstOrDefault(st=>st.Id == codSetor);
+            //futuramente se setor estirver vinculado com Reunião, precisa fazer validação
+            if ((empresaModel != null) && (setorModel != null))
+            {
+                await Repositorio.Remove(codSetor);
+            }
+        }
+
         public async Task<SetorEmpresaDto[]> BuscarSetorPorEmpresa(int codEmpresa)
         {
             var empresa = await EmpresaRepositorio.FindById(codEmpresa);

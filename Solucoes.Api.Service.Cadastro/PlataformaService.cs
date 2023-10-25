@@ -80,6 +80,18 @@ namespace Solucoes.Api.Service.Cadastro
             return result;
         }
 
+        public async Task ExcluirPlataformaEmpresa(int codPlataforma, int codEmpresa)
+        {
+            var empresaModel = await EmpresaRepositorio.FindById(codEmpresa);
+            var plataformaModel = await Repositorio.FindById(codPlataforma);
+
+            if ((empresaModel != null) && (plataformaModel != null))
+            {
+                await Repositorio.Remove(plataformaModel.Id);
+            }
+
+        }
+
         //public override async Task<PlataformaDto> Insert(PlataformaDto plataforma)
         //{
         //    plataforma.DataCadastro = DateTime.Now;

@@ -14,6 +14,6 @@ namespace Solucoes.Modelo.Dtos
         public string? Email { get; set; }
         public TipoContatoEnum TipoContato { get; set; }
         //public int CodPessoa { get; set; }
-        public virtual PessoaDto[]? Pessoas { get; set; }
+        public PessoaDto[]? Pessoas { get; set; }
     }
 }

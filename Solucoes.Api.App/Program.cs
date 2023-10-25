@@ -43,6 +43,8 @@ builder.Services.AddTransient<SetorEmpresaService>();
 //builder.Services.AddTransient<LogMovimentacaoService>();
 builder.Services.AddTransient<PessoaService>();
 builder.Services.AddTransient<EmpresaService>();
+builder.Services.AddTransient<ContatoService>();
+builder.Services.AddTransient<EnderecoService>();
 
 
 

@@ -19,9 +19,9 @@ namespace Solucoes.Api.App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(PessoaDto pessoa)
+        public async Task<IActionResult> InserirPessoa(PessoaDto pessoa)
         {
-            var result = await PessoaService.Insert(pessoa);
+            var result = await PessoaService.InserirPessoa(pessoa);
             return Ok(result);
         }
 
@@ -40,61 +40,76 @@ namespace Solucoes.Api.App.Controllers
         }
 
         [HttpPut("{codigo}")]
-        public async Task<IActionResult> Put(int codigo, PessoaDto pessoa)
+        public async Task<IActionResult> AlterarPessoa(int codigo, PessoaDto pessoa)
         {
-            var result = await PessoaService.Update(codigo, pessoa);
+            var result = await PessoaService.AlterarPessoa(codigo, pessoa);
             return Ok(result);
         }
 
         [HttpDelete("{codigo}")]
         public async Task<IActionResult> Delete(int codigo)
         {
-            await PessoaService.Delete(codigo);
+            await PessoaService.ExcluirPessoa(codigo);
             return Ok();
         }
 
         //rotas Endereco
         [HttpPost("{codigo}/endereco")]
-        public async Task<ActionResult> PostEndereco(int codigo, EnderecoDto endereco)
+        public async Task<IActionResult> AdicionarEndereco(int codigo, EnderecoDto endereco)
         {
             var result = await PessoaService.AdicionarEndereco(codigo, endereco);
             return Ok(result);
         }
 
-        [HttpPut("{codigo}/endereco/{codigoEndereco}")]
-        public async Task<ActionResult> AlterarEndereco(TipoEnderecoEnum tipo, EnderecoDto endereco)
+        [HttpPut("{codigo}/endereco/")]
+        public async Task<IActionResult> AlterarEndereco(int codigo, EnderecoDto endereco)
         {
-            var result = await PessoaService.AlterarEndereco(tipo, endereco);
+            var result = await PessoaService.AlterarEndereco(codigo, endereco);
             return Ok(result);
         }
 
         [HttpDelete("{codigo}/endereco/{codigoEndereco}")]
-        public async Task<ActionResult> DeleteEndereco(int codigo, int codigoEndereco)
+        public async Task<IActionResult> DeleteEndereco(int codigo, int codigoEndereco)
         {
-            await PessoaService.DeleteEndereco(codigo, codigoEndereco);
+            await PessoaService.ExcluirEndereco(codigo, codigoEndereco);
             return Ok();
         }
+        
+        [HttpGet("{codigo}/endereco/")]
+        public async Task<IActionResult> BuscarEnderecoPorPessoa(int codigo)
+        {
+            var result = await PessoaService.EnderecoService.BuscarEnderecoPorPessoa(codigo);
+            return Ok(result);
+        }
+
 
         //rotas Contato
         [HttpPost("{codigo}/contato")]
-        public async Task<ActionResult> PostContato(int codigo, ContatoDto contato)
+        public async Task<IActionResult> AdicionarContato(int codigo, ContatoDto contato)
         {
             var result = await PessoaService.AdicionarContato(codigo, contato);
             return Ok(result);
         }
 
-        [HttpPut("{codigo}/endereco/{codigoContato}")]
-        public async Task<ActionResult> AlterarContato(int codPessoa, TipoContatoEnum tipo, ContatoDto contato)
+        [HttpPut("{codigo}/contato/")]
+        public async Task<IActionResult> AlterarContato(int codigo, ContatoDto contato)
         {
-            var result = await PessoaService.AlterarContato(codPessoa, tipo, contato);
+            var result = await PessoaService.AlterarContato(codigo, contato);
             return Ok(result);
         }
 
         [HttpDelete("{codigo}/contato/{codigoContato}")]
-        public async Task<ActionResult> DeleteContato(int codigo, int codigoContato)
+        public async Task<IActionResult> ExcluirContato(int codigo, int codigoContato)
         {
-            await PessoaService.DeleteContato(codigo, codigoContato);
+            await PessoaService.ExcluirContato(codigo, codigoContato);
             return Ok();
+        }
+
+        [HttpGet("{codigo}/contato")]
+        public async Task<IActionResult> BuscarContatoPorPessoa(int codigo)
+        {
+            var result = await PessoaService.ContatoService.BuscarContatoPorPessoa(codigo);
+            return Ok(result);
         }
     }
 }
