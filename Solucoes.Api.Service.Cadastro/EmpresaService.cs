@@ -15,13 +15,11 @@ namespace Solucoes.Api.Service.Cadastro
 {
     public class EmpresaService : CrudServices<Empresa, EmpresaDto>
     {
-        public EnderecoRepositorio EnderecoRepositorio { get; set; }
         public SetorEmpresaRepositorio SetorEmpresaRepositorio { get; set; }
         public SetorEmpresaService SetorEmpresaService { get; set; }
         public PlataformaService PlataformaService { get; set; }
         public PlataformaRepositorio PlataformaRepositorio { get; set; }
         public EmpresaService(EmpresaRepositorio empresaRepositorio,
-            EnderecoRepositorio enderecoRepositorio,
             SetorEmpresaRepositorio setorEmpresaRepositorio,
             SetorEmpresaService setorEmpresaService,
             PlataformaService plataformaService,
@@ -29,7 +27,6 @@ namespace Solucoes.Api.Service.Cadastro
             Mapper.Mapper mapper) :
             base(empresaRepositorio, mapper)
         {
-            EnderecoRepositorio = enderecoRepositorio;
             SetorEmpresaRepositorio = setorEmpresaRepositorio;
             SetorEmpresaService = setorEmpresaService;
             PlataformaService = plataformaService;
@@ -77,6 +74,7 @@ namespace Solucoes.Api.Service.Cadastro
             if ((setoresExistentes == null) && (plataformaExistentes == null))
             {
                 await base.Delete(empresaDto.Codigo);
+                return empresaDto;
             }
             else //if ((setoresExistentes != null) || (plataformaExistentes != null))
             {
@@ -126,35 +124,14 @@ namespace Solucoes.Api.Service.Cadastro
                 }
 
                 empresaDto.Situacao = SituacaoCadastralEnum.Inativo;
-                //}
-                //else if (plataformaExistentes != null)
-                //{
-                //    foreach (var item in plataformaExistentes.ToArray())
-                //    {
-                //        foreach (var item1 in listaPlataforma)
-                //        {
-                //            if (item.Codigo == item1.Codigo)
-                //            {
-                //                item.Situacao = SituacaoCadastralEnum.Inativo;
-                //            }
-                //        }
+                var empresaModel = Mapper.Map<Empresa>(empresaDto);
+                await Repositorio.Replace(empresaModel.Id, empresaModel);
 
-                //        var plataforma = await PlataformaRepositorio.FindById(item.Codigo);
-                //        var plataformaModificada = Mapper.Map<Plataforma>(item);
-
-                //        plataformaModificada.EmpresaId = plataforma.EmpresaId;
-                //        plataformaModificada.Empresa = plataforma.Empresa;
-
-                //        await PlataformaRepositorio.Replace(plataformaModificada.Id, plataformaModificada);
-                //    }
-                //empresaDto.Situacao = SituacaoCadastralEnum.Inativo;
+                return empresaDto;
             }
 
 
-            var empresaModel = Mapper.Map<Empresa>(empresaDto);
-            await Repositorio.Replace(empresaModel.Id, empresaModel);
-
-            return empresaDto;
+            
         }
 
 
@@ -177,14 +154,15 @@ namespace Solucoes.Api.Service.Cadastro
 
         public async Task DeleteSetorEmpresa(int codEmpresa, int codSetor)
         {
-            var empresaModel = await Repositorio.FindById(codEmpresa);
-            var setorModel = await SetorEmpresaRepositorio.FindById(codSetor);
-            //var setorModel = empresaModel.Setores.FirstOrDefault(st=>st.Id == codSetor);
-            //futuramente se setor estirver vinculado com Reunião, precisa fazer validação
-            if ((empresaModel != null) && (setorModel != null))
-            {
-                await SetorEmpresaService.Delete(codSetor);
-            }
+            await SetorEmpresaService.ExcluirSetorEmpresa(codEmpresa, codSetor);
+            //var empresaModel = await Repositorio.FindById(codEmpresa);
+            //var setorModel = await SetorEmpresaRepositorio.FindById(codSetor);
+            ////var setorModel = empresaModel.Setores.FirstOrDefault(st=>st.Id == codSetor);
+            ////futuramente se setor estirver vinculado com Reunião, precisa fazer validação
+            //if ((empresaModel != null) && (setorModel != null))
+            //{
+            //    await SetorEmpresaService.Delete(codSetor);
+            //}
         }
 
         /*PLATAFORMA EMPRESA*/
@@ -203,13 +181,14 @@ namespace Solucoes.Api.Service.Cadastro
 
         public async Task DeletePlataformaEmpresa(int codEmpresa, int codPlataforma)
         {
-            var empresaModel = await Repositorio.FindById(codEmpresa);
-            var plataformaModel = await PlataformaRepositorio.FindById(codPlataforma);
+            await PlataformaService.ExcluirPlataformaEmpresa(codPlataforma, codEmpresa);
+            //var empresaModel = await Repositorio.FindById(codEmpresa);
+            //var plataformaModel = await PlataformaRepositorio.FindById(codPlataforma);
 
-            if ((empresaModel != null) && (plataformaModel != null))
-            {
-                await PlataformaRepositorio.Remove(plataformaModel.Id);
-            }
+            //if ((empresaModel != null) && (plataformaModel != null))
+            //{
+            //    await PlataformaRepositorio.Remove(plataformaModel.Id);
+            //}
         }
     }
 

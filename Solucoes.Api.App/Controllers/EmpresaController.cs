@@ -56,28 +56,28 @@ namespace Solucoes.Api.App.Controllers
       
         //rotas SetorEmpresa
         [HttpPost("{codigo}/setor")]
-        public async Task<ActionResult> PostSetor(int codigo, SetorDto setor)
+        public async Task<IActionResult> PostSetor(int codigo, SetorDto setor)
         {
             var result = await EmpresaService.AdicionarSetorEmpresa(codigo, setor);
             return Ok(result);
         }
 
         [HttpPut("{codigo}/setor/{codigoSetor}")]
-        public async Task<ActionResult> AlterarSetor(int codigo, SetorDto setor)
+        public async Task<IActionResult> AlterarSetor(int codigo, SetorDto setor)
         {
             var result = await EmpresaService.AlterarSetorEmpresa(codigo, setor);
             return Ok(result);
         }
 
         [HttpDelete("{codigo}/setor/{codigoSetor}")]
-        public async Task<ActionResult> DeleteSetorEmpresa(int codigo, int codigoSetor)
+        public async Task<IActionResult> DeleteSetorEmpresa(int codigo, int codigoSetor)
         {
             await EmpresaService.DeleteSetorEmpresa(codigo, codigoSetor);
             return Ok();
         }
 
         [HttpGet("{codigo}/setor/")]
-        public async Task<ActionResult> BuscarSetorPorEmpresa(int codigo)
+        public async Task<IActionResult> BuscarSetorPorEmpresa(int codigo)
         {
             var result = await EmpresaService.SetorEmpresaService.BuscarSetorPorEmpresa(codigo);
             return Ok(result);
@@ -86,28 +86,28 @@ namespace Solucoes.Api.App.Controllers
 
         //rotas PlataformaEmpresa
         [HttpPost("{codigo}/plataforma")]
-        public async Task<ActionResult> AdicionarPlataforma(int codigo, PlataformaDto plataforma)
+        public async Task<IActionResult> AdicionarPlataforma(int codigo, PlataformaDto plataforma)
         {
             var result = await EmpresaService.AdicionarPlataformaEmpresa(codigo, plataforma);
             return Ok(result);
         }
 
         [HttpPut("{codigo}/plataforma/")]
-        public async Task<ActionResult> AlterarPlataforma(int codigo, PlataformaDto plataforma)
+        public async Task<IActionResult> AlterarPlataforma(int codigo, PlataformaDto plataforma)
         {
             var result = await EmpresaService.AlterarPlataformaEmpresa(codigo, plataforma);
             return Ok(result);
         }
 
         [HttpDelete("{codigo}/plataforma/{codigoPlataforma}")]
-        public async Task<ActionResult> DeletePlataformaEmpresa(int codigo, int codigoPlataforma)
+        public async Task<IActionResult> DeletePlataformaEmpresa(int codigo, int codigoPlataforma)
         {
             await EmpresaService.DeletePlataformaEmpresa(codigo, codigoPlataforma);
             return Ok();
         }
 
         [HttpGet("{codigo}/plataforma/")]
-        public async Task<ActionResult> BuscarPlataformaPorEmpresa(int codigo)
+        public async Task<IActionResult> BuscarPlataformaPorEmpresa(int codigo)
         {
             var result = await EmpresaService.PlataformaService.BuscarPlataformaPorEmpresa(codigo);
             return Ok(result);

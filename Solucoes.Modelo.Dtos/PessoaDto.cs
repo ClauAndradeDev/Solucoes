@@ -21,7 +21,7 @@ namespace Solucoes.Modelo.Dtos
         public PerfilPessoaEnum PerfilPessoa { get; set; }
         public AcessoEnum Acesso { get; set; }
 
-        public virtual EnderecoDto[]? Enderecos { get; set; }
-        public virtual ContatoDto[]? Contatos { get; set; }
+        public EnderecoDto[]? Enderecos { get; set; }
+        public ContatoDto[]? Contatos { get; set; }
     }
 }
