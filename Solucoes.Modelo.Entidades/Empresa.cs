@@ -30,6 +30,7 @@ namespace Solucoes.Modelo.Entidades
 
         public virtual ICollection<Setor>? Setores { get; set; }
         public virtual ICollection<Plataforma>? Plataforma { get; set; }
+        public virtual ICollection<EmpresaPessoa>? EmpresaPessoas { get; set; }
 
     }
 }

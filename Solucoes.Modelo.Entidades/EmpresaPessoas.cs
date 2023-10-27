@@ -9,15 +9,15 @@ using System.Windows.Markup;
 namespace Solucoes.Modelo.Entidades
 {
     [Table("EmpresaPessoas")]
-    public class EmpresaPessoas : CadastroModelo
+    public class EmpresaPessoa : CadastroModelo
     {
         [ForeignKey(nameof(EmpresaId))]
         public int EmpresaId { get; set; }
-        public virtual Empresa? Empresas { get; set; }
+        public virtual Empresa? Empresa { get; set; }
 
         [ForeignKey(nameof(PessoaId))]
         public int PessoaId { get; set; }
-        public virtual Pessoa? Pessoas { get; set; }
+        public virtual Pessoa? Pessoa { get; set; }
 
         /* Permissões de acesso*/
 

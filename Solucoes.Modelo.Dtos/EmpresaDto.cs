@@ -28,5 +28,6 @@ namespace Solucoes.Modelo.Dtos
 
         public SetorDto[]? Setores { get; set; }
         public PlataformaDto[]? Plataforma { get; set; }
+        public PessoaEmpresaDto[]? Pessoas { get; set; }
     }
 }

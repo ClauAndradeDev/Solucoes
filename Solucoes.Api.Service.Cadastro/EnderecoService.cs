@@ -52,6 +52,7 @@ namespace Solucoes.Api.Service.Cadastro
                     result = await base.FindByCodigo(enderecoModel.Id);
                 }
             }
+            
             return result;
         }
 

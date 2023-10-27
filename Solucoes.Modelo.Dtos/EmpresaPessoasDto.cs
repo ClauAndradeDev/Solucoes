@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Dtos
 {
-    public class EmpresaPessoasDto : CadastroModeloDto
+    public class PessoaEmpresaDto : PessoaDto
     {
-        public int CodEmpresa { get; set; }
-        public int CodPessoa { get; set; }
-
-        public EmpresaDto[]? Empresas { get; set; }
-        public PessoaDto[]? Pessoas { get; set; }
+        public int CodEmpresaPessoa { get; set; }
     }
 }

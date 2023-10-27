@@ -2,6 +2,7 @@
 using Microsoft.Identity.Client;
 using Solucoes.Api.Mapper;
 using Solucoes.Api.Repositorios;
+using Solucoes.Api.Service.Movimentacao;
 using Solucoes.Modelo.Dtos;
 using Solucoes.Modelo.Entidades;
 using Solucoes.Modelo.Enums;
@@ -19,11 +20,15 @@ namespace Solucoes.Api.Service.Cadastro
         public SetorEmpresaService SetorEmpresaService { get; set; }
         public PlataformaService PlataformaService { get; set; }
         public PlataformaRepositorio PlataformaRepositorio { get; set; }
+        public EmpresaPessoaRepositorio EmpresaPessoaRepositorio { get; set; }
+        public PessoaRepositorio PessoaRepositorio { get; set; }
         public EmpresaService(EmpresaRepositorio empresaRepositorio,
             SetorEmpresaRepositorio setorEmpresaRepositorio,
             SetorEmpresaService setorEmpresaService,
             PlataformaService plataformaService,
             PlataformaRepositorio plataformaRepositorio,
+            EmpresaPessoaRepositorio empresaPessoaRepositorio,
+            PessoaRepositorio pessoaRepositorio,
             Mapper.Mapper mapper) :
             base(empresaRepositorio, mapper)
         {
@@ -31,6 +36,8 @@ namespace Solucoes.Api.Service.Cadastro
             SetorEmpresaService = setorEmpresaService;
             PlataformaService = plataformaService;
             PlataformaRepositorio = plataformaRepositorio;
+            EmpresaPessoaRepositorio = empresaPessoaRepositorio;
+            PessoaRepositorio = pessoaRepositorio;
         }
 
         public async Task<EmpresaDto> InserirEmpresa(EmpresaDto empresa)
@@ -44,22 +51,29 @@ namespace Solucoes.Api.Service.Cadastro
 
             return result;
         }
-
         public async Task<EmpresaDto> AlterarEmpresa(int codEmpresa, EmpresaDto empresa)
         {
             var empresaModel = await base.ReturnModel(codEmpresa);
             var empresaAlteradaModel = Mapper.Map<Empresa>(empresa);
             empresaAlteradaModel.DataCadastro = empresaModel.DataCadastro;
 
-
             var empresaAlterada = await Repositorio.Replace(empresaAlteradaModel.Id, empresaAlteradaModel);
+            //var empresaPessoas = empresaAlteradaModel.EmpresaPessoas.Where(ep => ep.Id == 0);
+
+            //foreach (var ep in empresaPessoas)
+            //{
+            //    var pessoa = await PessoaRepositorio.FindById(ep.PessoaId);
+            //    ep.PessoaId = ep.PessoaId;
+            //    ep.EmpresaId = empresaAlteradaModel.Id;
+
+            //    await EmpresaPessoaRepositorio.Add(ep);
+            //}
 
             var result = await base.FindByCodigo(empresaAlterada.Id);
 
             return result;
 
         }
-
         public async Task<EmpresaDto> ExcluirEmpresa(int codEmpresa)
         {
 
@@ -131,7 +145,7 @@ namespace Solucoes.Api.Service.Cadastro
             }
 
 
-            
+
         }
 
 
@@ -142,7 +156,6 @@ namespace Solucoes.Api.Service.Cadastro
 
             return result;
         }
-
         public async Task<SetorDto> AlterarSetorEmpresa(int codEmpresa, SetorDto setor)
         {
 
@@ -151,7 +164,6 @@ namespace Solucoes.Api.Service.Cadastro
             return result;
 
         }
-
         public async Task DeleteSetorEmpresa(int codEmpresa, int codSetor)
         {
             await SetorEmpresaService.ExcluirSetorEmpresa(codEmpresa, codSetor);
@@ -166,31 +178,58 @@ namespace Solucoes.Api.Service.Cadastro
         }
 
         /*PLATAFORMA EMPRESA*/
-
         public async Task<PlataformaDto> AdicionarPlataformaEmpresa(int codEmpresa, PlataformaDto plataforma)
         {
             var result = await PlataformaService.InsertPlataformaEmpresa(codEmpresa, plataforma);
             return result;
         }
-
         public async Task<PlataformaDto> AlterarPlataformaEmpresa(int codEmpresa, PlataformaDto plataforma)
         {
             var result = await PlataformaService.AlterarPlataformaEmpresa(codEmpresa, plataforma);
             return result;
         }
-
         public async Task DeletePlataformaEmpresa(int codEmpresa, int codPlataforma)
         {
             await PlataformaService.ExcluirPlataformaEmpresa(codPlataforma, codEmpresa);
-            //var empresaModel = await Repositorio.FindById(codEmpresa);
-            //var plataformaModel = await PlataformaRepositorio.FindById(codPlataforma);
+        }
 
-            //if ((empresaModel != null) && (plataformaModel != null))
-            //{
-            //    await PlataformaRepositorio.Remove(plataformaModel.Id);
-            //}
+        /*VINCULO/DESVINCULO EMPRESA_PESSOA*/
+        public async Task AdicionarPessoaEmpresa(int codEmpresa, int codPessoa)
+        {
+            var empresaModel = await Repositorio.FindById(codEmpresa);
+            var pessoaModel = await PessoaRepositorio.FindById(codPessoa);
+            
+            var empresaPessoaModel = new EmpresaPessoa();
+            var empresa = EmpresaPessoaRepositorio.All();
+
+            if ((empresaModel != null) && (pessoaModel != null))
+            {
+                empresaPessoaModel.PessoaId = pessoaModel.Id;
+                empresaPessoaModel.EmpresaId = empresaModel.Id;
+                empresaPessoaModel.DataCadastro = DateTime.Now;
+                await EmpresaPessoaRepositorio.Add(empresaPessoaModel);
+            }
+            
+        }
+
+
+
+        public async Task ExcluirPessoaEmpresa(int codEmpresa, int codPessoa)
+        {
+            var empresaModel = await Repositorio.FindById(codEmpresa);
+            var pessoaModel = await PessoaRepositorio.FindById(codPessoa);
+
+            var empresaPessoaBanco = empresaModel.EmpresaPessoas.FirstOrDefault(x => x.PessoaId == pessoaModel.Id);
+
+
+            if ((empresaModel != null) && (pessoaModel != null))
+            {
+                await EmpresaPessoaRepositorio.Remove(empresaPessoaBanco.Id);
+            }
+
         }
     }
+
 
 
 }
