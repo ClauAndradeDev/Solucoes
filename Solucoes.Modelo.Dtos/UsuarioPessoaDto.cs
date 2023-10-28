@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Dtos
 {
-    public class PessoaEmpresaDto : PessoaDto
+    public class UsuarioPessoaDto : UsuarioDto
     {
-        public int CodEmpresaPessoa { get; set; }
     }
 }

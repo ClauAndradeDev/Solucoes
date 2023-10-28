@@ -111,5 +111,49 @@ namespace Solucoes.Api.App.Controllers
             var result = await PessoaService.ContatoService.BuscarContatoPorPessoa(codigo);
             return Ok(result);
         }
+
+
+        //rotas Usuario
+        [HttpPost("{codigo}/usuario")]
+        public async Task<IActionResult> InserirUsuarioPessoa(int codigo, UsuarioDto usuario)
+        {
+            var result = await PessoaService.UsuarioService.InserirUsuarioPessoa(codigo, usuario);
+            if (result.Codigo != 0)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return Ok("Usuario não incluido!");
+            }
+        }
+
+        [HttpPut("{codigo}/usuarioalterar")]
+        public async Task<IActionResult> AlterarUsuarioPessoa(int codigo,UsuarioDto usuario)
+        {
+            var result = await PessoaService.UsuarioService.AlterarUsuarioPessoa(codigo, usuario);
+            if (result.Codigo != 0)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return Ok("Usuario não localizado!");
+            }
+        }
+
+        [HttpPost("{codigo}/acesso")]
+        public async Task<IActionResult> AcessoUsuario(int codigo, UsuarioDto usuario)
+        {
+            var result = await PessoaService.UsuarioService.AcessoUsuario(codigo, usuario);
+            if (result.Codigo != 0)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return Ok("Verificar Usuário e/ou Senha incorretos!");
+            }
+        }
     }
 }

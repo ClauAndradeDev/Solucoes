@@ -25,6 +25,7 @@ namespace Solucoes.Modelo.Entidades
 
         public virtual ICollection<Endereco>? Enderecos { get; set; }
         public virtual ICollection<Contato>? Contatos { get; set; }
+        public virtual ICollection<Usuario>? Usuario { get; set; }
 
 
 

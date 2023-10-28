@@ -94,6 +94,29 @@ namespace Solucoes.Api.Mapper
                 .ForMember(dto => dto.CEP, opt => opt.MapFrom(model => model.CEP))
                 .ForMember(dto => dto.Cidade, opt => opt.MapFrom(model => model.Cidade))
                 .ForMember(dto => dto.Estado, opt => opt.MapFrom(model => model.Estado))
+                .ForMember(dto => dto.Pessoas, opt => opt.MapFrom(model => model.EmpresaPessoas))
+                .IgnoreAllUnmapped();
+            #endregion
+
+            #region EmpresaPessoas -> PessoaDto
+            cfg.CreateMap<EmpresaPessoa, PessoaEmpresaDto>()
+                .ForMember(dto => dto.CodEmpresaPessoa, opt => opt.MapFrom(model => model.Id))
+                .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Pessoa.Id))
+                .ForMember(dto => dto.DataCadastro, opt => opt.MapFrom(model => model.Pessoa.DataCadastro))
+                .ForMember(dto => dto.NomeRazaoSocial, opt => opt.MapFrom(model => model.Pessoa.NomeRazaoSocial))
+                .ForMember(dto => dto.SobreNomeFantasia, opt => opt.MapFrom(model => model.Pessoa.SobreNomeFantasia))
+                .ForMember(dto => dto.CPFCNPJ, opt => opt.MapFrom(model => model.Pessoa.CPFCNPJ))
+                .ForMember(dto => dto.RGIE, opt => opt.MapFrom(model => model.Pessoa.RGIE))
+                .ForMember(dto => dto.DataNascimento, opt => opt.MapFrom(model => model.Pessoa.DataNascimento))
+                .ForMember(dto => dto.Email, opt => opt.MapFrom(model => model.Pessoa.Email))
+                .ForMember(dto => dto.Telefone, opt => opt.MapFrom(model => model.Pessoa.Telefone))
+                .ForMember(dto => dto.WhatsApp, opt => opt.MapFrom(model => model.Pessoa.WhatsApp))
+                .ForMember(dto => dto.TipoPessoa, opt => opt.MapFrom(model => model.Pessoa.TipoPessoa))
+                .ForMember(dto => dto.TipoPessoa, opt => opt.MapFrom(model => model.Pessoa.TipoPessoa))
+                .ForMember(dto => dto.PerfilPessoa, opt => opt.MapFrom(model => model.Pessoa.PerfilPessoa))
+                .ForMember(dto => dto.Acesso, opt => opt.MapFrom(model => model.Pessoa.Acesso))
+                .ForMember(dto => dto.Contatos, opt => opt.MapFrom(model => model.Pessoa.Contatos))
+                .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Pessoa.Situacao))
                 .IgnoreAllUnmapped();
             #endregion
 
@@ -217,7 +240,16 @@ namespace Solucoes.Api.Mapper
                 .ForMember(dto => dto.DataCadastro, opt => opt.MapFrom(model => model.DataCadastro))
                 .ForMember(dto => dto.Login, opt => opt.MapFrom(model => model.Login))
                 .ForMember(dto => dto.Senha, opt => opt.MapFrom(model => model.Senha))
-                .ForMember(dto => dto.Pessoas, opt => opt.MapFrom(model => model.PessoaId))
+                //.ForMember(dto => dto.Pessoa, opt => opt.MapFrom(model => model.Pessoa))
+                .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Situacao))
+                .IgnoreAllUnmapped();
+
+            cfg.CreateMap<Usuario, UsuarioPessoaDto>()
+                .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Id))
+                .ForMember(dto => dto.DataCadastro, opt => opt.MapFrom(model => model.DataCadastro))
+                .ForMember(dto => dto.Login, opt => opt.MapFrom(model => model.Login))
+                .ForMember(dto => dto.Senha, opt => opt.MapFrom(model => model.Senha))
+                .ForMember(dto => dto.Pessoa, opt => opt.MapFrom(model => model.Pessoa))
                 .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Situacao))
                 .IgnoreAllUnmapped();
             #endregion
@@ -281,7 +313,7 @@ namespace Solucoes.Api.Mapper
             cfg.CreateMap<EmpresaDto, Empresa>()
                 .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.Codigo))
                 .ForMember(model => model.IEMunicipal, opt => opt.MapFrom(dto => dto.IEMunicipal))
-                //.ForMember(model => model.DataCadastro, opt => opt.MapFrom(dto => dto.DataCadastro))
+                .ForMember(model => model.DataCadastro, opt => opt.MapFrom(dto => dto.DataCadastro))
                 .ForMember(model => model.NomeRazaoSocial, opt => opt.MapFrom(dto => dto.NomeRazaoSocial))
                 .ForMember(model => model.SobreNomeFantasia, opt => opt.MapFrom(dto => dto.SobreNomeFantasia))
                 .ForMember(model => model.CPFCNPJ, opt => opt.MapFrom(dto => dto.CPFCNPJ))
@@ -298,6 +330,14 @@ namespace Solucoes.Api.Mapper
                 .ForMember(model => model.CEP, opt => opt.MapFrom(dto => dto.CEP))
                 .ForMember(model => model.Cidade, opt => opt.MapFrom(dto => dto.Cidade))
                 .ForMember(model => model.Estado, opt => opt.MapFrom(dto => dto.Estado))
+                .ForMember(model => model.EmpresaPessoas, opt => opt.MapFrom(dto => dto.Pessoas))
+                .IgnoreAllUnmapped();
+            #endregion
+
+            #region PessoaDto -> EmpresaPessoas
+            cfg.CreateMap<PessoaEmpresaDto, EmpresaPessoa>()
+                .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.CodEmpresaPessoa))
+                .ForMember(model => model.PessoaId, opt => opt.MapFrom(dto => dto.Codigo))
                 .IgnoreAllUnmapped();
             #endregion
 
@@ -396,7 +436,7 @@ namespace Solucoes.Api.Mapper
                 .ForMember(model => model.DataCadastro, opt => opt.MapFrom(dto => dto.DataCadastro))
                 .ForMember(model => model.Login, opt => opt.MapFrom(dto => dto.Login))
                 .ForMember(model => model.Senha, opt => opt.MapFrom(dto => dto.Senha))
-                .ForMember(model => model.PessoaId, opt => opt.MapFrom(dto => dto.Pessoas))
+                .ForMember(model => model.Pessoa, opt => opt.MapFrom(dto => dto.Pessoa))
                 .ForMember(model => model.Situacao, opt => opt.MapFrom(dto => dto.Situacao))
                 .IgnoreAllUnmapped();
             #endregion

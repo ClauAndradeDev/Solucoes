@@ -3,6 +3,7 @@ using Solucoes.Api.Repositorios;
 using Solucoes.Api.Service.Movimentacao;
 using Solucoes.Modelo.Dtos;
 using Solucoes.Modelo.Entidades;
+using Solucoes.Modelo.Extensoes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,10 @@ namespace Solucoes.Api.Service.Cadastro
     {
         //public LogMovimentacaoRepositorio LogMovimentacaoRepositorio { get; set; }
         public PessoaRepositorio PessoaRepositorio { get; set; }
-       // public LogMovimentacaoService LogMovimentacaoService { get; set; }
+        // public LogMovimentacaoService LogMovimentacaoService { get; set; }
         public UsuarioService(UsuarioRepositorio usuarioRepositorio,
                             Mapper.Mapper mapper,
-                           // LogMovimentacaoService logMovimentacaoService,
+                            // LogMovimentacaoService logMovimentacaoService,
                             PessoaRepositorio pesoaRepositorio) :
             base(usuarioRepositorio, mapper)
         {
@@ -26,48 +27,85 @@ namespace Solucoes.Api.Service.Cadastro
             PessoaRepositorio = pesoaRepositorio;
         }
 
-        public override async Task<UsuarioDto> Insert(UsuarioDto usuario)
+
+        public async Task<UsuarioDto> InserirUsuarioPessoa(int codPessoa, UsuarioDto usuario)
         {
-            usuario.DataCadastro = DateTime.Now;
-            var usuarioDto = await base.Insert(usuario);
-            var usuarioModel = await base.ReturnModel(usuarioDto.Codigo);
+            var pessoaModel = await PessoaRepositorio.FindById(codPessoa);
 
-            //var pessoaDto = usuarioDto.Pessoas;
-            //int codPessoa = 0;
-            //foreach (PessoaDto p in pessoaDto)
-            //{
-            //    codPessoa = p.Codigo;
-            //}
-           
-            //var pessoaModel = await PessoaRepositorio.FindById(codPessoa);
+            var usuarioModel = Mapper.Map<Usuario>(usuario);
+            var result = new UsuarioDto();
 
-           var result = await base.FindByCodigo(usuarioModel.Id);
+            if (pessoaModel != null)
+            {
+                var usuarioJaExiste = pessoaModel.Usuario.Where(p => p.PessoaId == pessoaModel.Id).Any();
+                if (usuarioJaExiste)
+                {
+                    result = await base.FindByCodigo(pessoaModel.Id);
+                }
+                else
+                {
+                    usuarioModel.DataCadastro = DateTime.Now;
+                    usuarioModel.PessoaId = pessoaModel.Id;
+                    var senhaHash = HashMD5.RetornarMD5(usuarioModel.Senha);
+                    usuarioModel.Senha = senhaHash;
 
-           //var logMovUsuario = await LogMovimentacaoService.InserirLogMov(usuarioModel, 1, "Usuario", usuarioModel.Id);
+                    usuarioModel = await Repositorio.Add(usuarioModel);
+                    result = await base.FindByCodigo(usuarioModel.Id);
+                }
 
+            }
             return result;
         }
 
-        public override async Task<UsuarioDto> Update(int id, UsuarioDto usuario)
+        public async Task<UsuarioDto> AlterarUsuarioPessoa(int codPessoa, UsuarioDto usuario)
         {
-            var usuarioDto = await base.Update(id, usuario);
-            var usuarioModel = await base.ReturnModel(usuarioDto.Codigo);
+            var pessoaModel = await PessoaRepositorio.FindById(codPessoa);
+            var usuarioModel = new Usuario();
 
-            var result = await base.FindByCodigo(usuarioModel.Id);
+            if (pessoaModel != null)
+            {
+                 usuarioModel = Mapper.Map<Usuario>(usuario);
+                var usuariopesoa = pessoaModel.Usuario.ToArray();
 
-           //var LogMovUsuario = await LogMovimentacaoService.InserirLogMov(usuarioModel, 2, "Usuario", usuarioModel.Id);
+                var usuarioJaExiste = pessoaModel.Usuario.Where(p => p.PessoaId == pessoaModel.Id).Any();
+                if (usuarioJaExiste)
+                {
+                    usuarioModel.Situacao = usuario.Situacao;
+                    var senhaHash = HashMD5.RetornarMD5(usuario.Senha);
+                    usuarioModel.Senha = senhaHash;
+                    await Repositorio.Replace(usuarioModel.Id, usuarioModel);
+                }
+            }
 
+            var result = Mapper.Map<UsuarioDto>(usuarioModel);
             return result;
         }
 
-        public override async Task Delete(int id)
+        public async Task<UsuarioDto> AcessoUsuario(int codigo, UsuarioDto usuario)
         {
-            var usuarioDto = await base.FindByCodigo(id);
-            var usuarioModel = await base.ReturnModel(usuarioDto.Codigo);
+            var usuarioModel = await Repositorio.FindById(usuario.Codigo);
+            var usuarioModelCod = await Repositorio.FindById(codigo);
 
-           // var logMovUsuario = await LogMovimentacaoService.InserirLogMov(usuarioModel, 3, "Usuario", usuarioModel.Id);
+            var usuarioDto = new UsuarioDto();
 
-            await base.Delete(usuarioDto.Codigo);
+            if (usuarioModel == usuarioModelCod)
+            {
+                if (usuario.Login == usuarioModel.Login)
+                {
+                    if ((usuario.Senha != null) && (usuarioModel.Senha != null))
+                    {
+                        var senhaEnviada = HashMD5.RetornarMD5(usuario.Senha);
+                        //var senhaValida = HashMD5.ComparaMD5(usuarioModel.Senha, senhaEnviada);
+
+                        if(senhaEnviada == usuarioModel.Senha)
+                        {
+                            usuarioDto = Mapper.Map<UsuarioDto>(usuarioModel);
+                        }
+                    }
+                }
+            }
+
+            return usuarioDto;
         }
     }
 }

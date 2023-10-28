@@ -12,6 +12,6 @@ namespace Solucoes.Modelo.Dtos
         public string? Senha { get; set; }
         //public int? CodPessoa { get; set; }
 
-        public virtual PessoaDto[]? Pessoas { get; set; }
+        public virtual PessoaDto? Pessoa { get; set; }
     }
 }

@@ -48,7 +48,7 @@ namespace Solucoes.Api.Service.Cadastro
                 if (setorJaExiste)
                 {
                     result = await base.FindByCodigo(setorCodigo.Id);
-                    //throw new Exception("Setor já cadastrado para essa empresa");
+                    throw new FormatException("Setor já cadastrado para essa empresa");
 
                 }
                 else
@@ -87,10 +87,7 @@ namespace Solucoes.Api.Service.Cadastro
             return result;
         }
 
-        //public override async Task Delete(int id)
-        //{
-        //    await base.Delete(id);
-        //}
+
 
         public async Task ExcluirSetorEmpresa(int codEmpresa, int codSetor)
         {

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Solucoes.Api.Service.Cadastro;
+using Solucoes.Api.Service.Movimentacao;
 using Solucoes.Modelo.Dtos;
 using Solucoes.Modelo.Enums;
+using System.Formats.Asn1;
 
 namespace Solucoes.Api.App.Controllers
 {
@@ -111,6 +113,22 @@ namespace Solucoes.Api.App.Controllers
         {
             var result = await EmpresaService.PlataformaService.BuscarPlataformaPorEmpresa(codigo);
             return Ok(result);
+        }
+
+
+        //rotas Adicionar e Remover Vinculo Pessoa/Empresa
+        [HttpPost("{codigo}/vinculo/{codigoPessoa}")]
+        public async Task<IActionResult> VincularPessoaEmpresa(int codigo, int codigoPessoa)
+        {
+            await EmpresaService.AdicionarPessoaEmpresa(codigo, codigoPessoa);
+            return Ok();
+        }
+
+        [HttpDelete("{codigo}/desvinculo/{codigoPessoa}")]
+        public async Task<IActionResult> DesvincularPessoaEmpresa(int codigo, int codigoPessoa)
+        {
+            await EmpresaService.ExcluirPessoaEmpresa(codigo, codigoPessoa);
+            return Ok();
         }
     }
 }

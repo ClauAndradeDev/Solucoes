@@ -18,17 +18,20 @@ namespace Solucoes.Api.Service.Cadastro
         //public LogMovimentacaoRepositorio LogMovimentacaoRepositorio { get; set; }
         public EnderecoRepositorio EnderecoRepositorio { get; set; }
         public EnderecoService EnderecoService { get; set; }
-        //public EmpresaRepositorio EmpresaRepositorio { get; set; }
+        public EmpresaRepositorio EmpresaRepositorio { get; set; }
         //public LogMovimentacaoService LogMovimentacaoService { get; set; }
         public ContatoRepositorio ContatoRepositorio { get; set; }
         public ContatoService ContatoService { get; set; }
+
+        public UsuarioService UsuarioService { get; set; }
         public PessoaService(PessoaRepositorio pessoaRepositorio,
             //LogMovimentacaoRepositorio logMovimentacaoRepositorio,
-            //EmpresaRepositorio empresaRepositorio,
+            EmpresaRepositorio empresaRepositorio,
             ContatoRepositorio contatoRepositorio,
             ContatoService contatoService,
             EnderecoRepositorio enderecoRepositorio,
             EnderecoService enderecoService,
+            UsuarioService usuarioService,
             Mapper.Mapper mapper) : base(pessoaRepositorio, mapper)
         {
             //LogMovimentacaoRepositorio = logMovimentacaoRepositorio;
@@ -36,7 +39,8 @@ namespace Solucoes.Api.Service.Cadastro
             ContatoService = contatoService;
             EnderecoRepositorio = enderecoRepositorio;
             EnderecoService = enderecoService;
-            //EmpresaRepositorio = empresaRepositorio;
+            EmpresaRepositorio = empresaRepositorio;
+            UsuarioService = usuarioService;
         }
 
         public async Task<PessoaDto> InserirPessoa(PessoaDto pessoa)
@@ -82,20 +86,20 @@ namespace Solucoes.Api.Service.Cadastro
             var contatoExistente = await ContatoService.BuscarContatoPorPessoa(codPessoa);
             var listaContatos = await ContatoService.All();
 
-            if((enderecosExistente.Count() == 0) && (contatoExistente.Count() == 0))
+            if ((enderecosExistente.Count() == 0) && (contatoExistente.Count() == 0))
             {
                 await base.Delete(codPessoa);
                 return pessoaDto;
             }
             else
             {
-                if(enderecosExistente != null)
+                if (enderecosExistente != null)
                 {
                     foreach (var item in enderecosExistente.ToArray())
                     {
                         foreach (var item1 in listaEnderecos)
                         {
-                            if(item.Codigo == item1.Codigo)
+                            if (item.Codigo == item1.Codigo)
                             {
                                 item.Situacao = SituacaoCadastralEnum.Inativo;
                             }
@@ -109,13 +113,13 @@ namespace Solucoes.Api.Service.Cadastro
                         await EnderecoRepositorio.Replace(enderecoModelModificado.Id, enderecoModelModificado);
                     }
                 }
-                if(contatoExistente != null)
+                if (contatoExistente != null)
                 {
                     foreach (var item in contatoExistente.ToArray())
                     {
                         foreach (var item1 in listaContatos)
                         {
-                            if(item.Codigo == item1.Codigo)
+                            if (item.Codigo == item1.Codigo)
                             {
                                 item.Situacao = SituacaoCadastralEnum.Inativo;
                             }
@@ -136,7 +140,7 @@ namespace Solucoes.Api.Service.Cadastro
                 await Repositorio.Replace(pessoaModel.Id, pessoaModel);
 
                 return pessoaDto;
-            }           
+            }
         }
 
         /*ROTA CONTATO*/
@@ -168,6 +172,35 @@ namespace Solucoes.Api.Service.Cadastro
             await EnderecoService.ExcluirEnderecoPessoa(codPessoa, codEndereco);
 
         }
-     
+
+        /*ROTA USUARIO*/
+        public async Task<UsuarioDto> InserirUsuarioPessoa(int codPessoa, UsuarioDto usuario)
+        {
+            return await UsuarioService.InserirUsuarioPessoa(codPessoa, usuario);
+        }
+
+        public async Task<UsuarioDto> AlterarUsuarioPessoa(int codPessoa, UsuarioDto usuario)
+        {
+            return await UsuarioService.AlterarUsuarioPessoa(codPessoa, usuario);
+        }
+
+        public async Task<UsuarioDto> AcessoUsuario(int codigo, UsuarioDto usuario)
+        {
+            return await UsuarioService.AcessoUsuario(codigo,usuario);
+        }
+
+
+        /*Rota Vincular Empresa a Pessoa*/
+
+        //public async Task<EmpresaPessoasDto> VincularEmpresaPessoa(int codPessoa, int codEmpresa)
+        //{
+        //    var pessoaModel = await Repositorio.FindById(codPessoa);
+        //    var empresaModel = await EmpresaRepositorio.FindById(codEmpresa);
+
+        //    if ((pessoaModel != null) && (empresaModel != null))
+        //    {
+
+        //    }
+        //}
     }
 }

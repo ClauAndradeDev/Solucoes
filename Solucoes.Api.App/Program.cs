@@ -36,6 +36,7 @@ builder.Services.AddTransient<EmpresaRepositorio>();
 builder.Services.AddTransient<ContatoRepositorio>();
 builder.Services.AddTransient<ChamadoItemRepositorio>();
 builder.Services.AddTransient<ChamadoRepositorio>();
+builder.Services.AddTransient<EmpresaPessoaRepositorio>();
 
 builder.Services.AddTransient<UsuarioService>();
 builder.Services.AddTransient<PlataformaService>();
@@ -45,6 +46,7 @@ builder.Services.AddTransient<PessoaService>();
 builder.Services.AddTransient<EmpresaService>();
 builder.Services.AddTransient<ContatoService>();
 builder.Services.AddTransient<EnderecoService>();
+builder.Services.AddTransient<UsuarioService>();
 
 
 
