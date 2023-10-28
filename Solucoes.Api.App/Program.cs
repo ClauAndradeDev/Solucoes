@@ -46,6 +46,7 @@ builder.Services.AddTransient<PessoaService>();
 builder.Services.AddTransient<EmpresaService>();
 builder.Services.AddTransient<ContatoService>();
 builder.Services.AddTransient<EnderecoService>();
+builder.Services.AddTransient<UsuarioService>();
 
 
 

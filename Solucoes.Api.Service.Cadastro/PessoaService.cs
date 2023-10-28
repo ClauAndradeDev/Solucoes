@@ -22,6 +22,8 @@ namespace Solucoes.Api.Service.Cadastro
         //public LogMovimentacaoService LogMovimentacaoService { get; set; }
         public ContatoRepositorio ContatoRepositorio { get; set; }
         public ContatoService ContatoService { get; set; }
+
+        public UsuarioService UsuarioService { get; set; }
         public PessoaService(PessoaRepositorio pessoaRepositorio,
             //LogMovimentacaoRepositorio logMovimentacaoRepositorio,
             EmpresaRepositorio empresaRepositorio,
@@ -29,6 +31,7 @@ namespace Solucoes.Api.Service.Cadastro
             ContatoService contatoService,
             EnderecoRepositorio enderecoRepositorio,
             EnderecoService enderecoService,
+            UsuarioService usuarioService,
             Mapper.Mapper mapper) : base(pessoaRepositorio, mapper)
         {
             //LogMovimentacaoRepositorio = logMovimentacaoRepositorio;
@@ -37,6 +40,7 @@ namespace Solucoes.Api.Service.Cadastro
             EnderecoRepositorio = enderecoRepositorio;
             EnderecoService = enderecoService;
             EmpresaRepositorio = empresaRepositorio;
+            UsuarioService = usuarioService;
         }
 
         public async Task<PessoaDto> InserirPessoa(PessoaDto pessoa)
@@ -168,6 +172,23 @@ namespace Solucoes.Api.Service.Cadastro
             await EnderecoService.ExcluirEnderecoPessoa(codPessoa, codEndereco);
 
         }
+
+        /*ROTA USUARIO*/
+        public async Task<UsuarioDto> InserirUsuarioPessoa(int codPessoa, UsuarioDto usuario)
+        {
+            return await UsuarioService.InserirUsuarioPessoa(codPessoa, usuario);
+        }
+
+        public async Task<UsuarioDto> AlterarUsuarioPessoa(int codPessoa, UsuarioDto usuario)
+        {
+            return await UsuarioService.AlterarUsuarioPessoa(codPessoa, usuario);
+        }
+
+        public async Task<UsuarioDto> AcessoUsuario(int codigo, UsuarioDto usuario)
+        {
+            return await UsuarioService.AcessoUsuario(codigo,usuario);
+        }
+
 
         /*Rota Vincular Empresa a Pessoa*/
 
