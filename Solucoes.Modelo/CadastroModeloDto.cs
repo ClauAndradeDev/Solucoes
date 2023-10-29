@@ -9,8 +9,8 @@ namespace Solucoes.Modelo
 {
     public class CadastroModeloDto: BaseModeloDto
     {
-        public SituacaoCadastralEnum Situacao { get; set; }
-        public DateTime DataCadastro { get; set; }
+        public SituacaoCadastralEnum? Situacao { get; set; }
+        public DateTime? DataCadastro { get; set; }
 
     }
 }

@@ -12,8 +12,8 @@ using Solucoes.Modelo.Contexto;
 namespace Solucoes.Api.App.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231023033205_Inicializando")]
-    partial class Inicializando
+    [Migration("20231029021647_Criação banco com Fluent Api")]
+    partial class CriaçãobancocomFluentApi
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,80 +27,6 @@ namespace Solucoes.Api.App.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.Chamado", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Conteudo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DataAbertura")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataCadastro")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("EmpresaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlataformaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Situacao")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TipoChamado")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Titulo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlataformaId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Chamado");
-                });
-
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.ChamadoItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ChamadoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Conteudo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DataAlteracao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataRegistro")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Situacao")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ChamadoId");
-
-                    b.ToTable("ChamadoItem");
-                });
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Contato", b =>
                 {
@@ -128,14 +54,14 @@ namespace Solucoes.Api.App.Migrations
                     b.Property<string>("Telefone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TipoContato")
+                    b.Property<int?>("TipoContato")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PessoaId");
 
-                    b.ToTable("Contato");
+                    b.ToTable("Contato", (string)null);
                 });
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Empresa", b =>
@@ -158,7 +84,7 @@ namespace Solucoes.Api.App.Migrations
                     b.Property<string>("Cidade")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DataAbertura")
+                    b.Property<DateTime?>("DataAbertura")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DataCadastro")
@@ -194,44 +120,15 @@ namespace Solucoes.Api.App.Migrations
                     b.Property<string>("Telefone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TipoEmpresa")
+                    b.Property<int?>("TipoEmpresa")
                         .HasColumnType("int");
 
-                    b.Property<bool>("WhatsApp")
+                    b.Property<bool?>("WhatsApp")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Empresa");
-                });
-
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.EmpresaPessoas", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DataCadastro")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("EmpresaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PessoaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Situacao")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmpresaId");
-
-                    b.HasIndex("PessoaId");
-
-                    b.ToTable("EmpresaPessoas");
+                    b.ToTable("Empresa", (string)null);
                 });
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Endereco", b =>
@@ -269,14 +166,14 @@ namespace Solucoes.Api.App.Migrations
                     b.Property<int>("Situacao")
                         .HasColumnType("int");
 
-                    b.Property<int>("TipoEndereco")
+                    b.Property<int?>("TipoEndereco")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PessoaId");
 
-                    b.ToTable("Endereco");
+                    b.ToTable("Endereco", (string)null);
                 });
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Pessoa", b =>
@@ -287,7 +184,7 @@ namespace Solucoes.Api.App.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Acesso")
+                    b.Property<int?>("Acesso")
                         .HasColumnType("int");
 
                     b.Property<string>("CPFCNPJ")
@@ -296,7 +193,7 @@ namespace Solucoes.Api.App.Migrations
                     b.Property<DateTime>("DataCadastro")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataNascimento")
+                    b.Property<DateTime?>("DataNascimento")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -305,7 +202,7 @@ namespace Solucoes.Api.App.Migrations
                     b.Property<string>("NomeRazaoSocial")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PerfilPessoa")
+                    b.Property<int?>("PerfilPessoa")
                         .HasColumnType("int");
 
                     b.Property<string>("RGIE")
@@ -320,15 +217,44 @@ namespace Solucoes.Api.App.Migrations
                     b.Property<string>("Telefone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TipoPessoa")
+                    b.Property<int?>("TipoPessoa")
                         .HasColumnType("int");
 
-                    b.Property<bool>("WhatsApp")
+                    b.Property<bool?>("WhatsApp")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pessoa");
+                    b.ToTable("Pessoa", (string)null);
+                });
+
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.PessoaEmpresa", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EmpresaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PessoaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Situacao")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmpresaId");
+
+                    b.HasIndex("PessoaId");
+
+                    b.ToTable("PessoaEmpresa", (string)null);
                 });
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Plataforma", b =>
@@ -345,107 +271,17 @@ namespace Solucoes.Api.App.Migrations
                     b.Property<string>("Descricao")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Situacao")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Plataforma");
-                });
-
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.Reuniao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("ChamadoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Conteudo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DataAgendamento")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataAlteracao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataPrevisaoFim")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataPrevisaoInicio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataRetorno")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Descricao")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("EmpresaId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("HoraAgendamento")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("HoraFinal")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("HoraInicial")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("Situacao")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ChamadoId");
 
                     b.HasIndex("EmpresaId");
 
-                    b.ToTable("Reuniao");
-                });
-
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.ReuniaoItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Conteudo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DataAlteracao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataRealizada")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("HoraFinal")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("HoraInicial")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ReuniaoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Situacao")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Titulo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReuniaoId");
-
-                    b.ToTable("ReuniaoItem");
+                    b.ToTable("Plataforma", (string)null);
                 });
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Setor", b =>
@@ -472,7 +308,121 @@ namespace Solucoes.Api.App.Migrations
 
                     b.HasIndex("EmpresaId");
 
-                    b.ToTable("Setor");
+                    b.ToTable("Setor", (string)null);
+                });
+
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.Ticket", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("DataAbertura")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("EmpresaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NumeroSequencial")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("Origem")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("PlataformaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Situacao")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TipoChamado")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Titulo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmpresaId");
+
+                    b.HasIndex("PlataformaId");
+
+                    b.ToTable("Ticket");
+                });
+
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.TicketAcao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Conteudo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DataAcao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TicketId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TicketId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("TicketAcao");
+                });
+
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.TicketAgrupamento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("TicketId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TicketId");
+
+                    b.ToTable("TicketAgrupamento");
+                });
+
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.TicketRelacionamento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("TicketAgrupamentoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TicketId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TicketAgrupamentoId");
+
+                    b.HasIndex("TicketId");
+
+                    b.ToTable("TicketRelacionamentos");
                 });
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Usuario", b =>
@@ -502,123 +452,150 @@ namespace Solucoes.Api.App.Migrations
 
                     b.HasIndex("PessoaId");
 
-                    b.ToTable("Usuario");
+                    b.ToTable("Usuario", (string)null);
                 });
 
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.Chamado", b =>
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.Contato", b =>
                 {
-                    b.HasOne("Solucoes.Modelo.Entidades.Plataforma", "Plataformas")
+                    b.HasOne("Solucoes.Modelo.Entidades.Pessoa", "Pessoa")
+                        .WithMany("Contatos")
+                        .HasForeignKey("PessoaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Pessoa");
+                });
+
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.Endereco", b =>
+                {
+                    b.HasOne("Solucoes.Modelo.Entidades.Pessoa", "Pessoa")
+                        .WithMany("Enderecos")
+                        .HasForeignKey("PessoaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Pessoa");
+                });
+
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.PessoaEmpresa", b =>
+                {
+                    b.HasOne("Solucoes.Modelo.Entidades.Empresa", "Empresa")
+                        .WithMany("PessoaEmpresas")
+                        .HasForeignKey("EmpresaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Solucoes.Modelo.Entidades.Pessoa", "Pessoa")
+                        .WithMany("PessoaEmpresas")
+                        .HasForeignKey("PessoaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Empresa");
+
+                    b.Navigation("Pessoa");
+                });
+
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.Plataforma", b =>
+                {
+                    b.HasOne("Solucoes.Modelo.Entidades.Empresa", "Empresa")
+                        .WithMany("Plataformas")
+                        .HasForeignKey("EmpresaId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Empresa");
+                });
+
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.Setor", b =>
+                {
+                    b.HasOne("Solucoes.Modelo.Entidades.Empresa", "Empresa")
+                        .WithMany("Setores")
+                        .HasForeignKey("EmpresaId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Empresa");
+                });
+
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.Ticket", b =>
+                {
+                    b.HasOne("Solucoes.Modelo.Entidades.Empresa", "Empresa")
+                        .WithMany("Tickets")
+                        .HasForeignKey("EmpresaId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Solucoes.Modelo.Entidades.Plataforma", "Plataforma")
                         .WithMany()
-                        .HasForeignKey("PlataformaId")
+                        .HasForeignKey("PlataformaId");
+
+                    b.Navigation("Empresa");
+
+                    b.Navigation("Plataforma");
+                });
+
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.TicketAcao", b =>
+                {
+                    b.HasOne("Solucoes.Modelo.Entidades.Ticket", "Ticket")
+                        .WithMany()
+                        .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Solucoes.Modelo.Entidades.Usuario", "Usuarios")
+                    b.HasOne("Solucoes.Modelo.Entidades.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Plataformas");
+                    b.Navigation("Ticket");
 
-                    b.Navigation("Usuarios");
+                    b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.ChamadoItem", b =>
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.TicketAgrupamento", b =>
                 {
-                    b.HasOne("Solucoes.Modelo.Entidades.Chamado", "Chamados")
-                        .WithMany()
-                        .HasForeignKey("ChamadoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("Solucoes.Modelo.Entidades.Ticket", "Ticket")
+                        .WithMany("TicketAgrupamentos")
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Chamados");
+                    b.Navigation("Ticket");
                 });
 
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.Contato", b =>
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.TicketRelacionamento", b =>
                 {
-                    b.HasOne("Solucoes.Modelo.Entidades.Pessoa", "Pessoas")
-                        .WithMany("Contatos")
-                        .HasForeignKey("PessoaId");
+                    b.HasOne("Solucoes.Modelo.Entidades.TicketAgrupamento", "TicketAgrupamento")
+                        .WithMany("TicketRelacionamentos")
+                        .HasForeignKey("TicketAgrupamentoId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Pessoas");
-                });
+                    b.HasOne("Solucoes.Modelo.Entidades.Ticket", "Ticket")
+                        .WithMany("TicketRelacionamentos")
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.EmpresaPessoas", b =>
-                {
-                    b.HasOne("Solucoes.Modelo.Entidades.Empresa", "Empresas")
-                        .WithMany()
-                        .HasForeignKey("EmpresaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Ticket");
 
-                    b.HasOne("Solucoes.Modelo.Entidades.Pessoa", "Pessoas")
-                        .WithMany()
-                        .HasForeignKey("PessoaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Empresas");
-
-                    b.Navigation("Pessoas");
-                });
-
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.Endereco", b =>
-                {
-                    b.HasOne("Solucoes.Modelo.Entidades.Pessoa", "Pessoas")
-                        .WithMany("Enderecos")
-                        .HasForeignKey("PessoaId");
-
-                    b.Navigation("Pessoas");
-                });
-
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.Reuniao", b =>
-                {
-                    b.HasOne("Solucoes.Modelo.Entidades.Chamado", "Chamados")
-                        .WithMany()
-                        .HasForeignKey("ChamadoId");
-
-                    b.HasOne("Solucoes.Modelo.Entidades.Empresa", "Empresas")
-                        .WithMany()
-                        .HasForeignKey("EmpresaId");
-
-                    b.Navigation("Chamados");
-
-                    b.Navigation("Empresas");
-                });
-
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.ReuniaoItem", b =>
-                {
-                    b.HasOne("Solucoes.Modelo.Entidades.Reuniao", "Reuniaos")
-                        .WithMany()
-                        .HasForeignKey("ReuniaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Reuniaos");
-                });
-
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.Setor", b =>
-                {
-                    b.HasOne("Solucoes.Modelo.Entidades.Empresa", "Empresas")
-                        .WithMany("Setores")
-                        .HasForeignKey("EmpresaId");
-
-                    b.Navigation("Empresas");
+                    b.Navigation("TicketAgrupamento");
                 });
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Usuario", b =>
                 {
-                    b.HasOne("Solucoes.Modelo.Entidades.Pessoa", "Pessoas")
-                        .WithMany()
-                        .HasForeignKey("PessoaId");
+                    b.HasOne("Solucoes.Modelo.Entidades.Pessoa", "Pessoa")
+                        .WithMany("Usuarios")
+                        .HasForeignKey("PessoaId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Pessoas");
+                    b.Navigation("Pessoa");
                 });
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Empresa", b =>
                 {
+                    b.Navigation("PessoaEmpresas");
+
+                    b.Navigation("Plataformas");
+
                     b.Navigation("Setores");
+
+                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Pessoa", b =>
@@ -626,6 +603,22 @@ namespace Solucoes.Api.App.Migrations
                     b.Navigation("Contatos");
 
                     b.Navigation("Enderecos");
+
+                    b.Navigation("PessoaEmpresas");
+
+                    b.Navigation("Usuarios");
+                });
+
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.Ticket", b =>
+                {
+                    b.Navigation("TicketAgrupamentos");
+
+                    b.Navigation("TicketRelacionamentos");
+                });
+
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.TicketAgrupamento", b =>
+                {
+                    b.Navigation("TicketRelacionamentos");
                 });
 #pragma warning restore 612, 618
         }

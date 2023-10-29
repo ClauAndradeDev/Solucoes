@@ -34,8 +34,4 @@
     <ProjectReference Include="..\Solucoes.Modelo\Solucoes.Modelo.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

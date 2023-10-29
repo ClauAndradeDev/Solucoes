@@ -7,19 +7,21 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Entidades
 {
-    [Table("ReuniaoItem")]
-    public class ReuniaoItem: MovimentacaoModelo
+    public class ReuniaoAcao: BaseModelo
     {
         
         public string? Titulo { get; set; }
         public string? Conteudo { get; set; }
-        public DateTime DataRealizada { get; set; }
+        public DateTime DataPrevisaoRetorno { get; set; }
         public DateTime HoraInicial { get; set; }
         public DateTime HoraFinal { get; set; }
-
-        [ForeignKey(nameof(ReuniaoId))]
         public int ReuniaoId { get; set; }
-        public virtual Reuniao? Reuniaos { get; set; }
+        public int SetorId { get; set; }
+        public int UsuarioId { get; set; }
+
+        public virtual Reuniao? Reuniao { get; set; }
+        public virtual Setor? Setor { get; set; }
+        public virtual Usuario? Usuario { get; set; }
 
     }
 }

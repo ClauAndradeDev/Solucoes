@@ -37,7 +37,7 @@ namespace Solucoes.Api.Service.Cadastro
 
             if (pessoaModel != null)
             {
-                var usuarioJaExiste = pessoaModel.Usuario.Where(p => p.PessoaId == pessoaModel.Id).Any();
+                var usuarioJaExiste = pessoaModel.Usuarios.Where(p => p.PessoaId == pessoaModel.Id).Any();
                 if (usuarioJaExiste)
                 {
                     result = await base.FindByCodigo(pessoaModel.Id);
@@ -65,12 +65,12 @@ namespace Solucoes.Api.Service.Cadastro
             if (pessoaModel != null)
             {
                  usuarioModel = Mapper.Map<Usuario>(usuario);
-                var usuariopesoa = pessoaModel.Usuario.ToArray();
+                var usuariopesoa = pessoaModel.Usuarios.ToArray();
 
-                var usuarioJaExiste = pessoaModel.Usuario.Where(p => p.PessoaId == pessoaModel.Id).Any();
+                var usuarioJaExiste = pessoaModel.Usuarios.Where(p => p.PessoaId == pessoaModel.Id).Any();
                 if (usuarioJaExiste)
                 {
-                    usuarioModel.Situacao = usuario.Situacao;
+                    usuarioModel.Situacao = (Modelo.Enums.SituacaoCadastralEnum)usuario.Situacao;
                     var senhaHash = HashMD5.RetornarMD5(usuario.Senha);
                     usuarioModel.Senha = senhaHash;
                     await Repositorio.Replace(usuarioModel.Id, usuarioModel);

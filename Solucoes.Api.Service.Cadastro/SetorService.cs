@@ -4,11 +4,11 @@ using Solucoes.Modelo.Entidades;
 
 namespace Solucoes.Api.Service.Cadastro
 {
-    public class SetorEmpresaService : CrudServices<Setor, SetorDto>
+    public class SetorService : CrudServices<Setor, SetorDto>
     {
         //public LogMovimentacaoService LogMovimentacaoService { get; set; }
         public EmpresaRepositorio EmpresaRepositorio { get; set; }
-        public SetorEmpresaService(SetorEmpresaRepositorio setorEmpresaRepositorio,
+        public SetorService(SetorEmpresaRepositorio setorEmpresaRepositorio,
                             //, LogMovimentacaoService logMovimentacaoService
                             EmpresaRepositorio empresaRepositorio
                             , Mapper.Mapper mapper) :
@@ -76,7 +76,7 @@ namespace Solucoes.Api.Service.Cadastro
             if ((empresaModel != null) && (empresaModel.Id == setorModel.EmpresaId))
             {
                 setorModel.Descricao = setor.Descricao;
-                setorModel.Situacao = setor.Situacao;
+                setorModel.Situacao =   (Modelo.Enums.SituacaoCadastralEnum)setor.Situacao;
 
                 await Repositorio.Replace(setorModel.Id, setorModel);
             }

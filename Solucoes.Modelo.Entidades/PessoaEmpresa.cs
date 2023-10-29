@@ -8,15 +8,11 @@ using System.Windows.Markup;
 
 namespace Solucoes.Modelo.Entidades
 {
-    [Table("EmpresaPessoas")]
-    public class EmpresaPessoa : CadastroModelo
+    public class PessoaEmpresa : CadastroModelo
     {
-        [ForeignKey(nameof(EmpresaId))]
         public int EmpresaId { get; set; }
-        public virtual Empresa? Empresa { get; set; }
-
-        [ForeignKey(nameof(PessoaId))]
         public int PessoaId { get; set; }
+        public virtual Empresa? Empresa { get; set; }
         public virtual Pessoa? Pessoa { get; set; }
 
         /* Permissões de acesso*/

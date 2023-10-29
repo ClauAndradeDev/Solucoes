@@ -108,7 +108,7 @@ namespace Solucoes.Api.Service.Cadastro
                         var enderecoModelModificado = Mapper.Map<Endereco>(item);
 
                         enderecoModelModificado.PessoaId = endereco.PessoaId;
-                        enderecoModelModificado.Pessoas = endereco.Pessoas;
+                        enderecoModelModificado.Pessoa = endereco.Pessoa;
 
                         await EnderecoRepositorio.Replace(enderecoModelModificado.Id, enderecoModelModificado);
                     }
@@ -128,7 +128,7 @@ namespace Solucoes.Api.Service.Cadastro
                         var contatoModelModificado = Mapper.Map<Contato>(item);
 
                         contatoModelModificado.PessoaId = contato.PessoaId;
-                        contatoModelModificado.Pessoas = contato.Pessoas;
+                        contatoModelModificado.Pessoa = contato.Pessoa;
 
                         await ContatoRepositorio.Replace(contatoModelModificado.Id, contatoModelModificado);
                     }

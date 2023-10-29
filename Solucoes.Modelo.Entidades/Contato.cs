@@ -8,16 +8,13 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Entidades
 {
-    [Table("Contato")]
     public class Contato: CadastroModelo
     {
         public string? Nome { get; set; }
         public string? Telefone { get; set; }
         public string? Email { get; set; }
-        public TipoContatoEnum TipoContato { get; set; }
-
-        [ForeignKey(nameof(PessoaId))]
+        public TipoContatoEnum? TipoContato { get; set; }
         public int? PessoaId { get; set; }
-        public virtual Pessoa? Pessoas { get; set; }
+        public virtual Pessoa? Pessoa { get; set; }
     }
 }

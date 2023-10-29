@@ -25,31 +25,7 @@ namespace Solucoes.Api.Mapper
 
         private void ConfigureModelToDto(IMapperConfigurationExpression cfg)
         {
-            #region Chamado -> ChamadoDto
-            cfg.CreateMap<Chamado, ChamadoDto>()
-                .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Id))
-                .ForMember(dto => dto.Titulo, opt => opt.MapFrom(model => model.Titulo))
-                .ForMember(dto => dto.Conteudo, opt => opt.MapFrom(model => model.Conteudo))
-                .ForMember(dto => dto.TipoChamado, opt => opt.MapFrom(model => model.TipoChamado))
-                .ForMember(dto => dto.DataAbertura, opt => opt.MapFrom(model => model.DataAbertura))
-                .ForMember(dto => dto.Empresas, opt => opt.MapFrom(model => model.EmpresaId))
-                .ForMember(dto => dto.Plataformas, opt => opt.MapFrom(model => model.PlataformaId))
-                .ForMember(dto => dto.Usuarios, opt => opt.MapFrom(model => model.UsuarioId))
-                .ForMember(dto => dto.DataCadastro, opt => opt.MapFrom(model => model.DataCadastro))
-                .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Situacao))
-                .IgnoreAllUnmapped();
-            #endregion
-
-            #region ChamadoItem -> ChamadoItemDto
-            cfg.CreateMap<ChamadoItem, ChamadoItemDto>()
-                .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Id))
-                .ForMember(dto => dto.DataRegistro, opt => opt.MapFrom(model => model.DataRegistro))
-                .ForMember(dto => dto.Conteudo, opt => opt.MapFrom(model => model.Conteudo))
-                .ForMember(dto => dto.Chamados, opt => opt.MapFrom(model => model.ChamadoId))
-                .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Situacao))
-                .ForMember(dto => dto.DataAlteracao, opt => opt.MapFrom(model => model.DataAlteracao))
-                .IgnoreAllUnmapped();
-            #endregion
+          
 
             #region Contato -> ContatoDto/ContatoPessoaDto
             cfg.CreateMap<Contato, ContatoDto>()
@@ -94,29 +70,6 @@ namespace Solucoes.Api.Mapper
                 .ForMember(dto => dto.CEP, opt => opt.MapFrom(model => model.CEP))
                 .ForMember(dto => dto.Cidade, opt => opt.MapFrom(model => model.Cidade))
                 .ForMember(dto => dto.Estado, opt => opt.MapFrom(model => model.Estado))
-                .ForMember(dto => dto.Pessoas, opt => opt.MapFrom(model => model.EmpresaPessoas))
-                .IgnoreAllUnmapped();
-            #endregion
-
-            #region EmpresaPessoas -> PessoaDto
-            cfg.CreateMap<EmpresaPessoa, PessoaEmpresaDto>()
-                .ForMember(dto => dto.CodEmpresaPessoa, opt => opt.MapFrom(model => model.Id))
-                .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Pessoa.Id))
-                .ForMember(dto => dto.DataCadastro, opt => opt.MapFrom(model => model.Pessoa.DataCadastro))
-                .ForMember(dto => dto.NomeRazaoSocial, opt => opt.MapFrom(model => model.Pessoa.NomeRazaoSocial))
-                .ForMember(dto => dto.SobreNomeFantasia, opt => opt.MapFrom(model => model.Pessoa.SobreNomeFantasia))
-                .ForMember(dto => dto.CPFCNPJ, opt => opt.MapFrom(model => model.Pessoa.CPFCNPJ))
-                .ForMember(dto => dto.RGIE, opt => opt.MapFrom(model => model.Pessoa.RGIE))
-                .ForMember(dto => dto.DataNascimento, opt => opt.MapFrom(model => model.Pessoa.DataNascimento))
-                .ForMember(dto => dto.Email, opt => opt.MapFrom(model => model.Pessoa.Email))
-                .ForMember(dto => dto.Telefone, opt => opt.MapFrom(model => model.Pessoa.Telefone))
-                .ForMember(dto => dto.WhatsApp, opt => opt.MapFrom(model => model.Pessoa.WhatsApp))
-                .ForMember(dto => dto.TipoPessoa, opt => opt.MapFrom(model => model.Pessoa.TipoPessoa))
-                .ForMember(dto => dto.TipoPessoa, opt => opt.MapFrom(model => model.Pessoa.TipoPessoa))
-                .ForMember(dto => dto.PerfilPessoa, opt => opt.MapFrom(model => model.Pessoa.PerfilPessoa))
-                .ForMember(dto => dto.Acesso, opt => opt.MapFrom(model => model.Pessoa.Acesso))
-                .ForMember(dto => dto.Contatos, opt => opt.MapFrom(model => model.Pessoa.Contatos))
-                .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Pessoa.Situacao))
                 .IgnoreAllUnmapped();
             #endregion
 
@@ -169,6 +122,27 @@ namespace Solucoes.Api.Mapper
                 .IgnoreAllUnmapped();
             #endregion
 
+            #region PessoaEmpresa -> PessoaEmpresaDto
+            cfg.CreateMap<PessoaEmpresa, PessoaEmpresaDto>()
+                .ForMember(dto => dto.CodEmpresaPessoa, opt => opt.MapFrom(model => model.Id))
+                .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Pessoa.Id))
+                .ForMember(dto => dto.DataCadastro, opt => opt.MapFrom(model => model.Pessoa.DataCadastro))
+                .ForMember(dto => dto.NomeRazaoSocial, opt => opt.MapFrom(model => model.Pessoa.NomeRazaoSocial))
+                .ForMember(dto => dto.SobreNomeFantasia, opt => opt.MapFrom(model => model.Pessoa.SobreNomeFantasia))
+                .ForMember(dto => dto.CPFCNPJ, opt => opt.MapFrom(model => model.Pessoa.CPFCNPJ))
+                .ForMember(dto => dto.RGIE, opt => opt.MapFrom(model => model.Pessoa.RGIE))
+                .ForMember(dto => dto.DataNascimento, opt => opt.MapFrom(model => model.Pessoa.DataNascimento))
+                .ForMember(dto => dto.Email, opt => opt.MapFrom(model => model.Pessoa.Email))
+                .ForMember(dto => dto.Telefone, opt => opt.MapFrom(model => model.Pessoa.Telefone))
+                .ForMember(dto => dto.WhatsApp, opt => opt.MapFrom(model => model.Pessoa.WhatsApp))
+                .ForMember(dto => dto.TipoPessoa, opt => opt.MapFrom(model => model.Pessoa.TipoPessoa))
+                .ForMember(dto => dto.PerfilPessoa, opt => opt.MapFrom(model => model.Pessoa.PerfilPessoa))
+                .ForMember(dto => dto.Acesso, opt => opt.MapFrom(model => model.Pessoa.Acesso))
+                .ForMember(dto => dto.Contatos, opt => opt.MapFrom(model => model.Pessoa.Contatos))
+                .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Pessoa.Situacao))
+                .IgnoreAllUnmapped();
+            #endregion
+
             #region Plataforma -> PlataformaDto/PlataformaEmpresaDto
             cfg.CreateMap<Plataforma, PlataformaDto>()
                 .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Id))
@@ -186,35 +160,35 @@ namespace Solucoes.Api.Mapper
             #endregion
 
             #region Reuniao -> ReuniaoDto
-            cfg.CreateMap<Reuniao, ReuniaoDto>()
-                .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Id))
-                .ForMember(dto => dto.Descricao, opt => opt.MapFrom(model => model.Descricao))
-                .ForMember(dto => dto.Conteudo, opt => opt.MapFrom(model => model.Conteudo))
-                .ForMember(dto => dto.DataPrevisaoInicio, opt => opt.MapFrom(model => model.DataPrevisaoInicio))
-                .ForMember(dto => dto.DataPrevisaoFim, opt => opt.MapFrom(model => model.DataPrevisaoFim))
-                .ForMember(dto => dto.DataAgendamento, opt => opt.MapFrom(model => model.DataAgendamento))
-                .ForMember(dto => dto.HoraInicial, opt => opt.MapFrom(model => model.HoraInicial))
-                .ForMember(dto => dto.HoraFinal, opt => opt.MapFrom(model => model.HoraFinal))
-                .ForMember(dto => dto.DataRetorno, opt => opt.MapFrom(model => model.DataRetorno))
-                .ForMember(dto => dto.Chamados, opt => opt.MapFrom(model => model.ChamadoId))
-                .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Situacao))
-                .ForMember(dto => dto.DataAlteracao, opt => opt.MapFrom(model => model.DataAlteracao))
-                .ForMember(dto => dto.Empresas, opt => opt.MapFrom(model => model.EmpresaId))
-                .IgnoreAllUnmapped();
+            //cfg.CreateMap<Reuniao, ReuniaoDto>()
+            //    .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Id))
+            //    .ForMember(dto => dto.Descricao, opt => opt.MapFrom(model => model.Descricao))
+            //    .ForMember(dto => dto.Conteudo, opt => opt.MapFrom(model => model.Conteudo))
+            //    .ForMember(dto => dto.DataPrevisaoInicio, opt => opt.MapFrom(model => model.DataPrevisaoInicio))
+            //    .ForMember(dto => dto.DataPrevisaoFim, opt => opt.MapFrom(model => model.DataPrevisaoFim))
+            //    .ForMember(dto => dto.DataAgendamento, opt => opt.MapFrom(model => model.DataAgendamento))
+            //    .ForMember(dto => dto.HoraInicial, opt => opt.MapFrom(model => model.HoraInicial))
+            //    .ForMember(dto => dto.HoraFinal, opt => opt.MapFrom(model => model.HoraFinal))
+            //    .ForMember(dto => dto.DataRetorno, opt => opt.MapFrom(model => model.DataRetorno))
+            //    .ForMember(dto => dto.Chamados, opt => opt.MapFrom(model => model.ChamadoId))
+            //    .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Situacao))
+            //    .ForMember(dto => dto.DataAlteracao, opt => opt.MapFrom(model => model.DataAlteracao))
+            //    .ForMember(dto => dto.Empresas, opt => opt.MapFrom(model => model.EmpresaId))
+            //    .IgnoreAllUnmapped();
             #endregion
 
             #region ReuniaoItem -> ReuniaoItemDto
-            cfg.CreateMap<ReuniaoItem, ReuniaoItemDto>()
-                .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Id))
-                .ForMember(dto => dto.Reuniaos, opt => opt.MapFrom(model => model.ReuniaoId))
-                .ForMember(dto => dto.Titulo, opt => opt.MapFrom(model => model.Titulo))
-                .ForMember(dto => dto.Conteudo, opt => opt.MapFrom(model => model.Conteudo))
-                .ForMember(dto => dto.DataRealizada, opt => opt.MapFrom(model => model.DataRealizada))
-                .ForMember(dto => dto.HoraInicial, opt => opt.MapFrom(model => model.HoraInicial))
-                .ForMember(dto => dto.HoraFinal, opt => opt.MapFrom(model => model.HoraFinal))
-                .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Situacao))
-                .ForMember(dto => dto.DataAlteracao, opt => opt.MapFrom(model => model.DataAlteracao))
-                .IgnoreAllUnmapped();
+            //cfg.CreateMap<ReuniaoAcao, ReuniaoAcaoDto>()
+            //    .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Id))
+            //    .ForMember(dto => dto.Reuniaos, opt => opt.MapFrom(model => model.ReuniaoId))
+            //    .ForMember(dto => dto.Titulo, opt => opt.MapFrom(model => model.Titulo))
+            //    .ForMember(dto => dto.Conteudo, opt => opt.MapFrom(model => model.Conteudo))
+            //    .ForMember(dto => dto.DataRealizada, opt => opt.MapFrom(model => model.DataRealizada))
+            //    .ForMember(dto => dto.HoraInicial, opt => opt.MapFrom(model => model.HoraInicial))
+            //    .ForMember(dto => dto.HoraFinal, opt => opt.MapFrom(model => model.HoraFinal))
+            //    .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Situacao))
+            //    .ForMember(dto => dto.DataAlteracao, opt => opt.MapFrom(model => model.DataAlteracao))
+            //    .IgnoreAllUnmapped();
             #endregion
 
             #region Setor -> SetorEmpresaDto/SetorDto
@@ -231,6 +205,49 @@ namespace Solucoes.Api.Mapper
                 //.ForMember(dto => dto.Empresa, opt => opt.MapFrom(model => model.Empresa))
                 .ForMember(dto => dto.Descricao, opt => opt.MapFrom(model => model.Descricao))
                 .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Situacao))
+                .IgnoreAllUnmapped();
+            #endregion
+
+            #region Ticket -> TicketDto
+            cfg.CreateMap<Ticket, TicketDto>()
+                .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Id))
+                .ForMember(dto => dto.Titulo, opt => opt.MapFrom(model => model.Titulo))
+                .ForMember(dto => dto.NumeroSequencial, opt => opt.MapFrom(model => model.NumeroSequencial))
+                .ForMember(dto => dto.TipoChamado, opt => opt.MapFrom(model => model.TipoChamado))
+                .ForMember(dto => dto.DataAbertura, opt => opt.MapFrom(model => model.DataAbertura))
+                .ForMember(dto => dto.Empresa, opt => opt.MapFrom(model => model.Empresa))
+                .ForMember(dto => dto.Plataforma, opt => opt.MapFrom(model => model.Plataforma))
+                .ForMember(dto => dto.DataCadastro, opt => opt.MapFrom(model => model.DataCadastro))
+                .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Situacao))
+                .IgnoreAllUnmapped();
+            #endregion
+
+            #region TicketAcao -> TicketAcaoDto
+            cfg.CreateMap<TicketAcao, TicketAcaoDto>()
+                .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Id))
+                .ForMember(dto => dto.DataAcao, opt => opt.MapFrom(model => model.DataAcao))
+                .ForMember(dto => dto.Conteudo, opt => opt.MapFrom(model => model.Conteudo))
+                .ForMember(dto => dto.Ticket, opt => opt.MapFrom(model => model.Ticket))
+                .IgnoreAllUnmapped();
+            #endregion
+
+            #region TicketAgrupamento -> TicketAgrupamentoDto
+            cfg.CreateMap<TicketAgrupamento, TicketAgrupamentoDto>()
+                .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Ticket.Id))
+                .ForMember(dto => dto.Titulo, opt => opt.MapFrom(model => model.Ticket.Titulo))
+                .ForMember(dto => dto.NumeroSequencial, opt => opt.MapFrom(model => model.Ticket.NumeroSequencial))
+                .ForMember(dto => dto.TipoChamado, opt => opt.MapFrom(model => model.Ticket.TipoChamado))
+                .ForMember(dto => dto.DataAbertura, opt => opt.MapFrom(model => model.Ticket.DataAbertura))
+                .ForMember(dto => dto.Empresa, opt => opt.MapFrom(model => model.Ticket.Empresa))
+                .ForMember(dto => dto.Plataforma, opt => opt.MapFrom(model => model.Ticket.Plataforma))
+                .ForMember(dto => dto.DataCadastro, opt => opt.MapFrom(model => model.Ticket.DataCadastro))
+                .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Ticket.Situacao))
+                .IgnoreAllUnmapped();
+            #endregion
+
+            #region TicketRelacionamento -> TicketRelacionamentoDto
+            cfg.CreateMap<TicketRelacionamento, TicketRelacionamentoDto>()
+                .ForMember(dto => dto.CodigoTicketAgrupamento, opt => opt.MapFrom(model => model.TicketAgrupamento.Id))
                 .IgnoreAllUnmapped();
             #endregion
 
@@ -271,31 +288,7 @@ namespace Solucoes.Api.Mapper
 
         private void ConfigureDtoToModel(IMapperConfigurationExpression cfg)
         {
-            #region ChamadoDto -> Chamado
-            cfg.CreateMap<ChamadoDto, Chamado>()
-                .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.Codigo))
-                .ForMember(model => model.Titulo, opt => opt.MapFrom(dto => dto.Titulo))
-                .ForMember(model => model.Conteudo, opt => opt.MapFrom(dto => dto.Conteudo))
-                .ForMember(model => model.TipoChamado, opt => opt.MapFrom(dto => dto.TipoChamado))
-                .ForMember(model => model.DataAbertura, opt => opt.MapFrom(dto => dto.DataAbertura))
-                .ForMember(model => model.EmpresaId, opt => opt.MapFrom(dto => dto.Empresas))
-                .ForMember(model => model.PlataformaId, opt => opt.MapFrom(dto => dto.Plataformas))
-                .ForMember(model => model.UsuarioId, opt => opt.MapFrom(dto => dto.Usuarios))
-                .ForMember(model => model.DataCadastro, opt => opt.MapFrom(dto => dto.DataCadastro))
-                .ForMember(model => model.Situacao, opt => opt.MapFrom(dto => dto.Situacao))
-                .IgnoreAllUnmapped();
-            #endregion
 
-            #region ChamadoItemDto -> ChamadoItem
-            cfg.CreateMap<ChamadoItemDto, ChamadoItem>()
-                .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.Codigo))
-                .ForMember(model => model.ChamadoId, opt => opt.MapFrom(dto => dto.Chamados))
-                .ForMember(model => model.DataRegistro, opt => opt.MapFrom(dto => dto.DataRegistro))
-                .ForMember(model => model.Conteudo, opt => opt.MapFrom(dto => dto.Conteudo))
-                .ForMember(model => model.Situacao, opt => opt.MapFrom(dto => dto.Situacao))
-                .ForMember(model => model.DataAlteracao, opt => opt.MapFrom(dto => dto.DataAlteracao))
-                .IgnoreAllUnmapped();
-            #endregion
 
             #region ContatoDto -> Contato
             cfg.CreateMap<ContatoDto, Contato>()
@@ -330,16 +323,9 @@ namespace Solucoes.Api.Mapper
                 .ForMember(model => model.CEP, opt => opt.MapFrom(dto => dto.CEP))
                 .ForMember(model => model.Cidade, opt => opt.MapFrom(dto => dto.Cidade))
                 .ForMember(model => model.Estado, opt => opt.MapFrom(dto => dto.Estado))
-                .ForMember(model => model.EmpresaPessoas, opt => opt.MapFrom(dto => dto.Pessoas))
                 .IgnoreAllUnmapped();
             #endregion
 
-            #region PessoaDto -> EmpresaPessoas
-            cfg.CreateMap<PessoaEmpresaDto, EmpresaPessoa>()
-                .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.CodEmpresaPessoa))
-                .ForMember(model => model.PessoaId, opt => opt.MapFrom(dto => dto.Codigo))
-                .IgnoreAllUnmapped();
-            #endregion
 
             #region EnderecoDto -> Endereco
             cfg.CreateMap<EnderecoDto, Endereco>()
@@ -352,8 +338,6 @@ namespace Solucoes.Api.Mapper
                 .ForMember(model => model.Cidade, opt => opt.MapFrom(dto => dto.Cidade))
                 .ForMember(model => model.Estado, opt => opt.MapFrom(dto => dto.Estado))
                 .ForMember(model => model.Situacao, opt => opt.MapFrom(dto => dto.Situacao))
-                //.ForMember(model => model.Pessoas, opt => opt.MapFrom(dto => dto.Pessoas))
-                //.ForMember(model => model.Empresas, opt => opt.MapFrom(dto => dto.Empresas))
                 .ForMember(model => model.TipoEndereco, opt => opt.MapFrom(dto => dto.TipoEndereco))
                 .IgnoreAllUnmapped();
             #endregion
@@ -373,10 +357,14 @@ namespace Solucoes.Api.Mapper
                 .ForMember(model => model.TipoPessoa, opt => opt.MapFrom(dto => dto.TipoPessoa))
                 .ForMember(model => model.PerfilPessoa, opt => opt.MapFrom(dto => dto.PerfilPessoa))
                 .ForMember(model => model.Acesso, opt => opt.MapFrom(dto => dto.Acesso))
-                //.ForMember(model => model.Empresas, opt => opt.MapFrom(dto => dto.Empresas))
-                //.ForMember(model => model.Contatos, opt => opt.MapFrom(dto => dto.Contatos))
-                //.ForMember(model => model.Enderecos, opt => opt.MapFrom(dto => dto.Enderecos))
                 .ForMember(model => model.Situacao, opt => opt.MapFrom(dto => dto.Situacao))
+                .IgnoreAllUnmapped();
+            #endregion
+
+            #region PessoaEmpresaDto -> PessoaEmpresa
+            cfg.CreateMap<PessoaEmpresaDto, PessoaEmpresa>()
+                .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.CodEmpresaPessoa))
+                .ForMember(model => model.PessoaId, opt => opt.MapFrom(dto => dto.Codigo))
                 .IgnoreAllUnmapped();
             #endregion
 
@@ -390,35 +378,35 @@ namespace Solucoes.Api.Mapper
             #endregion
 
             #region ReuniaoDto -> Reuniao
-            cfg.CreateMap<ReuniaoDto, Reuniao>()
-                .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.Codigo))
-                .ForMember(model => model.Descricao, opt => opt.MapFrom(dto => dto.Descricao))
-                .ForMember(model => model.Conteudo, opt => opt.MapFrom(dto => dto.Conteudo))
-                .ForMember(model => model.DataPrevisaoInicio, opt => opt.MapFrom(dto => dto.DataPrevisaoInicio))
-                .ForMember(model => model.DataPrevisaoFim, opt => opt.MapFrom(dto => dto.DataPrevisaoFim))
-                .ForMember(model => model.DataAgendamento, opt => opt.MapFrom(dto => dto.DataAgendamento))
-                .ForMember(model => model.HoraAgendamento, opt => opt.MapFrom(dto => dto.HoraAgendamento))
-                .ForMember(model => model.HoraInicial, opt => opt.MapFrom(dto => dto.HoraInicial))
-                .ForMember(model => model.HoraFinal, opt => opt.MapFrom(dto => dto.HoraFinal))
-                .ForMember(model => model.DataRetorno, opt => opt.MapFrom(dto => dto.DataRetorno))
-                .ForMember(model => model.ChamadoId, opt => opt.MapFrom(dto => dto.Chamados))
-                .ForMember(model => model.Situacao, opt => opt.MapFrom(dto => dto.Situacao))
-                .ForMember(model => model.EmpresaId, opt => opt.MapFrom(dto => dto.Empresas))
-                .IgnoreAllUnmapped();
+            //cfg.CreateMap<ReuniaoDto, Reuniao>()
+            //    .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.Codigo))
+            //    .ForMember(model => model.Descricao, opt => opt.MapFrom(dto => dto.Descricao))
+            //    .ForMember(model => model.Conteudo, opt => opt.MapFrom(dto => dto.Conteudo))
+            //    .ForMember(model => model.DataPrevisaoInicio, opt => opt.MapFrom(dto => dto.DataPrevisaoInicio))
+            //    .ForMember(model => model.DataPrevisaoFim, opt => opt.MapFrom(dto => dto.DataPrevisaoFim))
+            //    .ForMember(model => model.DataAgendamento, opt => opt.MapFrom(dto => dto.DataAgendamento))
+            //    .ForMember(model => model.HoraAgendamento, opt => opt.MapFrom(dto => dto.HoraAgendamento))
+            //    .ForMember(model => model.HoraInicial, opt => opt.MapFrom(dto => dto.HoraInicial))
+            //    .ForMember(model => model.HoraFinal, opt => opt.MapFrom(dto => dto.HoraFinal))
+            //    .ForMember(model => model.DataRetorno, opt => opt.MapFrom(dto => dto.DataRetorno))
+            //    .ForMember(model => model.ChamadoId, opt => opt.MapFrom(dto => dto.Chamados))
+            //    .ForMember(model => model.Situacao, opt => opt.MapFrom(dto => dto.Situacao))
+            //    .ForMember(model => model.EmpresaId, opt => opt.MapFrom(dto => dto.Empresas))
+            //    .IgnoreAllUnmapped();
             #endregion
 
             #region ReuniaoItemDto -> ReuniaoItem
-            cfg.CreateMap<ReuniaoItemDto, ReuniaoItem>()
-                .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.Codigo))
-                .ForMember(model => model.ReuniaoId, opt => opt.MapFrom(dto => dto.Reuniaos))
-                .ForMember(model => model.Titulo, opt => opt.MapFrom(dto => dto.Titulo))
-                .ForMember(model => model.Conteudo, opt => opt.MapFrom(dto => dto.Conteudo))
-                .ForMember(model => model.DataRealizada, opt => opt.MapFrom(dto => dto.DataRealizada))
-                .ForMember(model => model.HoraInicial, opt => opt.MapFrom(dto => dto.HoraInicial))
-                .ForMember(model => model.HoraFinal, opt => opt.MapFrom(dto => dto.HoraFinal))
-                .ForMember(model => model.Situacao, opt => opt.MapFrom(dto => dto.Situacao))
-                .ForMember(model => model.DataAlteracao, opt => opt.MapFrom(dto => dto.DataAlteracao))
-                .IgnoreAllUnmapped();
+            //cfg.CreateMap<ReuniaoAcaoDto, ReuniaoAcao>()
+            //    .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.Codigo))
+            //    .ForMember(model => model.ReuniaoId, opt => opt.MapFrom(dto => dto.Reuniaos))
+            //    .ForMember(model => model.Titulo, opt => opt.MapFrom(dto => dto.Titulo))
+            //    .ForMember(model => model.Conteudo, opt => opt.MapFrom(dto => dto.Conteudo))
+            //    .ForMember(model => model.DataRealizada, opt => opt.MapFrom(dto => dto.DataRealizada))
+            //    .ForMember(model => model.HoraInicial, opt => opt.MapFrom(dto => dto.HoraInicial))
+            //    .ForMember(model => model.HoraFinal, opt => opt.MapFrom(dto => dto.HoraFinal))
+            //    .ForMember(model => model.Situacao, opt => opt.MapFrom(dto => dto.Situacao))
+            //    .ForMember(model => model.DataAlteracao, opt => opt.MapFrom(dto => dto.DataAlteracao))
+            //    .IgnoreAllUnmapped();
             #endregion
 
             #region SetorEmpresaDto -> SetorEmpresa
@@ -428,6 +416,41 @@ namespace Solucoes.Api.Mapper
                 .ForMember(model => model.Descricao, opt => opt.MapFrom(dto => dto.Descricao))
                 .ForMember(model => model.Situacao, opt => opt.MapFrom(dto => dto.Situacao))
                 .IgnoreAllUnmapped();
+            #endregion
+
+            #region TicketDto -> Ticket
+            cfg.CreateMap<TicketDto, Ticket>()
+                .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.Codigo))
+                .ForMember(model => model.DataCadastro, opt => opt.MapFrom(dto => dto.DataCadastro))
+                .ForMember(model => model.Situacao, opt => opt.MapFrom(dto => dto.Situacao))
+                .ForMember(model => model.Titulo, opt => opt.MapFrom(dto => dto.Titulo))
+                .ForMember(model => model.Origem, opt => opt.MapFrom(dto => dto.Origem))
+                .ForMember(model => model.NumeroSequencial, opt => opt.MapFrom(dto => dto.NumeroSequencial))
+                .ForMember(model => model.TipoChamado, opt => opt.MapFrom(dto => dto.TipoChamado))
+                .ForMember(model => model.DataAbertura, opt => opt.MapFrom(dto => dto.DataAbertura))
+                .ForMember(model => model.Empresa, opt => opt.MapFrom(dto => dto.Empresa))
+                .ForMember(model => model.Plataforma, opt => opt.MapFrom(dto => dto.Plataforma))
+                .IgnoreAllUnmapped();
+            #endregion
+
+            #region TicketAcaoDto -> TicketAcao
+            cfg.CreateMap<TicketAcaoDto, TicketAcao>()
+                .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.Codigo))
+                .ForMember(model => model.DataAcao, opt => opt.MapFrom(dto => dto.DataAcao))
+                .ForMember(model => model.Conteudo, opt => opt.MapFrom(dto => dto.Conteudo))
+                .IgnoreAllUnmapped();
+            #endregion
+
+            #region TicketAgrupamentoDto -> TicketAgrupamento
+            cfg.CreateMap<TicketAgrupamentoDto, TicketAgrupamento>()
+                .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.CodigoAgrupamento))
+                .IgnoreAllUnmapped();
+            #endregion
+
+            #region TicketRelacionamentoDto -> TicketRelacionamento
+            cfg.CreateMap<TicketRelacionamentoDto, TicketRelacionamento>()
+                .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.Codigo))
+                .ForMember(model => model.TicketId, opt => opt.MapFrom(dto=>dto.CodigoTicketAgrupamento));
             #endregion
 
             #region UsuarioDto -> Usuario

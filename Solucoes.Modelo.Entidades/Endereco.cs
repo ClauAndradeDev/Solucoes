@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Entidades
 {
-    [Table("Endereco")]
     public class Endereco: CadastroModelo
     {
         public string? Logradouro { get; set; }
@@ -17,11 +16,9 @@ namespace Solucoes.Modelo.Entidades
         public string? CEP { get; set; }
         public string? Cidade { get; set; }
         public string? Estado { get; set; }
-        public TipoEnderecoEnum TipoEndereco { get; set; }
-        
-        [ForeignKey(nameof(PessoaId))]
+        public TipoEnderecoEnum? TipoEndereco { get; set; }
         public int? PessoaId { get; set; }
-        public virtual Pessoa? Pessoas { get; set; }
+        public virtual Pessoa? Pessoa { get; set; }
 
     }
 }
