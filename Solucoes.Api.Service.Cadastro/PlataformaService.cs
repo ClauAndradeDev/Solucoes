@@ -30,7 +30,7 @@ namespace Solucoes.Api.Service.Cadastro
 
             if (empresaModel != null)
             {
-                var plataformaJaExiste = empresaModel.Plataforma.Where(p => p.Descricao == plataformaModel.Descricao).Any();
+                var plataformaJaExiste = empresaModel.Plataformas.Where(p => p.Descricao == plataformaModel.Descricao).Any();
                 var plataformaCodigo = empresaModel.Setores.FirstOrDefault(x => x.Descricao == plataformaModel.Descricao);
                 if (plataformaJaExiste)
                 {
@@ -60,7 +60,7 @@ namespace Solucoes.Api.Service.Cadastro
             if ((empresaModel != null) && (empresaModel.Id == plataformaModel.EmpresaId))
             {
                 plataformaModel.Descricao = plataforma.Descricao;
-                plataformaModel.Situacao = plataforma.Situacao;
+                plataformaModel.Situacao = (Modelo.Enums.SituacaoCadastralEnum)plataforma.Situacao;
 
                 await Repositorio.Replace(plataformaModel.Id, plataformaModel);
             }
@@ -73,7 +73,7 @@ namespace Solucoes.Api.Service.Cadastro
         public async Task<PlataformaEmpresaDto[]> BuscarPlataformaPorEmpresa(int codEmpresa)
         {
             var empresa = await EmpresaRepositorio.FindById(codEmpresa);
-            var plataformas = empresa.Plataforma;
+            var plataformas = empresa.Plataformas;
             plataformas ??= new Plataforma[] { };
 
             var result = Mapper.Map<PlataformaEmpresaDto[]>(plataformas);

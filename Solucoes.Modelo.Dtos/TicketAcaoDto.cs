@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Dtos
 {
-    public class ChamadoItemDto: MovimentacaoModeloDto
+    public class TicketAcaoDto: BaseModeloDto
     {
-        public DateTime DataRegistro { get; set; }
+        public DateTime DataAcao { get; set; }
         public string? Conteudo { get; set; }
 
-        public virtual ChamadoDto[]? Chamados { get; set; }
+        public virtual TicketDto? Ticket { get; set; }
+        public virtual UsuarioDto? Usuario { get; set; }
     }
 }

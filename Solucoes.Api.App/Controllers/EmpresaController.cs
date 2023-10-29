@@ -81,7 +81,7 @@ namespace Solucoes.Api.App.Controllers
         [HttpGet("{codigo}/setor/")]
         public async Task<IActionResult> BuscarSetorPorEmpresa(int codigo)
         {
-            var result = await EmpresaService.SetorEmpresaService.BuscarSetorPorEmpresa(codigo);
+            var result = await EmpresaService.SetorService.BuscarSetorPorEmpresa(codigo);
             return Ok(result);
         }
 

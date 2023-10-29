@@ -17,26 +17,26 @@ namespace Solucoes.Api.Service.Cadastro
     public class EmpresaService : CrudServices<Empresa, EmpresaDto>
     {
         public SetorEmpresaRepositorio SetorEmpresaRepositorio { get; set; }
-        public SetorEmpresaService SetorEmpresaService { get; set; }
+        public SetorService SetorService { get; set; }
         public PlataformaService PlataformaService { get; set; }
         public PlataformaRepositorio PlataformaRepositorio { get; set; }
-        public EmpresaPessoaRepositorio EmpresaPessoaRepositorio { get; set; }
+        public PessoaEmpresaRepositorio PessoaEmpresaRepositorio { get; set; }
         public PessoaRepositorio PessoaRepositorio { get; set; }
         public EmpresaService(EmpresaRepositorio empresaRepositorio,
             SetorEmpresaRepositorio setorEmpresaRepositorio,
-            SetorEmpresaService setorEmpresaService,
+            SetorService setorService,
             PlataformaService plataformaService,
             PlataformaRepositorio plataformaRepositorio,
-            EmpresaPessoaRepositorio empresaPessoaRepositorio,
+            PessoaEmpresaRepositorio pessoaEmpresaRepositorio,
             PessoaRepositorio pessoaRepositorio,
             Mapper.Mapper mapper) :
             base(empresaRepositorio, mapper)
         {
             SetorEmpresaRepositorio = setorEmpresaRepositorio;
-            SetorEmpresaService = setorEmpresaService;
+            SetorService = setorService;
             PlataformaService = plataformaService;
             PlataformaRepositorio = plataformaRepositorio;
-            EmpresaPessoaRepositorio = empresaPessoaRepositorio;
+            PessoaEmpresaRepositorio = pessoaEmpresaRepositorio;
             PessoaRepositorio = pessoaRepositorio;
         }
 
@@ -56,6 +56,7 @@ namespace Solucoes.Api.Service.Cadastro
             var empresaModel = await base.ReturnModel(codEmpresa);
             var empresaAlteradaModel = Mapper.Map<Empresa>(empresa);
             empresaAlteradaModel.DataCadastro = empresaModel.DataCadastro;
+            empresaAlteradaModel.Situacao = empresa.Situacao;
 
             var empresaAlterada = await Repositorio.Replace(empresaAlteradaModel.Id, empresaAlteradaModel);
             //var empresaPessoas = empresaAlteradaModel.EmpresaPessoas.Where(ep => ep.Id == 0);
@@ -79,8 +80,8 @@ namespace Solucoes.Api.Service.Cadastro
 
             var empresaDto = await base.FindByCodigo(codEmpresa);
 
-            var setoresExistentes = await SetorEmpresaService.BuscarSetorPorEmpresa(codEmpresa);
-            var listaSetores = await SetorEmpresaService.All();
+            var setoresExistentes = await SetorService.BuscarSetorPorEmpresa(codEmpresa);
+            var listaSetores = await SetorService.All();
 
             var plataformaExistentes = await PlataformaService.BuscarPlataformaPorEmpresa(codEmpresa);
             var listaPlataforma = await PlataformaService.All();
@@ -109,8 +110,9 @@ namespace Solucoes.Api.Service.Cadastro
 
                         var setorModelModificado = Mapper.Map<Setor>(item);
 
-                        setorModelModificado.EmpresaId = setor.EmpresaId;
-                        setorModelModificado.Empresa = setor.Empresa;
+                        //setorModelModificado.EmpresaId = setor.EmpresaId;
+                        //setorModelModificado.Empresa = setor.Empresa;
+                        setorModelModificado = setor;
 
                         await SetorEmpresaRepositorio.Replace(setorModelModificado.Id, setorModelModificado);
                     }
@@ -152,29 +154,18 @@ namespace Solucoes.Api.Service.Cadastro
         /*SETOR EMPRESA*/
         public async Task<SetorDto> AdicionarSetorEmpresa(int idEmpresa, SetorDto setor)
         {
-            var result = await SetorEmpresaService.InsertSetorEmpresa(idEmpresa, setor);
+            var result = await SetorService.InsertSetorEmpresa(idEmpresa, setor);
 
             return result;
         }
         public async Task<SetorDto> AlterarSetorEmpresa(int codEmpresa, SetorDto setor)
         {
-
-            var result = await SetorEmpresaService.AlterarSetorEmpresa(codEmpresa, setor);
-
+            var result = await SetorService.AlterarSetorEmpresa(codEmpresa, setor);
             return result;
-
         }
         public async Task DeleteSetorEmpresa(int codEmpresa, int codSetor)
         {
-            await SetorEmpresaService.ExcluirSetorEmpresa(codEmpresa, codSetor);
-            //var empresaModel = await Repositorio.FindById(codEmpresa);
-            //var setorModel = await SetorEmpresaRepositorio.FindById(codSetor);
-            ////var setorModel = empresaModel.Setores.FirstOrDefault(st=>st.Id == codSetor);
-            ////futuramente se setor estirver vinculado com Reunião, precisa fazer validação
-            //if ((empresaModel != null) && (setorModel != null))
-            //{
-            //    await SetorEmpresaService.Delete(codSetor);
-            //}
+            await SetorService.ExcluirSetorEmpresa(codEmpresa, codSetor);
         }
 
         /*PLATAFORMA EMPRESA*/
@@ -198,33 +189,44 @@ namespace Solucoes.Api.Service.Cadastro
         {
             var empresaModel = await Repositorio.FindById(codEmpresa);
             var pessoaModel = await PessoaRepositorio.FindById(codPessoa);
-            
-            var empresaPessoaModel = new EmpresaPessoa();
-            var empresa = EmpresaPessoaRepositorio.All();
 
-            if ((empresaModel != null) && (pessoaModel != null))
+            var empresaPessoaModel = new PessoaEmpresa();
+            var empresaPessoa = await PessoaEmpresaRepositorio.All();
+
+            var existe = empresaPessoa.Where(pe => pe.PessoaId.Equals(pessoaModel.Id))
+                                        .Where(pe => pe.EmpresaId.Equals(empresaModel.Id))
+                                        .Any();
+
+            if (empresaModel.Situacao == SituacaoCadastralEnum.Ativo)
             {
-                empresaPessoaModel.PessoaId = pessoaModel.Id;
-                empresaPessoaModel.EmpresaId = empresaModel.Id;
-                empresaPessoaModel.DataCadastro = DateTime.Now;
-                await EmpresaPessoaRepositorio.Add(empresaPessoaModel);
+                if (pessoaModel.Situacao == SituacaoCadastralEnum.Ativo)
+                {
+                    if (!existe)
+                    {
+                        empresaPessoaModel.Empresa = empresaModel;
+                        empresaPessoaModel.Pessoa = pessoaModel;
+                        empresaPessoaModel.DataCadastro = DateTime.Now;
+                        empresaPessoaModel.Situacao = SituacaoCadastralEnum.Ativo;
+                        await PessoaEmpresaRepositorio.Add(empresaPessoaModel);
+                    }
+                }
+
             }
-            
         }
-
-
-
         public async Task ExcluirPessoaEmpresa(int codEmpresa, int codPessoa)
         {
             var empresaModel = await Repositorio.FindById(codEmpresa);
             var pessoaModel = await PessoaRepositorio.FindById(codPessoa);
 
-            var empresaPessoaBanco = empresaModel.EmpresaPessoas.FirstOrDefault(x => x.PessoaId == pessoaModel.Id);
+            var empresaPessoaBanco = empresaModel.PessoaEmpresas
+                                .FirstOrDefault(x => x.PessoaId == pessoaModel.Id);
 
-
-            if ((empresaModel != null) && (pessoaModel != null))
+            if (empresaModel != null)
             {
-                await EmpresaPessoaRepositorio.Remove(empresaPessoaBanco.Id);
+                if (pessoaModel != null)
+                {
+                    await PessoaEmpresaRepositorio.Remove(empresaPessoaBanco.Id);
+                }
             }
 
         }

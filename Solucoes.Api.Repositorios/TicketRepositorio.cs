@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Api.Repositorios
 {
-    public class ChamadoItemRepositorio : BaseRepositorio<ChamadoItem>
+    public class TicketRepositorio : BaseRepositorio<Ticket>
     {
-        public ChamadoItemRepositorio(AppDbContext context) : base(context)
+        public TicketRepositorio(AppDbContext context) : base(context)
         {
         }
     }

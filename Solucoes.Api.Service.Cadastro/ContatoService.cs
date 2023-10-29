@@ -65,7 +65,7 @@ namespace Solucoes.Api.Service.Cadastro
                 contatoModel.Telefone = contato.Telefone;
                 contatoModel.Email = contato.Email;
                 contatoModel.TipoContato = contato.TipoContato;
-                contatoModel.Situacao = contato.Situacao;
+                contatoModel.Situacao = (Modelo.Enums.SituacaoCadastralEnum)contato.Situacao;
 
                 await Repositorio.Replace(contatoModel.Id, contatoModel);
             }

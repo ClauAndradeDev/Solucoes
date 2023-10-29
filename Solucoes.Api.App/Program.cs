@@ -24,23 +24,30 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddTransient<AppDbContextFactory>();
 builder.Services.AddTransient(opt => opt.GetService<AppDbContextFactory>().CreateDbContext());
 
-builder.Services.AddTransient<UsuarioRepositorio>();
-builder.Services.AddTransient<SetorEmpresaRepositorio>();
-builder.Services.AddTransient<ReuniaoRepositorio>();
-builder.Services.AddTransient<ReuniaoItemRepositorio>();
-builder.Services.AddTransient<PlataformaRepositorio>();
-builder.Services.AddTransient<PessoaRepositorio>();
-//builder.Services.AddTransient<LogMovimentacaoRepositorio>();
-builder.Services.AddTransient<EnderecoRepositorio>();
-builder.Services.AddTransient<EmpresaRepositorio>();
 builder.Services.AddTransient<ContatoRepositorio>();
-builder.Services.AddTransient<ChamadoItemRepositorio>();
-builder.Services.AddTransient<ChamadoRepositorio>();
-builder.Services.AddTransient<EmpresaPessoaRepositorio>();
+builder.Services.AddTransient<EmpresaRepositorio>();
+builder.Services.AddTransient<EnderecoRepositorio>();
+builder.Services.AddTransient<PessoaRepositorio>();
+builder.Services.AddTransient<PessoaEmpresaRepositorio>();
+builder.Services.AddTransient<PlataformaRepositorio>();
+builder.Services.AddTransient<SetorEmpresaRepositorio>();
+builder.Services.AddTransient<TicketRepositorio>();
+builder.Services.AddTransient<TicketAcaoRepositorio>();
+builder.Services.AddTransient<TicketAgrupamentoRepositorio>();
+builder.Services.AddTransient<TicketRelacionamentoRepositorio>();
+builder.Services.AddTransient<UsuarioRepositorio>();
+
+//builder.Services.AddTransient<LogMovimentacaoRepositorio>();
+
+
+
+
+
+
 
 builder.Services.AddTransient<UsuarioService>();
 builder.Services.AddTransient<PlataformaService>();
-builder.Services.AddTransient<SetorEmpresaService>();
+builder.Services.AddTransient<SetorService>();
 //builder.Services.AddTransient<LogMovimentacaoService>();
 builder.Services.AddTransient<PessoaService>();
 builder.Services.AddTransient<EmpresaService>();

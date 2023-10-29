@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Solucoes.Api.App.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicializando : Migration
+    public partial class CriaçãobancocomFluentApi : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,12 +21,12 @@ namespace Solucoes.Api.App.Migrations
                     SobreNomeFantasia = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CPFCNPJ = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RGIE = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DataAbertura = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataAbertura = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Telefone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WhatsApp = table.Column<bool>(type: "bit", nullable: false),
+                    WhatsApp = table.Column<bool>(type: "bit", nullable: true),
                     IEMunicipal = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TipoEmpresa = table.Column<int>(type: "int", nullable: false),
+                    TipoEmpresa = table.Column<int>(type: "int", nullable: true),
                     Logradouro = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Numero = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Bairro = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -51,13 +51,13 @@ namespace Solucoes.Api.App.Migrations
                     SobreNomeFantasia = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CPFCNPJ = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RGIE = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DataNascimento = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Telefone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WhatsApp = table.Column<bool>(type: "bit", nullable: false),
-                    TipoPessoa = table.Column<int>(type: "int", nullable: false),
-                    PerfilPessoa = table.Column<int>(type: "int", nullable: false),
-                    Acesso = table.Column<int>(type: "int", nullable: false),
+                    WhatsApp = table.Column<bool>(type: "bit", nullable: true),
+                    TipoPessoa = table.Column<int>(type: "int", nullable: true),
+                    PerfilPessoa = table.Column<int>(type: "int", nullable: true),
+                    Acesso = table.Column<int>(type: "int", nullable: true),
                     Situacao = table.Column<int>(type: "int", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -73,12 +73,19 @@ namespace Solucoes.Api.App.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmpresaId = table.Column<int>(type: "int", nullable: true),
                     Situacao = table.Column<int>(type: "int", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Plataforma", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Plataforma_Empresa_EmpresaId",
+                        column: x => x.EmpresaId,
+                        principalTable: "Empresa",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,7 +106,8 @@ namespace Solucoes.Api.App.Migrations
                         name: "FK_Setor_Empresa_EmpresaId",
                         column: x => x.EmpresaId,
                         principalTable: "Empresa",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -111,7 +119,7 @@ namespace Solucoes.Api.App.Migrations
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Telefone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TipoContato = table.Column<int>(type: "int", nullable: false),
+                    TipoContato = table.Column<int>(type: "int", nullable: true),
                     PessoaId = table.Column<int>(type: "int", nullable: true),
                     Situacao = table.Column<int>(type: "int", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -121,33 +129,6 @@ namespace Solucoes.Api.App.Migrations
                     table.PrimaryKey("PK_Contato", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Contato_Pessoa_PessoaId",
-                        column: x => x.PessoaId,
-                        principalTable: "Pessoa",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EmpresaPessoas",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmpresaId = table.Column<int>(type: "int", nullable: false),
-                    PessoaId = table.Column<int>(type: "int", nullable: false),
-                    Situacao = table.Column<int>(type: "int", nullable: false),
-                    DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmpresaPessoas", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EmpresaPessoas_Empresa_EmpresaId",
-                        column: x => x.EmpresaId,
-                        principalTable: "Empresa",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EmpresaPessoas_Pessoa_PessoaId",
                         column: x => x.PessoaId,
                         principalTable: "Pessoa",
                         principalColumn: "Id",
@@ -166,7 +147,7 @@ namespace Solucoes.Api.App.Migrations
                     CEP = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Cidade = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Estado = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TipoEndereco = table.Column<int>(type: "int", nullable: false),
+                    TipoEndereco = table.Column<int>(type: "int", nullable: true),
                     PessoaId = table.Column<int>(type: "int", nullable: true),
                     Situacao = table.Column<int>(type: "int", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -178,7 +159,36 @@ namespace Solucoes.Api.App.Migrations
                         name: "FK_Endereco_Pessoa_PessoaId",
                         column: x => x.PessoaId,
                         principalTable: "Pessoa",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PessoaEmpresa",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmpresaId = table.Column<int>(type: "int", nullable: false),
+                    PessoaId = table.Column<int>(type: "int", nullable: false),
+                    Situacao = table.Column<int>(type: "int", nullable: false),
+                    DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PessoaEmpresa", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PessoaEmpresa_Empresa_EmpresaId",
+                        column: x => x.EmpresaId,
+                        principalTable: "Empresa",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PessoaEmpresa_Pessoa_PessoaId",
+                        column: x => x.PessoaId,
+                        principalTable: "Pessoa",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,36 +210,64 @@ namespace Solucoes.Api.App.Migrations
                         name: "FK_Usuario_Pessoa_PessoaId",
                         column: x => x.PessoaId,
                         principalTable: "Pessoa",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Chamado",
+                name: "Ticket",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Titulo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Conteudo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TipoChamado = table.Column<int>(type: "int", nullable: false),
-                    DataAbertura = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EmpresaId = table.Column<int>(type: "int", nullable: false),
-                    PlataformaId = table.Column<int>(type: "int", nullable: false),
-                    UsuarioId = table.Column<int>(type: "int", nullable: false),
+                    NumeroSequencial = table.Column<int>(type: "int", nullable: true),
+                    TipoChamado = table.Column<int>(type: "int", nullable: true),
+                    Origem = table.Column<bool>(type: "bit", nullable: true),
+                    DataAbertura = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EmpresaId = table.Column<int>(type: "int", nullable: true),
+                    PlataformaId = table.Column<int>(type: "int", nullable: true),
                     Situacao = table.Column<int>(type: "int", nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Chamado", x => x.Id);
+                    table.PrimaryKey("PK_Ticket", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Chamado_Plataforma_PlataformaId",
+                        name: "FK_Ticket_Empresa_EmpresaId",
+                        column: x => x.EmpresaId,
+                        principalTable: "Empresa",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Ticket_Plataforma_PlataformaId",
                         column: x => x.PlataformaId,
                         principalTable: "Plataforma",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TicketAcao",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DataAcao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Conteudo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TicketId = table.Column<int>(type: "int", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketAcao", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TicketAcao_Ticket_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Ticket",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Chamado_Usuario_UsuarioId",
+                        name: "FK_TicketAcao_Usuario_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "Usuario",
                         principalColumn: "Id",
@@ -237,117 +275,53 @@ namespace Solucoes.Api.App.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChamadoItem",
+                name: "TicketAgrupamento",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DataRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Conteudo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ChamadoId = table.Column<int>(type: "int", nullable: false),
-                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Situacao = table.Column<int>(type: "int", nullable: false)
+                    TicketId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChamadoItem", x => x.Id);
+                    table.PrimaryKey("PK_TicketAgrupamento", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ChamadoItem_Chamado_ChamadoId",
-                        column: x => x.ChamadoId,
-                        principalTable: "Chamado",
+                        name: "FK_TicketAgrupamento_Ticket_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Ticket",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reuniao",
+                name: "TicketRelacionamentos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Conteudo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DataPrevisaoInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataPrevisaoFim = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataAgendamento = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HoraAgendamento = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HoraInicial = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HoraFinal = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataRetorno = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ChamadoId = table.Column<int>(type: "int", nullable: true),
-                    EmpresaId = table.Column<int>(type: "int", nullable: true),
-                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Situacao = table.Column<int>(type: "int", nullable: false)
+                    TicketId = table.Column<int>(type: "int", nullable: true),
+                    TicketAgrupamentoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reuniao", x => x.Id);
+                    table.PrimaryKey("PK_TicketRelacionamentos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reuniao_Chamado_ChamadoId",
-                        column: x => x.ChamadoId,
-                        principalTable: "Chamado",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Reuniao_Empresa_EmpresaId",
-                        column: x => x.EmpresaId,
-                        principalTable: "Empresa",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ReuniaoItem",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Titulo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Conteudo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DataRealizada = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HoraInicial = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    HoraFinal = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReuniaoId = table.Column<int>(type: "int", nullable: false),
-                    DataAlteracao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Situacao = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ReuniaoItem", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ReuniaoItem_Reuniao_ReuniaoId",
-                        column: x => x.ReuniaoId,
-                        principalTable: "Reuniao",
+                        name: "FK_TicketRelacionamentos_TicketAgrupamento_TicketAgrupamentoId",
+                        column: x => x.TicketAgrupamentoId,
+                        principalTable: "TicketAgrupamento",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_TicketRelacionamentos_Ticket_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Ticket",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Chamado_PlataformaId",
-                table: "Chamado",
-                column: "PlataformaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Chamado_UsuarioId",
-                table: "Chamado",
-                column: "UsuarioId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ChamadoItem_ChamadoId",
-                table: "ChamadoItem",
-                column: "ChamadoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contato_PessoaId",
                 table: "Contato",
-                column: "PessoaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EmpresaPessoas_EmpresaId",
-                table: "EmpresaPessoas",
-                column: "EmpresaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EmpresaPessoas_PessoaId",
-                table: "EmpresaPessoas",
                 column: "PessoaId");
 
             migrationBuilder.CreateIndex(
@@ -356,24 +330,59 @@ namespace Solucoes.Api.App.Migrations
                 column: "PessoaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reuniao_ChamadoId",
-                table: "Reuniao",
-                column: "ChamadoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Reuniao_EmpresaId",
-                table: "Reuniao",
+                name: "IX_PessoaEmpresa_EmpresaId",
+                table: "PessoaEmpresa",
                 column: "EmpresaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReuniaoItem_ReuniaoId",
-                table: "ReuniaoItem",
-                column: "ReuniaoId");
+                name: "IX_PessoaEmpresa_PessoaId",
+                table: "PessoaEmpresa",
+                column: "PessoaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Plataforma_EmpresaId",
+                table: "Plataforma",
+                column: "EmpresaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Setor_EmpresaId",
                 table: "Setor",
                 column: "EmpresaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ticket_EmpresaId",
+                table: "Ticket",
+                column: "EmpresaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ticket_PlataformaId",
+                table: "Ticket",
+                column: "PlataformaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketAcao_TicketId",
+                table: "TicketAcao",
+                column: "TicketId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketAcao_UsuarioId",
+                table: "TicketAcao",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketAgrupamento_TicketId",
+                table: "TicketAgrupamento",
+                column: "TicketId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketRelacionamentos_TicketAgrupamentoId",
+                table: "TicketRelacionamentos",
+                column: "TicketAgrupamentoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketRelacionamentos_TicketId",
+                table: "TicketRelacionamentos",
+                column: "TicketId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Usuario_PessoaId",
@@ -385,40 +394,40 @@ namespace Solucoes.Api.App.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ChamadoItem");
-
-            migrationBuilder.DropTable(
                 name: "Contato");
-
-            migrationBuilder.DropTable(
-                name: "EmpresaPessoas");
 
             migrationBuilder.DropTable(
                 name: "Endereco");
 
             migrationBuilder.DropTable(
-                name: "ReuniaoItem");
+                name: "PessoaEmpresa");
 
             migrationBuilder.DropTable(
                 name: "Setor");
 
             migrationBuilder.DropTable(
-                name: "Reuniao");
+                name: "TicketAcao");
 
             migrationBuilder.DropTable(
-                name: "Chamado");
-
-            migrationBuilder.DropTable(
-                name: "Empresa");
-
-            migrationBuilder.DropTable(
-                name: "Plataforma");
+                name: "TicketRelacionamentos");
 
             migrationBuilder.DropTable(
                 name: "Usuario");
 
             migrationBuilder.DropTable(
+                name: "TicketAgrupamento");
+
+            migrationBuilder.DropTable(
                 name: "Pessoa");
+
+            migrationBuilder.DropTable(
+                name: "Ticket");
+
+            migrationBuilder.DropTable(
+                name: "Plataforma");
+
+            migrationBuilder.DropTable(
+                name: "Empresa");
         }
     }
 }

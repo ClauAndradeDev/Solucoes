@@ -13,12 +13,12 @@ namespace Solucoes.Modelo.Dtos
         public string? SobreNomeFantasia { get; set; }
         public string? CPFCNPJ { get; set; }
         public string? RGIE { get; set; }
-        public DateTime DataAbertura { get; set; }
+        public DateTime? DataAbertura { get; set; }
         public string? Email { get; set; }
         public string? Telefone { get; set; }
         public bool? WhatsApp { get; set; }
         public string? IEMunicipal { get; set; }
-        public TipoPessoaEnumcs TipoEmpresa { get; set; }
+        public TipoPessoaEnumcs? TipoEmpresa { get; set; }
         public string? Logradouro { get; set; }
         public string? Numero { get; set; }
         public string? Bairro { get; set; }

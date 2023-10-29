@@ -12,7 +12,7 @@ namespace Solucoes.Modelo.Dtos
         public string? Nome { get; set; }
         public string? Telefone { get; set; }
         public string? Email { get; set; }
-        public TipoContatoEnum TipoContato { get; set; }
+        public TipoContatoEnum? TipoContato { get; set; }
         //public int CodPessoa { get; set; }
         public PessoaDto[]? Pessoas { get; set; }
     }

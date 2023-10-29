@@ -9,7 +9,7 @@ namespace Solucoes.Modelo
 {
     public class MovimentacaoModeloDto: BaseModeloDto
     {
-        public DateTime DataAlteracao { get; set; }
-        public SituacaoMovimentacaoEnum Situacao { get; set; }
+        public DateTime? DataAlteracao { get; set; }
+        public SituacaoMovimentacaoEnum? Situacao { get; set; }
     }
 }
