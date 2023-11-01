@@ -13,18 +13,20 @@ namespace Solucoes.Api.Service.Movimentacao
     {
         public TicketAcaoRepositorio TicketAcaoRepositorio { get; set; }
         public TicketAcaoMovService TicketAcaoMovService { get; set; }
-        //public TicketAgrupamentoRepositorio TicketAgrupamentoRepositorio { get; set; }
-        //public TicketAgrupamentoMovService TicketAgrupamentoMovService { get; set; }
-        //public TicketRelacionamentoRepositorio TicketRelacionamentoRepositorio { get; set; }
+        public TicketAgrupamentoRepositorio TicketAgrupamentoRepositorio { get; set; }
+        public TicketAgrupamentoMovService TicketAgrupamentoMovService { get; set; }
+        public TicketRelacionamentoRepositorio TicketRelacionamentoRepositorio { get; set; }
+        public TicketRelacionamentoMovService TicketRelacionamentoMovService { get; set; }
         public EmpresaRepositorio EmpresaRepositorio { get; set; }
         public PlataformaRepositorio PlataformaRepositorio { get; set; }
         public UsuarioRepositorio UsuarioRepositorio { get; set; }
         public PessoaRepositorio PessoaRepositorio { get; set; }
 
         public TicketMovService(TicketRepositorio ticketRepositorio
-                    //, TicketAgrupamentoMovService ticketAgrupamentoMovService
-                    //, TicketAgrupamentoRepositorio ticketAgrupamentoRepositorio
-                    //, TicketRelacionamentoRepositorio ticketRelacionamentoRepositorio
+                    , TicketAgrupamentoMovService ticketAgrupamentoMovService
+                    , TicketAgrupamentoRepositorio ticketAgrupamentoRepositorio
+                    , TicketRelacionamentoRepositorio ticketRelacionamentoRepositorio
+                    , TicketRelacionamentoMovService ticketRelacionamentoMovService
                     , EmpresaRepositorio empresaRepositorio
                     , PlataformaRepositorio plataformaRepositorio
                     , UsuarioRepositorio usuarioRepositorio
@@ -34,15 +36,16 @@ namespace Solucoes.Api.Service.Movimentacao
                     , TicketAcaoMovService ticketAcaoMovService) :
                     base(ticketRepositorio, mapper)
         {
-            //TicketAgrupamentoMovService = ticketAgrupamentoMovService;
-            //TicketAgrupamentoRepositorio = ticketAgrupamentoRepositorio;
-            //TicketRelacionamentoRepositorio = ticketRelacionamentoRepositorio;
+            TicketRelacionamentoMovService = ticketRelacionamentoMovService;
+            TicketAgrupamentoRepositorio = ticketAgrupamentoRepositorio;
+            TicketAgrupamentoMovService = ticketAgrupamentoMovService;
+            TicketRelacionamentoRepositorio = ticketRelacionamentoRepositorio;
             EmpresaRepositorio = empresaRepositorio;
             PlataformaRepositorio = plataformaRepositorio;
             UsuarioRepositorio = usuarioRepositorio;
             TicketAcaoRepositorio = ticketAcaoRepositorio;
             TicketAcaoMovService = ticketAcaoMovService;
-            PessoaRepositorio = PessoaRepositorio;
+            PessoaRepositorio = pessoaRepositorio;
         }
 
 
@@ -111,51 +114,6 @@ namespace Solucoes.Api.Service.Movimentacao
             // var result = ticketDto;
             return result;
         }
-
-        //public async Task<TicketDto> InserirTicket(TicketDto ticket, TicketAcaoDto ticketAcao)
-        //{
-        //    var empresaModel = await EmpresaRepositorio.FindById(ticket.Empresa.Codigo);
-        //    var plataformaModel = await PlataformaRepositorio.FindById(ticket.Plataforma.Codigo);
-        //    var usuarioModel = await UsuarioRepositorio.FindById(ticketAcao.Usuario.Codigo);
-
-        //    var ticketDto = new TicketDto();
-        //    var result = new TicketDto();
-        //    var ticketAlteradoModel = Mapper.Map<Ticket>(ticket);
-
-        //    if (empresaModel != null)
-        //    {
-        //        if (plataformaModel != null)
-        //        {
-        //            ticketAlteradoModel.DataAbertura = DateTime.Now;
-        //            ticketAlteradoModel.Plataforma = plataformaModel;
-        //            ticketAlteradoModel.Empresa = empresaModel;
-
-        //            ticketAlteradoModel = await Repositorio.Add(ticketAlteradoModel);
-        //            //posso consultar o ultimo idInserido, gerar o NumeroSequencial e só então salvar
-        //            /*Confirmar após estar funcionando*/
-        //            ticketAlteradoModel.NumeroSequencial = Conversoes.GerarNumeroSequencialTicket();
-        //            ticketAlteradoModel = await Repositorio.Replace(ticketAlteradoModel.Id, ticketAlteradoModel);
-
-        //            if (usuarioModel != null)
-        //            {
-        //                if(ticketAcao != null)
-        //                {
-        //                    //insere TicketAcao
-        //                    var ticketAcaoDto = Mapper.Map<TicketAcaoDto>(ticketAcao);
-        //                    ticketDto = await base.FindByCodigo(ticketAlteradoModel.Id);
-        //                    var TicketAcaoIncluido =  await TicketAcaoMovService.InserirTicketAcao(ticketDto.Codigo, ticketAcaoDto);
-
-        //                    result = await base.FindByCodigo(TicketAcaoIncluido.Codigo);
-        //                }
-
-        //            }
-
-        //        }
-        //    }
-
-        //   // var result = ticketDto;
-        //    return result;
-        //}
 
         public async Task<TicketDto> AlterarTicket(int codTicket, TicketDto ticket)
         {
@@ -326,6 +284,44 @@ namespace Solucoes.Api.Service.Movimentacao
         public async Task ExcluirTicketAcao(int codTicket, TicketAcaoDto ticketAcao)
         {
             await TicketAcaoMovService.ExcluirTicketAcao(codTicket, ticketAcao);
+        }
+
+        //Rota Vincular Ticket em TicketOrigem
+        public async Task<TicketDto> VincularTickets(int codigo, int codTiketOrigem)
+        {
+            var ticketModelOrigem = await Repositorio.FindById(codTiketOrigem);
+            var ticketModelVincular = await Repositorio.FindById(codigo);
+
+            
+            var ticketOrigemDto = Mapper.Map<TicketDto>(ticketModelOrigem);
+            var ticketVincularDto = Mapper.Map<TicketDto>(ticketModelVincular);
+     
+            
+            try
+            {
+                ticketOrigemDto.Origem = true;
+                //atualizo o ticket com origem = true;
+                await base.Update(ticketOrigemDto.Codigo, ticketOrigemDto);
+
+                //inserir ticketAgrupamento.
+                var ticketAgrupamento = await TicketAgrupamentoMovService.InserirTicketOrigem(ticketModelOrigem.Id);
+
+                //pegar idTicketAgrupamento
+                var idTicketAgrupamento = ticketAgrupamento.CodigoAgrupamento;
+
+                //inserir ticketRelacionamento (idTicket, e idTicketAgrupamento)
+               await TicketRelacionamentoMovService.InserirRelacaoEntreTickets(idTicketAgrupamento, ticketModelVincular.Id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+
+            var result = await base.FindByCodigo(ticketModelOrigem.Id);
+
+            return result;
         }
     }
 }

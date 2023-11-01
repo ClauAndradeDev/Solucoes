@@ -24,8 +24,8 @@ namespace Solucoes.Modelo.Contexto
         public DbSet<Setor> Setores { get; set; }
         public DbSet<Ticket> Ticket { get; set; }
         public DbSet<TicketAcao> TicketAcao { get; set; }
-        //public DbSet<TicketAgrupamento> TicketAgrupamentos { get; set; }
-        //public DbSet<TicketRelacionamento> TicketRelacionamentos { get; set; }
+        public DbSet<TicketAgrupamento> TicketAgrupamentos { get; set; }
+        public DbSet<TicketRelacionamento> TicketRelacionamentos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
 
         //public DbSet<LogMovimentacao> LogMovimentacoes { get; set; }
@@ -369,38 +369,38 @@ namespace Solucoes.Modelo.Contexto
 
             #endregion
 
-            //#region TicketAgrupamento
-            //modelBuilder.Entity<TicketAgrupamento>()
-            //    .HasKey(ta => ta.Id);
+            #region TicketAgrupamento
+            modelBuilder.Entity<TicketAgrupamento>()
+                .HasKey(ta => ta.Id);
 
-            //modelBuilder.Entity<TicketAgrupamento>()
-            //    .Property(ta => ta.Id)
-            //    .ValueGeneratedOnAdd();
+            modelBuilder.Entity<TicketAgrupamento>()
+                .Property(ta => ta.Id)
+                .ValueGeneratedOnAdd();
 
-            //modelBuilder.Entity<TicketAgrupamento>()
-            //    .Property(ta => ta.TicketId);
+            modelBuilder.Entity<TicketAgrupamento>()
+                .Property(ta => ta.TicketId);
 
-            //modelBuilder.Entity<TicketAgrupamento>()
-            //    .HasMany(ta => ta.TicketRelacionamentos)
-            //    .WithOne(tr => tr.TicketAgrupamento)
-            //    .HasForeignKey(tr => tr.TicketAgrupamentoId)
-            //    .OnDelete(DeleteBehavior.Restrict);
-            //#endregion
+            modelBuilder.Entity<TicketAgrupamento>()
+                .HasMany(ta => ta.TicketRelacionamentos)
+                .WithOne(tr => tr.TicketAgrupamento)
+                .HasForeignKey(tr => tr.TicketAgrupamentoId)
+                .OnDelete(DeleteBehavior.Restrict);
+            #endregion
 
-            //#region TicketRelacionamento
-            //modelBuilder.Entity<TicketRelacionamento>()
-            //   .HasKey(ta => ta.Id);
+            #region TicketRelacionamento
+            modelBuilder.Entity<TicketRelacionamento>()
+               .HasKey(ta => ta.Id);
 
-            //modelBuilder.Entity<TicketRelacionamento>()
-            //    .Property(ta => ta.Id)
-            //    .ValueGeneratedOnAdd();
+            modelBuilder.Entity<TicketRelacionamento>()
+                .Property(ta => ta.Id)
+                .ValueGeneratedOnAdd();
 
-            //modelBuilder.Entity<TicketRelacionamento>()
-            //    .Property(ta => ta.TicketId);
+            modelBuilder.Entity<TicketRelacionamento>()
+                .Property(ta => ta.TicketId);
 
-            //modelBuilder.Entity<TicketRelacionamento>()
-            //   .Property(ta => ta.TicketAgrupamentoId);
-            //#endregion
+            modelBuilder.Entity<TicketRelacionamento>()
+               .Property(ta => ta.TicketAgrupamentoId);
+            #endregion
 
             #region Usuario
             modelBuilder.Entity<Usuario>()

@@ -73,5 +73,13 @@ namespace Solucoes.Api.App.Controllers
             await TicketService.ExcluirTicketAcao(codigo, ticketAcao);
             return Ok();
         }
+
+        //Rotas TicketAgrupamento e TicketRelacionamento
+        [HttpPost("{codigo}/Vinculo/{codigoOrigem}")]
+        public async Task<IActionResult> VincularTickets(int codigo, int codigoOrigem)
+        {
+            var result = await TicketService.VincularTickets(codigo, codigoOrigem);
+            return Ok(result);
+        }
     }
 }

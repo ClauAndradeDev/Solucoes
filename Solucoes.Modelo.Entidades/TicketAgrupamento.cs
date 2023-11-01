@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Entidades
 {
-    [Table("TicketAgrupamento")]
     public class TicketAgrupamento: BaseModelo
     {
         public int TicketId { get; set; }
