@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Dtos
 {
-    public class PlataformaDto: CadastroModeloDto
+    public class TicketAcaoTicketDto: TicketAcaoDto
     {
-        public string? Descricao { get; set; }
-        public virtual EmpresaDto? Empresa { get; set; } 
     }
 }

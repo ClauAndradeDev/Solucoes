@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Solucoes.Modelo.Dtos
+﻿namespace Solucoes.Modelo.Dtos
 {
-    public class TicketAcaoDto: BaseModeloDto
+    public class TicketAcaoDto : BaseModeloDto
     {
-        public DateTime DataAcao { get; set; }
         public string? Conteudo { get; set; }
-
-        public virtual TicketDto? Ticket { get; set; }
-        public virtual UsuarioDto? Usuario { get; set; }
+        public DateTime? DataAcao { get; set; }
+        public DateTime? DataUltimaAlteracao { get; set; }
+        public UsuarioDto? Usuario { get; set; }
     }
 }
