@@ -11,6 +11,8 @@
     <ProjectReference Include="..\Solucoes.Api.Repositorios\Solucoes.Api.Repositorios.csproj" />
     <ProjectReference Include="..\Solucoes.Modelo.Dtos\Solucoes.Modelo.Dtos.csproj" />
     <ProjectReference Include="..\Solucoes.Modelo.Entidades\Solucoes.Modelo.Entidades.csproj" />
+    <ProjectReference Include="..\Solucoes.Modelo.Enums\Solucoes.Modelo.Enums.csproj" />
+    <ProjectReference Include="..\Solucoes.Modelo.Extensoes\Solucoes.Modelo.Extensoes.csproj" />
     <ProjectReference Include="..\Solucoes.Modelo.Service\Solucoes.Modelo.Service.csproj" />
   </ItemGroup>
 

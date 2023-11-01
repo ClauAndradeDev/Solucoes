@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Solucoes.Modelo.Contexto;
 
@@ -11,9 +12,11 @@ using Solucoes.Modelo.Contexto;
 namespace Solucoes.Api.App.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231029183053_Ajuste Ticket e relacionamentos")]
+    partial class AjusteTicketerelacionamentos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -352,7 +355,7 @@ namespace Solucoes.Api.App.Migrations
                     b.ToTable("Ticket");
                 });
 
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.TicketAcao", b =>
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.TicketAgrupamento", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -360,28 +363,37 @@ namespace Solucoes.Api.App.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Conteudo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DataAcao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DataUltimaAlteracao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("TicketId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UsuarioId")
+                    b.Property<int>("TicketId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TicketId");
 
-                    b.HasIndex("UsuarioId");
+                    b.ToTable("TicketAgrupamento");
+                });
 
-                    b.ToTable("TicketAcao");
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.TicketRelacionamento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("TicketAgrupamentoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TicketId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TicketAgrupamentoId");
+
+                    b.HasIndex("TicketId");
+
+                    b.ToTable("TicketRelacionamentos");
                 });
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Usuario", b =>
@@ -481,30 +493,40 @@ namespace Solucoes.Api.App.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Solucoes.Modelo.Entidades.Plataforma", "Plataforma")
-                        .WithMany("Tickets")
-                        .HasForeignKey("PlataformaId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany()
+                        .HasForeignKey("PlataformaId");
 
                     b.Navigation("Empresa");
 
                     b.Navigation("Plataforma");
                 });
 
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.TicketAcao", b =>
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.TicketAgrupamento", b =>
                 {
                     b.HasOne("Solucoes.Modelo.Entidades.Ticket", "Ticket")
-                        .WithMany("TicketAcoes")
+                        .WithMany("TicketAgrupamentos")
                         .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Ticket");
+                });
+
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.TicketRelacionamento", b =>
+                {
+                    b.HasOne("Solucoes.Modelo.Entidades.TicketAgrupamento", "TicketAgrupamento")
+                        .WithMany("TicketRelacionamentos")
+                        .HasForeignKey("TicketAgrupamentoId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Solucoes.Modelo.Entidades.Usuario", "Usuario")
-                        .WithMany("TicketAcoes")
-                        .HasForeignKey("UsuarioId")
+                    b.HasOne("Solucoes.Modelo.Entidades.Ticket", "Ticket")
+                        .WithMany("TicketRelacionamentos")
+                        .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Ticket");
 
-                    b.Navigation("Usuario");
+                    b.Navigation("TicketAgrupamento");
                 });
 
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Usuario", b =>
@@ -539,19 +561,16 @@ namespace Solucoes.Api.App.Migrations
                     b.Navigation("Usuarios");
                 });
 
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.Plataforma", b =>
-                {
-                    b.Navigation("Tickets");
-                });
-
             modelBuilder.Entity("Solucoes.Modelo.Entidades.Ticket", b =>
                 {
-                    b.Navigation("TicketAcoes");
+                    b.Navigation("TicketAgrupamentos");
+
+                    b.Navigation("TicketRelacionamentos");
                 });
 
-            modelBuilder.Entity("Solucoes.Modelo.Entidades.Usuario", b =>
+            modelBuilder.Entity("Solucoes.Modelo.Entidades.TicketAgrupamento", b =>
                 {
-                    b.Navigation("TicketAcoes");
+                    b.Navigation("TicketRelacionamentos");
                 });
 #pragma warning restore 612, 618
         }

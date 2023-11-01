@@ -1,27 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Solucoes.Modelo.Entidades
+﻿namespace Solucoes.Modelo.Entidades
 {
-    [Table("TicketAcao")]
-    public class TicketAcao: BaseModelo
+    public class TicketAcao : BaseModelo
     {
-       
-        public DateTime DataAcao { get; set; }
+        public int? TicketId { get; set; }
+        public int? UsuarioId { get; set; }
         public string? Conteudo { get; set; }
-        public int TicketId { get; set; }
-        public int UsuarioId { get; set; }
+        public DateTime? DataAcao { get; set; }
+        public DateTime? DataUltimaAlteracao { get; set; }
+        //public int? NumSequencial { get; set; } alterar posterior
+        /*
+         * Verificar como percorrer a lista de TicketAcao existente, para reorganizar 
+         * o NumeroSequencial que será apresentado na tela.
+         */
 
-
-        [ForeignKey(nameof(TicketId))]  
         public virtual Ticket? Ticket { get; set; }
-
-        [ForeignKey(nameof(UsuarioId))]
         public virtual Usuario? Usuario { get; set; }
-
     }
 }

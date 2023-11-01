@@ -11,9 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c => {
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "SolucoesAPI", Version = "v1"});
+
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -24,6 +26,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddTransient<AppDbContextFactory>();
 builder.Services.AddTransient(opt => opt.GetService<AppDbContextFactory>().CreateDbContext());
 
+
+/*Repositorios*/
+
 builder.Services.AddTransient<ContatoRepositorio>();
 builder.Services.AddTransient<EmpresaRepositorio>();
 builder.Services.AddTransient<EnderecoRepositorio>();
@@ -31,19 +36,16 @@ builder.Services.AddTransient<PessoaRepositorio>();
 builder.Services.AddTransient<PessoaEmpresaRepositorio>();
 builder.Services.AddTransient<PlataformaRepositorio>();
 builder.Services.AddTransient<SetorEmpresaRepositorio>();
-builder.Services.AddTransient<TicketRepositorio>();
 builder.Services.AddTransient<TicketAcaoRepositorio>();
-builder.Services.AddTransient<TicketAgrupamentoRepositorio>();
-builder.Services.AddTransient<TicketRelacionamentoRepositorio>();
+builder.Services.AddTransient<TicketRepositorio>();
+//builder.Services.AddTransient<TicketAgrupamentoRepositorio>();
+//builder.Services.AddTransient<TicketRelacionamentoRepositorio>();
 builder.Services.AddTransient<UsuarioRepositorio>();
 
 //builder.Services.AddTransient<LogMovimentacaoRepositorio>();
 
 
-
-
-
-
+/*Services*/
 
 builder.Services.AddTransient<UsuarioService>();
 builder.Services.AddTransient<PlataformaService>();
@@ -54,6 +56,9 @@ builder.Services.AddTransient<EmpresaService>();
 builder.Services.AddTransient<ContatoService>();
 builder.Services.AddTransient<EnderecoService>();
 builder.Services.AddTransient<UsuarioService>();
+builder.Services.AddTransient<TicketAcaoMovService>();
+builder.Services.AddTransient<TicketMovService>();
+//builder.Services.AddTransient<TicketAgrupamentoMovService>();
 
 
 
@@ -65,7 +70,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(opt =>
+    {
+        opt.SwaggerEndpoint("/swagger/v1/swagger.json", "SolucoesAPI v1");
+        opt.RoutePrefix = String.Empty;
+    });
 }
 
 app.UseHttpsRedirection();

@@ -1,15 +1,8 @@
 ﻿using Solucoes.Modelo.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Solucoes.Modelo.Entidades
 {
-    public class Ticket: CadastroModelo
+    public class Ticket : MovimentacaoModelo
     {
         public string? Titulo { get; set; }
         public int? NumeroSequencial { get; set; } //AAAAmmDD+Id
@@ -21,23 +14,11 @@ namespace Solucoes.Modelo.Entidades
 
         public virtual Empresa? Empresa { get; set; } //Objeto simples
         public virtual Plataforma? Plataforma { get; set; } //Objeto simples
-        public virtual ICollection<TicketAgrupamento>? TicketAgrupamentos { get; set; }
-        public virtual ICollection<TicketRelacionamento>? TicketRelacionamentos { get; set; }
 
+        //public virtual ICollection<TicketAgrupamento>? TicketAgrupamentos { get; set; }
+        //public virtual ICollection<TicketRelacionamento>? TicketRelacionamentos { get; set; }
+        public virtual ICollection<TicketAcao>? TicketAcoes { get; set; }
 
-
-
-
-
-
-
-        //[ForeignKey(nameof(PlataformaId))]
-        //public int PlataformaId { get; set; }
-        //public virtual Plataforma? Plataformas { get; set; }
-
-        //[ForeignKey(nameof(UsuarioId))]
-        //public int UsuarioId { get; set; }
-        //public virtual Usuario? Usuarios { get; set; }
 
     }
 }

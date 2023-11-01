@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Api.Service.Movimentacao
 {
-    public class LogMovimentacaoService : CrudServices<LogMovimentacao, LogMovimentacaoDto>
+    public class LogMovService : CrudServices<LogMovimentacao, LogMovimentacaoDto>
     {
-        public LogMovimentacaoService(LogMovimentacaoRepositorio logMovimentacaoRepositorio, 
+        public LogMovService(LogMovimentacaoRepositorio logMovimentacaoRepositorio, 
             Mapper.Mapper mapper) : base(logMovimentacaoRepositorio, mapper)
         {
             
