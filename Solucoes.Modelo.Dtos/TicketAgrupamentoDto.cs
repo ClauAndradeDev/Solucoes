@@ -13,3 +13,8 @@ namespace Solucoes.Modelo.Dtos
 
     }
 }
+
+
+
+//.ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.CodigoAgrupamento))
+//.ForMember(model => model.TicketId, opt => opt.MapFrom(dto => dto.Codigo))

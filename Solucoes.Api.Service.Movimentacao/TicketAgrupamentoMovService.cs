@@ -25,6 +25,22 @@ namespace Solucoes.Api.Service.Movimentacao
         }
 
 
+        public async Task<TicketAgrupamentoDto> InserirTicketOrigem(int codTicketOrigem)
+        {
+            var ticketModelOrigem = await TicketRepositorio.FindById(codTicketOrigem);
+
+            var ticketAgrupamento = new TicketAgrupamento();
+            if(ticketModelOrigem is not null)
+            {
+                ticketAgrupamento.TicketId = ticketModelOrigem.Id;
+                ticketAgrupamento = await Repositorio.Add(ticketAgrupamento);
+            }
+           
+
+            var result = await base.FindByCodigo(ticketAgrupamento.Id);
+
+            return result;
+        }
  
     //    public async Task<TicketAgrupamentoDto> InserirTicketAcao(int codTicket, TicketAgrupamentoDto ticketAgrupamento)
     //    {

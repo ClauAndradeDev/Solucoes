@@ -250,13 +250,14 @@ namespace Solucoes.Api.Mapper
             #region TicketAgrupamento -> TicketAgrupamentoDto
             cfg.CreateMap<TicketAgrupamento, TicketAgrupamentoDto>()
                 .ForMember(dto => dto.Codigo, opt => opt.MapFrom(model => model.Ticket.Id))
-                .ForMember(dto => dto.Titulo, opt => opt.MapFrom(model => model.Ticket.Titulo))
-                .ForMember(dto => dto.NumeroSequencial, opt => opt.MapFrom(model => model.Ticket.NumeroSequencial))
-                .ForMember(dto => dto.TipoChamado, opt => opt.MapFrom(model => model.Ticket.TipoChamado))
-                .ForMember(dto => dto.DataAbertura, opt => opt.MapFrom(model => model.Ticket.DataAbertura))
-                .ForMember(dto => dto.Empresa, opt => opt.MapFrom(model => model.Ticket.Empresa))
-                .ForMember(dto => dto.Plataforma, opt => opt.MapFrom(model => model.Ticket.Plataforma))
-                .ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Ticket.Situacao))
+                .ForMember(dto => dto.CodigoAgrupamento, opt => opt.MapFrom(model => model.Id))
+                //.ForMember(dto => dto.Titulo, opt => opt.MapFrom(model => model.Ticket.Titulo))
+                //.ForMember(dto => dto.NumeroSequencial, opt => opt.MapFrom(model => model.Ticket.NumeroSequencial))
+                //.ForMember(dto => dto.TipoChamado, opt => opt.MapFrom(model => model.Ticket.TipoChamado))
+                //.ForMember(dto => dto.DataAbertura, opt => opt.MapFrom(model => model.Ticket.DataAbertura))
+                //.ForMember(dto => dto.Empresa, opt => opt.MapFrom(model => model.Ticket.Empresa))
+                //.ForMember(dto => dto.Plataforma, opt => opt.MapFrom(model => model.Ticket.Plataforma))
+                //.ForMember(dto => dto.Situacao, opt => opt.MapFrom(model => model.Ticket.Situacao))
                 .IgnoreAllUnmapped();
             #endregion
 
@@ -462,6 +463,7 @@ namespace Solucoes.Api.Mapper
             #region TicketAgrupamentoDto -> TicketAgrupamento
             cfg.CreateMap<TicketAgrupamentoDto, TicketAgrupamento>()
                 .ForMember(model => model.Id, opt => opt.MapFrom(dto => dto.CodigoAgrupamento))
+                .ForMember(model=>model.TicketId, opt=>opt.MapFrom(dto=>dto.Codigo))
                 .IgnoreAllUnmapped();
             #endregion
 
