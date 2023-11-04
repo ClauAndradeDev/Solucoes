@@ -10,12 +10,12 @@ namespace Solucoes.Modelo.Dtos
     {
         public string? Titulo { get; set; }
         public string? Conteudo { get; set; }
-        public DateTime DataPrevisaoRetorno { get; set; }
-        public DateTime HoraInicial { get; set; }
-        public DateTime HoraFinal { get; set; }
+        public DateTime? DataPrevisaoRetorno { get; set; }
+        public DateTime? HoraInicial { get; set; }
+        public DateTime? HoraFinal { get; set; }
 
-        public virtual ReuniaoDto[]? Reuniao { get; set; }
-        public virtual SetorDto[]? Setor { get; set; }
-        public virtual UsuarioDto[]? Usuario { get; set; }
+        public virtual ReuniaoDto? Reuniao { get; set; }
+        public virtual SetorDto? Setor { get; set; }
+        public virtual UsuarioDto? Usuario { get; set; }
     }
 }

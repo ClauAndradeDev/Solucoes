@@ -81,31 +81,100 @@ namespace Solucoes.Api.Service.Cadastro
             return result;
         }
 
-        public async Task<UsuarioDto> AcessoUsuario(int codigo, UsuarioDto usuario)
+        public async Task<UsuarioDto> AcessoUsuario(UsuarioDto usuario)
         {
-            var usuarioModel = await Repositorio.FindById(usuario.Codigo);
-            var usuarioModelCod = await Repositorio.FindById(codigo);
-
+            var usuarioM = await Repositorio.All();
+            var usuarioModel = usuarioM[0];
+            //var usuarioLogando = usuario.Login;
             var usuarioDto = new UsuarioDto();
 
-            if (usuarioModel == usuarioModelCod)
+            if (usuarioM is not null)
             {
-                if (usuario.Login == usuarioModel.Login)
+                foreach (var item in usuarioM)
                 {
-                    if ((usuario.Senha != null) && (usuarioModel.Senha != null))
+                    if (!String.IsNullOrEmpty(usuario.Login))
                     {
-                        var senhaEnviada = HashMD5.RetornarMD5(usuario.Senha);
-                        //var senhaValida = HashMD5.ComparaMD5(usuarioModel.Senha, senhaEnviada);
-
-                        if(senhaEnviada == usuarioModel.Senha)
+                        if (!String.IsNullOrEmpty(usuario.Senha))
                         {
-                            usuarioDto = Mapper.Map<UsuarioDto>(usuarioModel);
+                            if (item.Login.Equals(usuario.Login))
+                            {
+                                var senhaEnviada = HashMD5.RetornarMD5(usuario.Senha);
+
+                                if (senhaEnviada == usuarioModel.Senha)
+                                {
+                                    usuarioDto = Mapper.Map<UsuarioDto>(usuarioModel);
+                                }
+                            }
                         }
                     }
                 }
+                
+                    
             }
+           
+            //var usuarioModel = await Repositorio.FindById(usuario.Codigo);
+            //var usuarioModelCod = await Repositorio.FindById(codigo);
+
+            
+
+            //if (!(usuarioModel is null))
+            //{
+            //    if (usuario.Login == usuarioModel.Login)
+            //    {
+            //        if (!String.IsNullOrEmpty(usuario.Senha))
+            //        {
+            //            var senhaEnviada = HashMD5.RetornarMD5(usuario.Senha);
+
+            //            if(senhaEnviada == usuarioModel.Senha)
+            //            {
+            //                usuarioDto = Mapper.Map<UsuarioDto>(usuarioModel);
+            //            }
+            //        }
+            //    }
+            //}
 
             return usuarioDto;
+        }
+
+        public async Task<UsuarioDto> AlterarSenhaUsuario(int codigo, UsuarioDto usuario)
+        {
+            if (!(usuario is null)) 
+            {
+                if (!String.IsNullOrEmpty(usuario.Senha))
+                {
+                    var usuarioModel = await Repositorio.FindById(codigo);
+                    var senhaAlterada = HashMD5.RetornarMD5(usuario.Senha);
+
+                    usuarioModel.Senha = senhaAlterada;
+                    await Repositorio.Replace(codigo, usuarioModel);
+
+                    usuarioModel = await Repositorio.FindById(codigo);
+                    var result = Mapper.Map<UsuarioDto>(usuarioModel);
+                    return result;
+                }
+
+                //Colocar uma exception decente aqui.
+                throw new Exception("A senha digitada não atende aos critérios informados!");
+            }
+
+            //Colocar uma exception decente aqui.
+            throw new Exception("Usuário não encontrado. Passar bem!");
+
+            //Código que somente faz sentido para eleitores do PT
+            /*var usuarioModel = await Repositorio.FindById(codigo);
+            var usuarioModelObj = await Repositorio.FindById(usuario.Codigo);
+            if (usuarioModel.Id.Equals(usuarioModelObj.Id))
+            {
+                var senhaAlterada = HashMD5.RetornarMD5(usuarioModelObj.Senha);
+                if (!usuarioModel.Senha.Equals(senhaAlterada))
+                {
+                    usuarioModel.Senha = senhaAlterada;
+                    await Repositorio.Replace(usuarioModel.Id, usuarioModel);
+                }
+                
+            }
+            var result = await base.FindByCodigo(usuarioModel.Id);
+            return result;*/
         }
     }
 }

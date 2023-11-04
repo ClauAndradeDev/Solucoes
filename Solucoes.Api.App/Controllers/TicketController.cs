@@ -9,9 +9,9 @@ namespace Solucoes.Api.App.Controllers
     [ApiController]
     public class TicketController : ControllerBase
     {
-        public TicketMovService TicketService { get; set; }
+        public TicketService TicketService { get; set; }
 
-        public TicketController(TicketMovService ticketService)
+        public TicketController(TicketService ticketService)
         {
             TicketService = ticketService;
         }
@@ -80,6 +80,49 @@ namespace Solucoes.Api.App.Controllers
         {
             var result = await TicketService.VincularTickets(codigo, codigoOrigem);
             return Ok(result);
+        }
+
+        //Rotas Reuniao E ReuniaoAcao
+        [HttpPost("{codigo}/Reuniao")]
+        public async Task<IActionResult> InserirReuniao(int codigo, ReuniaoDto reuniao)
+        {
+            var result = await TicketService.InserirReuniao(codigo, reuniao);
+            return Ok(result);
+        }
+
+        [HttpPut("{codigo}/Reuniao")]
+        public async Task<IActionResult> AlterarReuniao(int codigo, ReuniaoDto reuniao)
+        {
+            var result = await TicketService.AlterarReuniao(codigo, reuniao);
+            return Ok(result);  
+        }
+
+        [HttpDelete("{codigo}/Reuniao/{codigoReuniao}")]
+        public async Task<IActionResult> ExcluirReuniao(int codigo, int codigoReuniao)
+        {
+            await TicketService.ExcluirReuniao(codigo, codigoReuniao);
+            return Ok();
+        }
+
+        [HttpPost("{codigo}/Reuniao/{codReuniao}/ReuniaoAcao")]
+        public async Task<IActionResult> InserirNovaAcaoReuniao(int codigo, int codReuniao, ReuniaoAcaoDto reuniaoAcao)
+        {
+            var result = await TicketService.InserirNovaAcaoReuniao(codigo, codReuniao, reuniaoAcao);
+            return Ok(result);
+        }
+
+        [HttpPut("{codigo}/Reuniao/{codReuniao}/ReuniaoAcao")]
+        public async Task<IActionResult> AlterarAcaoReuniao(int codigo, int codReuniao, ReuniaoAcaoDto reuniaoAcao)
+        {
+            var result = await TicketService.AlterarAcaoReuniao(codigo, codReuniao, reuniaoAcao);
+            return Ok(result);
+        }
+
+        [HttpDelete("/Reuniao/{codigoReuniao}/ReuniaoAcao")]
+        public async Task<IActionResult> ExcluirAcaoReuniao(int codigo, ReuniaoAcaoDto reuniaoAcao)
+        {
+            await TicketService.ExcluirAcaoReuniao(codigo, reuniaoAcao);
+            return Ok();
         }
     }
 }

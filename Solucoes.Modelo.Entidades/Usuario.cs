@@ -14,5 +14,6 @@ namespace Solucoes.Modelo.Entidades
         public int? PessoaId { get; set; }
         public virtual Pessoa? Pessoa { set; get; }
         public virtual ICollection<TicketAcao>? TicketAcoes { get; set; }
+        public virtual ICollection<ReuniaoAcao>? ReuniaoAcoes { get; set; }
     }
 }

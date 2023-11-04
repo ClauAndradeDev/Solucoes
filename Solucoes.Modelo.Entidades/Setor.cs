@@ -12,5 +12,6 @@ namespace Solucoes.Modelo.Entidades
         public string? Descricao { get; set; }
         public int? EmpresaId { get; set; }
         public virtual Empresa? Empresa { get; set; }
+        public virtual ICollection<ReuniaoAcao>? ReuniaoAcoes { get; set; }
     }
 }

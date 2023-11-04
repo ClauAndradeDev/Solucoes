@@ -9,43 +9,49 @@ using System.Reflection;
 
 namespace Solucoes.Api.Service.Movimentacao
 {
-    public class TicketMovService : CrudServices<Ticket, TicketDto>
+    public class TicketService : CrudServices<Ticket, TicketDto>
     {
         public TicketAcaoRepositorio TicketAcaoRepositorio { get; set; }
-        public TicketAcaoMovService TicketAcaoMovService { get; set; }
+        public TicketAcaoService TicketAcaoService { get; set; }
         public TicketAgrupamentoRepositorio TicketAgrupamentoRepositorio { get; set; }
-        public TicketAgrupamentoMovService TicketAgrupamentoMovService { get; set; }
+        public TicketAgrupamentoService TicketAgrupamentoService { get; set; }
         public TicketRelacionamentoRepositorio TicketRelacionamentoRepositorio { get; set; }
-        public TicketRelacionamentoMovService TicketRelacionamentoMovService { get; set; }
+        public TicketRelacionamentoService TicketRelacionamentoService { get; set; }
         public EmpresaRepositorio EmpresaRepositorio { get; set; }
         public PlataformaRepositorio PlataformaRepositorio { get; set; }
         public UsuarioRepositorio UsuarioRepositorio { get; set; }
         public PessoaRepositorio PessoaRepositorio { get; set; }
+        public ReuniaoService ReuniaoService { get; set; }
+        public ReuniaoAcaoService ReuniaoAcaoService { get; set; }
 
-        public TicketMovService(TicketRepositorio ticketRepositorio
-                    , TicketAgrupamentoMovService ticketAgrupamentoMovService
+        public TicketService(TicketRepositorio ticketRepositorio
+                    , TicketAgrupamentoService ticketAgrupamentoService
                     , TicketAgrupamentoRepositorio ticketAgrupamentoRepositorio
                     , TicketRelacionamentoRepositorio ticketRelacionamentoRepositorio
-                    , TicketRelacionamentoMovService ticketRelacionamentoMovService
+                    , TicketRelacionamentoService ticketRelacionamentoService
                     , EmpresaRepositorio empresaRepositorio
                     , PlataformaRepositorio plataformaRepositorio
                     , UsuarioRepositorio usuarioRepositorio
-                    , Mapper.Mapper mapper
+                    , ReuniaoService reuniaoService
+                    , ReuniaoAcaoService reuniaoAcaoService
                     , TicketAcaoRepositorio ticketAcaoRepositorio
                     , PessoaRepositorio pessoaRepositorio
-                    , TicketAcaoMovService ticketAcaoMovService) :
+                    , TicketAcaoService ticketAcaoService
+                    , Mapper.Mapper mapper) :
                     base(ticketRepositorio, mapper)
         {
-            TicketRelacionamentoMovService = ticketRelacionamentoMovService;
+            TicketRelacionamentoService = ticketRelacionamentoService;
             TicketAgrupamentoRepositorio = ticketAgrupamentoRepositorio;
-            TicketAgrupamentoMovService = ticketAgrupamentoMovService;
+            TicketAgrupamentoService = ticketAgrupamentoService;
             TicketRelacionamentoRepositorio = ticketRelacionamentoRepositorio;
             EmpresaRepositorio = empresaRepositorio;
             PlataformaRepositorio = plataformaRepositorio;
             UsuarioRepositorio = usuarioRepositorio;
             TicketAcaoRepositorio = ticketAcaoRepositorio;
-            TicketAcaoMovService = ticketAcaoMovService;
+            TicketAcaoService = ticketAcaoService;
             PessoaRepositorio = pessoaRepositorio;
+            ReuniaoService = reuniaoService;
+            ReuniaoAcaoService = reuniaoAcaoService;
         }
 
 
@@ -91,6 +97,7 @@ namespace Solucoes.Api.Service.Movimentacao
                         var ticketAcaoInserir = ticketAcoes[0];
                         ticketAcaoInserir.DataAcao = DateTime.Now;
                         var ticketAcaoInserirModel = Mapper.Map<TicketAcao>(ticketAcaoInserir);
+
                         ticketAcaoInserirModel.DataAcao = DateTime.Now;
                         ticketAcaoInserirModel.UsuarioId = ticketAcaoInserir.Usuario.Codigo;
                         int UsuarioId = (int)ticketAcaoInserirModel.UsuarioId;
@@ -101,7 +108,7 @@ namespace Solucoes.Api.Service.Movimentacao
                         ticketAcaoDto.Usuario = Mapper.Map<UsuarioDto>(usuarioModel);
 
                         ticketDto = await base.FindByCodigo(ticketAlteradoModel.Id);
-                        var ticketAcaoIncluido = await TicketAcaoMovService.InserirTicketAcao(ticketDto.Codigo, ticketAcaoDto);
+                        var ticketAcaoIncluido = await TicketAcaoService.InserirTicketAcao(ticketDto.Codigo, ticketAcaoDto);
 
                         result = await base.FindByCodigo(ticketAlteradoModel.Id);
                     }
@@ -173,7 +180,7 @@ namespace Solucoes.Api.Service.Movimentacao
 
 
                     var ticketDto = Mapper.Map<TicketDto>(ticketModelbanco);
-                    await TicketAcaoMovService.AlterarTicketAcao(ticketDto.Codigo, ticketAcaoDto);
+                    await TicketAcaoService.AlterarTicketAcao(ticketDto.Codigo, ticketAcaoDto);
 
 
 
@@ -189,57 +196,69 @@ namespace Solucoes.Api.Service.Movimentacao
         public async Task<TicketDto> ExcluirTicket(int codTicket)
         {
             var ticketModel = await Repositorio.FindById(codTicket);
+
             if (ticketModel is not null)
             {
-                var ticketAcaoExistente = await TicketAcaoMovService
+                var ticketAcaoExistente = await TicketAcaoService
                                 .BuscarTicketAcaoPorTicket(ticketModel.Id);
-                //var ticketAcaoListaDto = ticketAcaoExistente.ToList();
                 var listaTicketAcao = await TicketAcaoRepositorio.All();
 
-        
-                //var pessoaCodigo = ticketAcaoExistente.ToArray().Select(t=>t.Usuario.Pessoa.Codigo);
-
-                //listaTicketAcao[0].Usuario.Pessoa.Acesso (pegar o acesso da pessoa do usuario)
                 var ehAdministracao = listaTicketAcao[0].Usuario.Pessoa.Acesso.Equals(AcessoEnum.Adminitração);
                 var ehFinanceiro = listaTicketAcao[0].Usuario.Pessoa.Acesso.Equals(AcessoEnum.Financeiro);
                 var ehImplantacao = listaTicketAcao[0].Usuario.Pessoa.Acesso.Equals(AcessoEnum.Implantação);
 
                 var permissaoExcluir = ehAdministracao.Or(ehFinanceiro).Or(ehImplantacao);
 
-                if (permissaoExcluir) //se tiver permissão para excluir
+                //Busco TicketAgrupamento, e TicketRElacionamento
+                var ticketAgrupamento = await BuscarTicketPorId(ticketModel.Id);
+                var ticketRelacionamento = await TicketRelacionamentoService.BuscarTicketRelacionamentoPorTicket(ticketModel.Id);
+
+                //verifico se existem reuniões vinculadas a esse ticket
+                var reuniaoModel = await ReuniaoService.BuscarReuniaoPorTicket(codTicket);
+
+              
+                if (!ticketAgrupamento.Codigo.Equals(codTicket))
                 {
-                    if (ticketAcaoExistente.Count() > 1)
+                    if (!ticketRelacionamento.CodigoTicketAgrupamento.Equals(ticketAgrupamento.Codigo))
                     {
-                        //existem mais de 1 ação
-                        foreach (var item in ticketAcaoExistente.ToArray())
+                        //pode excluir
+                        if (reuniaoModel is null) //se não existir Reuniao Vinculado ao Ticket, segue para excluisão
                         {
-                            foreach (var item1 in listaTicketAcao)
+                            if (permissaoExcluir) //se tiver permissão para excluir
                             {
-                                if (item.Codigo == item1.Id)
+                                if (ticketAcaoExistente.Count() > 1)
                                 {
-                                    await TicketAcaoRepositorio.Remove(item1.Id);
+                                    //existem mais de 1 ação
+                                    foreach (var item in ticketAcaoExistente.ToArray())
+                                    {
+                                        foreach (var item1 in listaTicketAcao)
+                                        {
+                                            if (item.Codigo == item1.Id)
+                                            {
+                                                await TicketAcaoRepositorio.Remove(item1.Id);
+                                            }
+                                        }
+                                    }
                                 }
+                                else if (ticketAcaoExistente.Count() == 1)
+                                {
+                                    //apenas 1 ação
+                                    await TicketAcaoRepositorio.Remove(ticketAcaoExistente[0].Codigo);
+                                }
+
+                                var ticketAserRemovido = await Repositorio.FindById(ticketModel.Id);
+
+                                await Repositorio.Remove(ticketAserRemovido.Id);
                             }
+                            else //se não tiver permissão
+                            {
+
+                            }
+
                         }
                     }
-                    else if(ticketAcaoExistente.Count()==1)
-                    {
-                        //apenas 1 ação
-                        await TicketAcaoRepositorio.Remove(ticketAcaoExistente[0].Codigo);
-                    }
-
-                    var ticketAserRemovido = await Repositorio.FindById(ticketModel.Id);
-
-                    await Repositorio.Remove(ticketAserRemovido.Id);
-                }
-                else //se não tiver permissão
-                {
-
                 }
 
-                
-                
-               
             }
             var result = await base.FindByCodigo(ticketModel.Id);
             return result;
@@ -265,7 +284,7 @@ namespace Solucoes.Api.Service.Movimentacao
             ticketAcaoDto.Usuario = Mapper.Map<UsuarioDto>(usuarioModel);
 
             //var ticketDto = await base.FindByCodigo(ticketAlteradoModel.Id);
-            var ticketAcaoIncluido = await TicketAcaoMovService.InserirTicketAcao(ticketModelBase.Id, ticketAcaoDto);
+            var ticketAcaoIncluido = await TicketAcaoService.InserirTicketAcao(ticketModelBase.Id, ticketAcaoDto);
 
             //var ticketAcaoIncluidoDto = await TicketAcaoRepositorio.FindById(ticketAcaoIncluido.Codigo);
 
@@ -278,12 +297,12 @@ namespace Solucoes.Api.Service.Movimentacao
         }
         public async Task<TicketAcaoDto> AlterarTicketAcao(int codTicket, TicketAcaoDto ticketAcao)
         {
-            var result = await TicketAcaoMovService.AlterarTicketAcao(codTicket, ticketAcao);
+            var result = await TicketAcaoService.AlterarTicketAcao(codTicket, ticketAcao);
             return result;
         }
         public async Task ExcluirTicketAcao(int codTicket, TicketAcaoDto ticketAcao)
         {
-            await TicketAcaoMovService.ExcluirTicketAcao(codTicket, ticketAcao);
+            await TicketAcaoService.ExcluirTicketAcao(codTicket, ticketAcao);
         }
 
         //Rota Vincular Ticket em TicketOrigem
@@ -292,11 +311,11 @@ namespace Solucoes.Api.Service.Movimentacao
             var ticketModelOrigem = await Repositorio.FindById(codTiketOrigem);
             var ticketModelVincular = await Repositorio.FindById(codigo);
 
-            
+
             var ticketOrigemDto = Mapper.Map<TicketDto>(ticketModelOrigem);
             var ticketVincularDto = Mapper.Map<TicketDto>(ticketModelVincular);
-     
-            
+
+
             try
             {
                 ticketOrigemDto.Origem = true;
@@ -304,24 +323,59 @@ namespace Solucoes.Api.Service.Movimentacao
                 await base.Update(ticketOrigemDto.Codigo, ticketOrigemDto);
 
                 //inserir ticketAgrupamento.
-                var ticketAgrupamento = await TicketAgrupamentoMovService.InserirTicketOrigem(ticketModelOrigem.Id);
+                var ticketAgrupamento = await TicketAgrupamentoService.InserirTicketOrigem(ticketModelOrigem.Id);
 
                 //pegar idTicketAgrupamento
                 var idTicketAgrupamento = ticketAgrupamento.CodigoAgrupamento;
 
                 //inserir ticketRelacionamento (idTicket, e idTicketAgrupamento)
-               await TicketRelacionamentoMovService.InserirRelacaoEntreTickets(idTicketAgrupamento, ticketModelVincular.Id);
+                await TicketRelacionamentoService.InserirRelacaoEntreTickets(idTicketAgrupamento, ticketModelVincular.Id);
             }
             catch (Exception)
             {
 
                 throw;
             }
-           
+
 
             var result = await base.FindByCodigo(ticketModelOrigem.Id);
 
             return result;
+        }
+
+        //Rota Ticket -> Reunião
+        public async Task<ReuniaoDto> InserirReuniao(int codTicket, ReuniaoDto reuniao)
+        {
+            var result = await ReuniaoService.InserirReuniao(codTicket, reuniao);
+            return result;
+        }
+        public async Task<ReuniaoDto> AlterarReuniao(int codTicket, ReuniaoDto reuniao)
+        {
+            var result = await ReuniaoService.AlterarReuniao(codTicket, reuniao);
+            return result;
+        }
+        public async Task ExcluirReuniao(int codTicket, int codReuniao)
+        {
+            await ReuniaoService.ExcluirReuniao(codTicket, codReuniao);
+        }
+
+        //Rota Ticket -> ReuniãoAção
+        public async Task<ReuniaoAcaoDto> InserirNovaAcaoReuniao(int codigo, int codReuniao, ReuniaoAcaoDto reuniaoAcao)
+        {
+            var result = await ReuniaoService.InserirNovaAcaoReuniao(codigo, codReuniao, reuniaoAcao);
+            return result;
+        }
+
+        public async Task<ReuniaoAcaoDto> AlterarAcaoReuniao(int codigo, int codReuniao, ReuniaoAcaoDto reuniaoAcao)
+        {
+            var result = await ReuniaoAcaoService.AlterarAcaoReuniao(codigo, codReuniao, reuniaoAcao);
+            return result;
+        }
+
+        public async Task ExcluirAcaoReuniao(int codReuniao, ReuniaoAcaoDto reuniaoAcao)
+        {
+            await ReuniaoAcaoService.ExcluirAcaoReuniao(codReuniao, reuniaoAcao);
+
         }
     }
 }

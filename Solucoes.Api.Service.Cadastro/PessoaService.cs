@@ -184,11 +184,15 @@ namespace Solucoes.Api.Service.Cadastro
             return await UsuarioService.AlterarUsuarioPessoa(codPessoa, usuario);
         }
 
-        public async Task<UsuarioDto> AcessoUsuario(int codigo, UsuarioDto usuario)
+        public async Task<UsuarioDto> AcessoUsuario(UsuarioDto usuario)
         {
-            return await UsuarioService.AcessoUsuario(codigo,usuario);
+            return await UsuarioService.AcessoUsuario(usuario);
         }
 
+        public async Task<UsuarioDto> AlterarSenhaUsuario(int codUsuario, UsuarioDto usuario)
+        {
+            return await UsuarioService.AlterarSenhaUsuario(codUsuario, usuario);
+        }
 
         /*Rota Vincular Empresa a Pessoa*/
 

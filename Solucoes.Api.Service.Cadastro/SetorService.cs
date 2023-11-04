@@ -8,7 +8,7 @@ namespace Solucoes.Api.Service.Cadastro
     {
         //public LogMovimentacaoService LogMovimentacaoService { get; set; }
         public EmpresaRepositorio EmpresaRepositorio { get; set; }
-        public SetorService(SetorEmpresaRepositorio setorEmpresaRepositorio,
+        public SetorService(SetorRepositorio setorEmpresaRepositorio,
                             //, LogMovimentacaoService logMovimentacaoService
                             EmpresaRepositorio empresaRepositorio
                             , Mapper.Mapper mapper) :
@@ -17,21 +17,6 @@ namespace Solucoes.Api.Service.Cadastro
             EmpresaRepositorio = empresaRepositorio;
             //  LogMovimentacaoService = logMovimentacaoService;
         }
-
-        //public async Task<SetorDto> InsertSetor(SetorDto setor)
-        //{
-
-        //    var setorModel = Mapper.Map<Setor>(setor);
-        //    setorModel.DataCadastro = DateTime.Now;
-
-        //    await Repositorio.Add(setorModel);
-
-        //    //    //await LogMovimentacaoService.InserirLogMov(setorModel, 1, "Setor", setorModel.Id);
-
-        //    var result = await base.FindByCodigo(setor.Codigo);
-
-        //    return result;
-        //}
 
         public async Task<SetorDto> InsertSetorEmpresa(int codEmpresa, SetorDto setor)
         {
@@ -76,7 +61,7 @@ namespace Solucoes.Api.Service.Cadastro
             if ((empresaModel != null) && (empresaModel.Id == setorModel.EmpresaId))
             {
                 setorModel.Descricao = setor.Descricao;
-                setorModel.Situacao =   (Modelo.Enums.SituacaoCadastralEnum)setor.Situacao;
+                setorModel.Situacao = (Modelo.Enums.SituacaoCadastralEnum)setor.Situacao;
 
                 await Repositorio.Replace(setorModel.Id, setorModel);
             }

@@ -31,6 +31,7 @@ namespace Solucoes.Modelo.Entidades
         public virtual ICollection<Plataforma>? Plataformas { get; set; }
         public virtual ICollection<PessoaEmpresa>? PessoaEmpresas { get; set; }
         public virtual ICollection<Ticket>? Tickets { get; set; }
+        public virtual ICollection<Reuniao>? Reunioes { get; set; }
 
     }
 }

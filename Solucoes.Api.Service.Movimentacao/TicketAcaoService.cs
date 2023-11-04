@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Api.Service.Movimentacao
 {
-    public class TicketAcaoMovService : CrudServices<TicketAcao, TicketAcaoDto>
+    public class TicketAcaoService : CrudServices<TicketAcao, TicketAcaoDto>
     {
 
 
@@ -22,7 +22,7 @@ namespace Solucoes.Api.Service.Movimentacao
         public PessoaRepositorio PessoaRepositorio { get; set; }
 
 
-        public TicketAcaoMovService(TicketAcaoRepositorio ticketAcaoRepositorio
+        public TicketAcaoService(TicketAcaoRepositorio ticketAcaoRepositorio
                         , TicketRepositorio ticketRepositorio
                         , UsuarioRepositorio usuarioRepositorio
                         , PessoaRepositorio pessoaRepositorio

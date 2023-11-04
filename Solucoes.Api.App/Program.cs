@@ -35,12 +35,14 @@ builder.Services.AddTransient<EnderecoRepositorio>();
 builder.Services.AddTransient<PessoaRepositorio>();
 builder.Services.AddTransient<PessoaEmpresaRepositorio>();
 builder.Services.AddTransient<PlataformaRepositorio>();
-builder.Services.AddTransient<SetorEmpresaRepositorio>();
+builder.Services.AddTransient<SetorRepositorio>();
 builder.Services.AddTransient<TicketAcaoRepositorio>();
 builder.Services.AddTransient<TicketRepositorio>();
 builder.Services.AddTransient<UsuarioRepositorio>();
 builder.Services.AddTransient<TicketAgrupamentoRepositorio>();
 builder.Services.AddTransient<TicketRelacionamentoRepositorio>();
+builder.Services.AddTransient<ReuniaoRepositorio>();
+builder.Services.AddTransient<ReuniaoAcaoRepositorio>();
 
 //builder.Services.AddTransient<LogMovimentacaoRepositorio>();
 
@@ -56,10 +58,12 @@ builder.Services.AddTransient<EmpresaService>();
 builder.Services.AddTransient<ContatoService>();
 builder.Services.AddTransient<EnderecoService>();
 builder.Services.AddTransient<UsuarioService>();
-builder.Services.AddTransient<TicketAcaoMovService>();
-builder.Services.AddTransient<TicketMovService>();
-builder.Services.AddTransient<TicketAgrupamentoMovService>();
-builder.Services.AddTransient<TicketRelacionamentoMovService>();
+builder.Services.AddTransient<TicketAcaoService>();
+builder.Services.AddTransient<TicketService>();
+builder.Services.AddTransient<TicketAgrupamentoService>();
+builder.Services.AddTransient<TicketRelacionamentoService>();
+builder.Services.AddTransient<ReuniaoService>();
+builder.Services.AddTransient<ReuniaoAcaoService>();
 
 
 

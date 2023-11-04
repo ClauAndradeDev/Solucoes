@@ -18,6 +18,7 @@ namespace Solucoes.Modelo.Entidades
         //public virtual ICollection<TicketAgrupamento>? TicketAgrupamentos { get; set; }
         //public virtual ICollection<TicketRelacionamento>? TicketRelacionamentos { get; set; }
         public virtual ICollection<TicketAcao>? TicketAcoes { get; set; }
+        public virtual ICollection<Reuniao>? Reunioes { get; set; }
 
 
     }
