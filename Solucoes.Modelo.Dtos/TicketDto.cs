@@ -15,7 +15,8 @@ namespace Solucoes.Modelo.Dtos
        
         //public TicketRelacionamentoDto? TicketRelacionamento { get; set; }
         //public TicketAgrupamentoDto? TicketAgrupamento { get; set; }
-        public virtual TicketAcaoDto[] TicketAcoes { get; set;}
+        public virtual TicketAcaoDto[]? TicketAcoes { get; set;}
+        public virtual ReuniaoDto[]? Reunioes { get; set; } 
 
     }
 }

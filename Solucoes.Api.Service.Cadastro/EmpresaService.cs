@@ -16,14 +16,14 @@ namespace Solucoes.Api.Service.Cadastro
 {
     public class EmpresaService : CrudServices<Empresa, EmpresaDto>
     {
-        public SetorEmpresaRepositorio SetorEmpresaRepositorio { get; set; }
+        public SetorRepositorio SetorEmpresaRepositorio { get; set; }
         public SetorService SetorService { get; set; }
         public PlataformaService PlataformaService { get; set; }
         public PlataformaRepositorio PlataformaRepositorio { get; set; }
         public PessoaEmpresaRepositorio PessoaEmpresaRepositorio { get; set; }
         public PessoaRepositorio PessoaRepositorio { get; set; }
         public EmpresaService(EmpresaRepositorio empresaRepositorio,
-            SetorEmpresaRepositorio setorEmpresaRepositorio,
+            SetorRepositorio setorEmpresaRepositorio,
             SetorService setorService,
             PlataformaService plataformaService,
             PlataformaRepositorio plataformaRepositorio,

@@ -19,8 +19,8 @@ namespace Solucoes.Modelo.Contexto
         public DbSet<Pessoa> Pessoas { get; set; }
         public DbSet<PessoaEmpresa> PessoaEmpresa { get; set; }
         public DbSet<Plataforma> Plataformas { get; set; }
-        //public DbSet<Reuniao> Reunioes { get; set; }
-        //public DbSet<ReuniaoAcao> ReuniaoAcao { get; set; }
+        public DbSet<Reuniao> Reunioes { get; set; }
+        public DbSet<ReuniaoAcao> ReuniaoAcoes { get; set; }
         public DbSet<Setor> Setores { get; set; }
         public DbSet<Ticket> Ticket { get; set; }
         public DbSet<TicketAcao> TicketAcao { get; set; }
@@ -108,6 +108,12 @@ namespace Solucoes.Modelo.Contexto
                 .WithOne(t => t.Empresa)
                 .HasForeignKey(t => t.EmpresaId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Empresa>()
+                   .HasMany(e => e.Reunioes)
+                   .WithOne(r => r.Empresa)
+                   .HasForeignKey(r => r.EmpresaId)
+                   .OnDelete(DeleteBehavior.NoAction);
 
             #endregion
 
@@ -282,6 +288,91 @@ namespace Solucoes.Modelo.Contexto
                 .OnDelete(DeleteBehavior.Restrict);
             #endregion
 
+            #region Reunião
+
+            modelBuilder.Entity<Reuniao>()
+              .ToTable("Reuniao");
+
+            modelBuilder.Entity<Reuniao>()
+                .HasKey(t => t.Id);
+
+            modelBuilder.Entity<Reuniao>()
+                .Property(t => t.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Reuniao>()
+                .Property(t => t.DataAlteracao);
+
+            modelBuilder.Entity<Reuniao>()
+                .Property(t => t.Situacao);
+
+            modelBuilder.Entity<Reuniao>()
+                .Property(t => t.Titulo);
+
+            modelBuilder.Entity<Reuniao>()
+                .Property(t => t.DataPrevisaoInicio);
+
+            modelBuilder.Entity<Reuniao>()
+                .Property(t => t.DataAgendamento);
+
+            modelBuilder.Entity<Reuniao>()
+                .Property(t => t.HoraAgendamentoInicial);
+
+            modelBuilder.Entity<Reuniao>()
+                .Property(t => t.HoraAgendamentoFinal);
+
+            modelBuilder.Entity<Reuniao>()
+                .Property(t => t.EmpresaId);
+
+            modelBuilder.Entity<Reuniao>()
+                .Property(t => t.TicketId);
+
+            modelBuilder.Entity<Reuniao>()
+                .HasMany(r => r.ReuniaoAcoes)
+                .WithOne(ra => ra.Reuniao)
+                .HasForeignKey(ra => ra.ReuniaoId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+            #endregion
+
+            #region ReuniãoAção
+            modelBuilder.Entity<ReuniaoAcao>()
+              .ToTable("ReuniaoAcao");
+
+            modelBuilder.Entity<ReuniaoAcao>()
+                .HasKey(t => t.Id);
+
+            modelBuilder.Entity<ReuniaoAcao>()
+                .Property(t => t.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<ReuniaoAcao>()
+               .Property(t => t.Titulo);
+
+            modelBuilder.Entity<ReuniaoAcao>()
+               .Property(t => t.Conteudo);
+
+            modelBuilder.Entity<ReuniaoAcao>()
+               .Property(t => t.DataPrevisaoRetorno);
+
+            modelBuilder.Entity<ReuniaoAcao>()
+               .Property(t => t.HoraInicial);
+
+            modelBuilder.Entity<ReuniaoAcao>()
+               .Property(t => t.HoraFinal);
+
+            modelBuilder.Entity<ReuniaoAcao>()
+               .Property(t => t.ReuniaoId);
+
+            modelBuilder.Entity<ReuniaoAcao>()
+               .Property(t => t.SetorId);
+
+            modelBuilder.Entity<ReuniaoAcao>()
+               .Property(t => t.UsuarioId);
+
+            #endregion
+
             #region Setor
             modelBuilder.Entity<Setor>()
                 .ToTable("Setor");
@@ -304,6 +395,13 @@ namespace Solucoes.Modelo.Contexto
 
             modelBuilder.Entity<Setor>()
                 .Property(s => s.EmpresaId);
+
+            modelBuilder.Entity<Setor>()
+                .HasMany(s => s.ReuniaoAcoes)
+                .WithOne(ra => ra.Setor)
+                .HasForeignKey(ra => ra.SetorId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             #endregion
 
             #region Ticket
@@ -328,6 +426,12 @@ namespace Solucoes.Modelo.Contexto
                .WithOne(ta => ta.Ticket)
                .HasForeignKey(ta => ta.TicketId)
                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Ticket>()
+                .HasMany(t => t.Reunioes)
+                .WithOne(r => r.Ticket)
+                .HasForeignKey(r => r.TicketId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             //modelBuilder.Entity<Ticket>()
             //    .HasMany(t => t.TicketAgrupamentos)
@@ -433,6 +537,13 @@ namespace Solucoes.Modelo.Contexto
                .WithOne(ta => ta.Usuario)
                .HasForeignKey(ta => ta.UsuarioId)
                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Usuario>()
+                .HasMany(u => u.ReuniaoAcoes)
+                .WithOne(ra => ra.Usuario)
+                .HasForeignKey(ra => ra.UsuarioId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             #endregion
 
 

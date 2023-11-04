@@ -142,18 +142,25 @@ namespace Solucoes.Api.App.Controllers
             }
         }
 
-        [HttpPost("{codigo}/acesso")]
-        public async Task<IActionResult> AcessoUsuario(int codigo, UsuarioDto usuario)
+        [HttpPost("/acesso")]
+        public async Task<IActionResult> AcessoUsuario(UsuarioDto usuario)
         {
-            var result = await PessoaService.UsuarioService.AcessoUsuario(codigo, usuario);
+            var result = await PessoaService.UsuarioService.AcessoUsuario(usuario);
             if (result.Codigo != 0)
             {
-                return Ok(result);
+                return Ok(new { Message = "Autorizado" });
             }
             else
             {
                 return Ok("Verificar Usuário e/ou Senha incorretos!");
             }
+        }
+
+        [HttpPut("{codigo}/AlterarSenha")]
+        public async Task<IActionResult> AlterarSenha(int codigo, UsuarioDto usuario)
+        {
+            var result = await PessoaService.AlterarSenhaUsuario(codigo, usuario);
+            return Ok(result);
         }
     }
 }

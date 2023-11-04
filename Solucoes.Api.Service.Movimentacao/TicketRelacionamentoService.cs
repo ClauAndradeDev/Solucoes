@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Solucoes.Api.Service.Movimentacao
 {
-    public class TicketRelacionamentoMovService : CrudServices<TicketRelacionamento, TicketRelacionamentoDto>
+    public class TicketRelacionamentoService : CrudServices<TicketRelacionamento, TicketRelacionamentoDto>
     {
         public TicketRepositorio TicketRepositorio { get; set; }
         public TicketAgrupamentoRepositorio TicketAgrupamentoRepositorio { get; set; }
         public UsuarioRepositorio UsuarioRepositorio { get; set; }
 
-        public TicketRelacionamentoMovService(
+        public TicketRelacionamentoService(
                             TicketRelacionamentoRepositorio ticketRelacionamentoRepositorio,
                             TicketRepositorio ticketRepositorio,
                             UsuarioRepositorio usuarioRepositorio,
@@ -46,6 +46,39 @@ namespace Solucoes.Api.Service.Movimentacao
 
             var result = await base.FindByCodigo(ticketRelacionamento.Id);
             return result;
+        }
+
+        public async Task<TicketRelacionamentoDto> BuscarTicketRelacionamentoPorTicket(int codTicket)
+        {
+            var ticketRelacionamentoModel = await Repositorio.All();
+            var ticketAgrupamentoModel = await TicketAgrupamentoRepositorio.All();
+            var ticketRelacionamentoDto = new TicketRelacionamentoDto();
+            if(ticketRelacionamentoModel is not null)
+            {
+                if(ticketAgrupamentoModel is not null)
+                {
+                    foreach (var item in ticketRelacionamentoModel)
+                    {
+                        if (item.TicketId == codTicket)
+                        {
+                            var ticketRel = item;
+                            ticketRelacionamentoDto = Mapper.Map<TicketRelacionamentoDto>(ticketRel);
+
+                            ////existe relacionamento
+                            //foreach (var item1 in ticketAgrupamentoModel)
+                            //{
+                            //    if (item1.TicketId == codTicket)
+                            //    {
+
+                            //    }
+                            //}
+                        }
+                    }
+                }
+            }
+            var result = ticketRelacionamentoDto;
+            return result;
+
         }
     }
 }
