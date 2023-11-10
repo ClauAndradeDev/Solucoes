@@ -1,10 +1,13 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Solucoes.Api.App.Contexto;
 using Solucoes.Api.Mapper;
 using Solucoes.Api.Repositorios;
 using Solucoes.Api.Service.Cadastro;
 using Solucoes.Api.Service.Movimentacao;
 using Solucoes.Modelo.Contexto;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +29,20 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddTransient<AppDbContextFactory>();
 builder.Services.AddTransient(opt => opt.GetService<AppDbContextFactory>().CreateDbContext());
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true, // Defina como true se desejar validar o emissor (issuer)
+            ValidateAudience = true, // Defina como true se desejar validar a audiência
+            ValidateLifetime = true, // Defina como true se desejar validar a validade do token
+            ValidateIssuerSigningKey = true, // Defina como true se desejar validar a chave de assinatura
+            ValidIssuer = "solucoes_issuer",
+            ValidAudience = "solucoes_audience",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("c2157d46fa4cb606e924ab1d1e0e1d5b868adf9a8d690fd41820fa8433e475b4"))
+        };
+    });
 
 /*Repositorios*/
 
@@ -82,8 +99,16 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+var devCliente = "http://localhost:4200";
+app.UseCors(x => 
+x.AllowAnyOrigin()
+.AllowAnyMethod()
+.AllowAnyHeader()
+.WithOrigins(devCliente));
+
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

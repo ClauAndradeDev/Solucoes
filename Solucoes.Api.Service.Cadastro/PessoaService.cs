@@ -189,6 +189,11 @@ namespace Solucoes.Api.Service.Cadastro
             return await UsuarioService.AcessoUsuario(usuario);
         }
 
+        //AcessoUsuarioLogar
+        public async Task<UsuarioDto> AcessoUsuarioLogar(string login, string senha)
+        {
+            return await UsuarioService.AcessoUsuarioLogar(login, senha);
+        }
         public async Task<UsuarioDto> AlterarSenhaUsuario(int codUsuario, UsuarioDto usuario)
         {
             return await UsuarioService.AlterarSenhaUsuario(codUsuario, usuario);

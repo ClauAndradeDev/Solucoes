@@ -64,7 +64,7 @@ namespace Solucoes.Api.Service.Cadastro
 
             if (pessoaModel != null)
             {
-                 usuarioModel = Mapper.Map<Usuario>(usuario);
+                usuarioModel = Mapper.Map<Usuario>(usuario);
                 var usuariopesoa = pessoaModel.Usuarios.ToArray();
 
                 var usuarioJaExiste = pessoaModel.Usuarios.Where(p => p.PessoaId == pessoaModel.Id).Any();
@@ -108,14 +108,14 @@ namespace Solucoes.Api.Service.Cadastro
                         }
                     }
                 }
-                
-                    
+
+
             }
-           
+
             //var usuarioModel = await Repositorio.FindById(usuario.Codigo);
             //var usuarioModelCod = await Repositorio.FindById(codigo);
 
-            
+
 
             //if (!(usuarioModel is null))
             //{
@@ -136,9 +136,51 @@ namespace Solucoes.Api.Service.Cadastro
             return usuarioDto;
         }
 
+        public async Task<UsuarioDto> AcessoUsuarioLogar(string login, string senha)
+        {
+            var usuarioBanco = await Repositorio.All();
+            var usuarios = usuarioBanco.ToArray();
+            var usuarioModel = new Usuario();
+            var usuarioDto = new UsuarioDto();
+            var senhaEnviada = HashMD5.RetornarMD5(senha);
+
+            foreach (var item in usuarios)
+            {
+                if (item.Login == login)
+                {
+                    if (item.Senha == senhaEnviada)
+                    {
+                        usuarioModel = await Repositorio.FindById(item.Id);
+                        usuarioDto = Mapper.Map<UsuarioPessoaDto>(usuarioModel);
+                    }
+                }
+            }
+
+            return usuarioDto;
+        }
+
+        public async Task<UsuarioDto> DeslogarUsuario(string login)
+        {
+            var usuarioBanco = await Repositorio.All();
+            var usuarios = usuarioBanco.ToArray();
+            var usuarioModel = new Usuario();
+            var usuarioDto = new UsuarioDto();
+            foreach (var item in usuarios)
+            {
+                if (item.Login == login)
+                {
+
+                    usuarioModel = await Repositorio.FindById(item.Id);
+                    usuarioDto = Mapper.Map<UsuarioDto>(usuarioModel);
+                }
+            }
+
+            return usuarioDto;
+        }
+
         public async Task<UsuarioDto> AlterarSenhaUsuario(int codigo, UsuarioDto usuario)
         {
-            if (!(usuario is null)) 
+            if (!(usuario is null))
             {
                 if (!String.IsNullOrEmpty(usuario.Senha))
                 {
@@ -160,21 +202,7 @@ namespace Solucoes.Api.Service.Cadastro
             //Colocar uma exception decente aqui.
             throw new Exception("Usuário não encontrado. Passar bem!");
 
-            //Código que somente faz sentido para eleitores do PT
-            /*var usuarioModel = await Repositorio.FindById(codigo);
-            var usuarioModelObj = await Repositorio.FindById(usuario.Codigo);
-            if (usuarioModel.Id.Equals(usuarioModelObj.Id))
-            {
-                var senhaAlterada = HashMD5.RetornarMD5(usuarioModelObj.Senha);
-                if (!usuarioModel.Senha.Equals(senhaAlterada))
-                {
-                    usuarioModel.Senha = senhaAlterada;
-                    await Repositorio.Replace(usuarioModel.Id, usuarioModel);
-                }
-                
-            }
-            var result = await base.FindByCodigo(usuarioModel.Id);
-            return result;*/
+
         }
     }
 }
