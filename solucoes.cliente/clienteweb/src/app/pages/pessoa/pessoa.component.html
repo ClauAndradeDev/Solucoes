@@ -1,0 +1,73 @@
+<navbar></navbar>
+<sidebar></sidebar>
+
+<div class="container-base">
+  <div class="content-page">
+    <div class="card-header">
+      <div class="card-title">Cadastro de Pessoa</div>
+    </div>
+    <form class="form-page">
+      <div class="row">
+        <div class="group-row">
+          <label>Nome/Razão Social:</label>
+          <input type="text" name="razaosocial" id="razaosocial" placeholder="Nome/Razão Social"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="group-row">
+          <label>SobreNome/Nome Fantasia:</label>
+          <input type="text" name="nomefantasia" id="nomefantasia" placeholder="SobreNome/Nome Fantasia"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="group-row">
+          <label>CPF/CNPJ:</label>
+          <input type="text" name="cpfcnpj" id="cpfcnpj" placeholder="CPF/CNPJ"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="group-row">
+          <label>RG/IE:</label>
+          <input type="text" name="rgie" id="rgie" placeholder="RG/IE"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="group-row">
+          <label>Data Nascimento:</label>
+          <input type="Date" name="datanascimento" id="datanascimento" placeholder="Data"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="group-row">
+          <label>E-mail:</label>
+          <input type="text" name="email" id="email" placeholder="E-mail"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="group-row">
+          <label>Telefone:</label>
+          <input type="text" name="telefone" id="telefone" placeholder="Telefone/Celular"/>
+        </div>
+      </div>
+      <div class="row">
+        <!--<div class="group-row">
+           <label>WhatsApp:</label>
+          <input class="select-padrao" type="checkbox" name="whatsapp" id="whatsapp" placeholder="WhatsApp"/>
+        </div> -->
+        <div class="group-row">
+          <label>WhatsApp:</label>
+          <input class="checkbox" type="checkbox" name="whatsapp1" id="whatsapp1" placeholder="WhatsApp1"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="group-row">
+          <label>TipoPessoa:</label>
+          <ng-select class="select-padrao" name="perfilPessoa" [(ngModel)]="perfilPessoaOptions" [ngModelOptions]="{standalone: false}">
+            <ng-option *ngFor="let perfil of perfilPessoaOptions" [value]="perfil.value">{{perfil.label}}</ng-option>
+          </ng-select>
+
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
