@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PessoaComponent } from './pessoa.component';
 import { PessoaRoutingModule } from './pessoa-routing.modules';
@@ -8,8 +8,14 @@ import { MenuService } from 'src/app/services/menu.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 
+import {MatExpansionModule} from '@angular/material/expansion';
+import { SelecionarEmpresaModule } from 'src/app/components/selecionar-empresa/selecionar-empresa.module';
+import { PerfilPessoaModule } from 'src/app/components/perfilpessoa/perfilpessoa.module';
+import { PerfilPessoaComponent } from 'src/app/components/perfilpessoa/perfilpessoa.component';
+
+
 @NgModule({
-  providers: [],
+  providers: [MenuService, NavbarModule, SideBarModule],
   declarations: [PessoaComponent],
   imports: [
     CommonModule,
@@ -18,14 +24,11 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     SideBarModule,
     NgSelectModule,
-  ],
-  //exports: [CommonModule],
-  //schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-})
-export class PessoaModule {
-  constructor(public menuService: MenuService) {}
+    MatExpansionModule,
+    SelecionarEmpresaModule,
+    PerfilPessoaModule,
+    ],
+  exports: [CommonModule],
 
-  ngOnInit() {
-    this.menuService.menuSelecionado = 2;
-  }
-}
+})
+export class PessoaModule {}

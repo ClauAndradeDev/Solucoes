@@ -13,4 +13,12 @@ export class Pessoa {
   Acesso: number;
   Situacao: number;
   DataCadastro: Date;
+
+  /*
+  São necessário?  
+  Porque vou precisar na verdade da lista de Endereço, Contato, Usuario e Empresas
+  */
+  IdEmpresa: number;
+  IdContato: number;
+  IdUsuario: number;
 }

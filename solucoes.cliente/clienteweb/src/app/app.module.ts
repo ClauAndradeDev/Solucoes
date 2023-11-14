@@ -12,7 +12,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { AuthGuard } from './services/authGuard.service';
 //import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {MatExpansionModule} from '@angular/material/expansion';
 // const RxJS = [LoaderInterceptor, HTTPStatus];
 
 @NgModule({
@@ -22,11 +22,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
 
     NgSelectModule,
-
+    BrowserAnimationsModule,
+    MatExpansionModule,
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
+
   ],
   providers: [
     AuthGuard,

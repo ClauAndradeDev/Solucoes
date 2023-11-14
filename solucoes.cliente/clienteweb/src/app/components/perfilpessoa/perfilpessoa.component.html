@@ -1,0 +1,14 @@
+
+
+
+ <div class="row">
+  <div class="group-row">
+    <label>Perfil:</label>
+    <div class="select-padrao">
+      <ng-select class="select-padrao" [items]="perfilEnum" [ngModelOptions]="{standalone: true}"
+        bindLabel="namePerfil" bindValue="idPerfil" placeholder="Selecione Perfil"
+        [(ngModel)]="selectPerfil">
+      </ng-select>
+   </div>
+  </div>
+</div>

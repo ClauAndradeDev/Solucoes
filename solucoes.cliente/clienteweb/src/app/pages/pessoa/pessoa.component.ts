@@ -1,22 +1,27 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { PerfilPessoaEnum } from 'src/app/models/perfilPessoaEnum.model';
+//import { SelecionarEmpresaModule } from './../../components/selecionar-empresa/selecionar-empresa.module';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pessoa } from 'src/app/models/pessoa.model';
 import { SelectModel } from 'src/app/models/selectModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { MenuService } from 'src/app/services/menu.service';
-import { $enum } from 'ts-enum-util';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler';
-import { PerfilPessoaEnum } from 'src/app/models/perfilPessoaEnum.model';
-import {enumPerfilPessoa} from 'src/app/services/enum.service';
+import { enums } from 'src/app/services/enum.service';
+import { PessoaService } from 'src/app/services/pessoa.service';
+import { EmpresaService } from 'src/app/services/empresa.service';
+import { PessoaModule } from './pessoa.module';
+import { PerfilPessoaModule } from 'src/app/components/perfilpessoa/perfilpessoa.module';
+import { SelecionarEmpresaModule } from 'src/app/components/selecionar-empresa/selecionar-empresa.module';
+
 
 @Component({
   selector: 'app-pessoa',
   templateUrl: './pessoa.component.html',
   styleUrls: ['./pessoa.component.scss'],
 })
+
 export class PessoaComponent implements OnInit {
   constructor(
     public menuService: MenuService,
@@ -24,74 +29,57 @@ export class PessoaComponent implements OnInit {
     public activedRoute: ActivatedRoute,
     public ngSelectModule: NgSelectModule,
     public formsModule: FormsModule,
-    public enumPerfilPessoa: enumPerfilPessoa,
-    private router: Router
+    public enumPerfilPessoa: enums,
+    public enumTipoPessoa: enums,
+    public enumTipoEndereco: enums,
+    public enumTipoContato: enums,
+    public pessoaService: PessoaService,
+    public pessoaModule: PessoaModule,
+    public empresaService: EmpresaService,
+    private router: Router,
+    public selecionarEmpresaModule: SelecionarEmpresaModule,
+    public perfilPessoaModule: PerfilPessoaModule,
+
   ) {}
+
+  panelOpenState = false;
 
   tipoTela: number = 1;
   tableListPessoa: Array<Pessoa>;
 
-  /*Paginação */
-  page: number = 1;
-  config: any;
-  paginacao: boolean = true;
-  itemsPorPagina: number = 10;
+  selectTipo: number;
+  tipoPessoasEnum =[
+    {idTipoPessoa: 1, nameTipoPessoa: 'Pessoa Fisica'},
+    {idTipoPessoa: 2, nameTipoPessoa: 'Pessoa Jurídica'}
+  ];
 
-  perfilPessoaOptions: { value: number; label: string }[] = [];
+  selectTipoEndereco: number;
+  tipoEnderecoEnum=[
+    {idTipoEndereco: 1, nameTipoEndereco: 'Cobrança'},
+    {idTipoEndereco: 2, nameTipoEndereco: 'Comercial'},
+    {idTipoEndereco: 3, nameTipoEndereco: 'Entrega'},
+    {idTipoEndereco: 4, nameTipoEndereco: 'Residencial'}
+  ];
+
+  selectTipoContato: number;
+  tipoContatoEnum=[
+    {idTipoContato: 1, nameTipoContato: 'Comercial'},
+    {idTipoContato: 2, nameTipoContato: 'Preferencial'},
+    {idTipoContato: 3, nameTipoContato: 'Residencial'}
+  ];
+
+  tipoPessoaOptions: { value: number; label: string }[] = [];
+  tipoEnderecoOptions: { value: number; label: string }[] = [];
+  tipoContatoOptions:  { value: number; label: string }[] = [];
 
   ngOnInit() {
     this.menuService.menuSelecionado = 2;
 
-    this.perfilPessoaOptions = this.enumPerfilPessoa.getPerfilPessoaOptions();
+    this.tipoPessoaOptions = this.enumTipoPessoa.getTipoPessoaOptions();
+    this.tipoEnderecoOptions = this.enumTipoEndereco.getTipoEnderecoOptions();
+    this.tipoContatoOptions = this.enumTipoContato.getTipoContatoOptions();
+
   }
 
-  // configpag() {
-  //   this.id = this.gerarIdParaConfigDePaginacao();
 
-  //   this.config = {
-  //     id: this.id,
-  //     currentPage: this.page,
-  //     itemsPerPage: this.itemsPorPagina,
-  //   };
-  // }
-
-  gerarIdParaConfigDePaginacao() {
-    var result = '';
-    var characters =
-      'ABCDEFGHIJKLMNOPQRSTUVXZabcdefghijklmnopqrstuvxz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < 0; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
-
-  // cadastro() {
-  //   this.tipoTela = 2;
-  //   this.sistemaForm.reset();
-  // }
-
-  mudarItensPorPage() {
-    this.page = 1;
-    this.config.currentPage = this.page;
-    this.config.itemsPerPage = this.itemsPorPagina;
-  }
-
-  mudarPage(event: any) {
-    this.page = event;
-    this.config.currentPage = this.page;
-  }
-
-  // Redirecionar() {
-  //   this.router.navigate(['pessoa']);
-  // }
-
-  // getPerfilPessoa(perfilPessoaEnum: PerfilPessoaEnum) {
-  //   $enum.mapValue(perfilPessoaEnum).with({
-  //     1: 'Cliente',
-  //     2: 'Fornecedor',
-  //     3: 'Funcionario',
-  //     4: 'Transportadora',
-  //   });
-  // }
 }

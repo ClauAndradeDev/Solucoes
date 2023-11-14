@@ -39,6 +39,7 @@ const routes: Routes = [
     path: 'pessoa',
     loadChildren: () =>
       import('./pages/pessoa/pessoa.module').then((m) => m.PessoaModule),
+      canActivate: [AuthGuard],
   },
   {
     path: 'reuniao',

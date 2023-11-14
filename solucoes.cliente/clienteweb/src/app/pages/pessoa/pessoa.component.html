@@ -10,63 +10,192 @@
       <div class="row">
         <div class="group-row">
           <label>Nome/Razão Social:</label>
-          <input type="text" name="razaosocial" id="razaosocial" placeholder="Nome/Razão Social"/>
+          <input type="text" name="razaosocial" id="razaosocial" placeholder="Nome/Razão Social" />
         </div>
       </div>
       <div class="row">
         <div class="group-row">
           <label>SobreNome/Nome Fantasia:</label>
-          <input type="text" name="nomefantasia" id="nomefantasia" placeholder="SobreNome/Nome Fantasia"/>
+          <input type="text" name="nomefantasia" id="nomefantasia" placeholder="SobreNome/Nome Fantasia" />
         </div>
       </div>
       <div class="row">
         <div class="group-row">
           <label>CPF/CNPJ:</label>
-          <input type="text" name="cpfcnpj" id="cpfcnpj" placeholder="CPF/CNPJ"/>
+          <input type="text" name="cpfcnpj" id="cpfcnpj" placeholder="CPF/CNPJ" />
         </div>
       </div>
       <div class="row">
         <div class="group-row">
           <label>RG/IE:</label>
-          <input type="text" name="rgie" id="rgie" placeholder="RG/IE"/>
+          <input type="text" name="rgie" id="rgie" placeholder="RG/IE" />
         </div>
       </div>
       <div class="row">
         <div class="group-row">
           <label>Data Nascimento:</label>
-          <input type="Date" name="datanascimento" id="datanascimento" placeholder="Data"/>
+          <input type="Date" name="datanascimento" id="datanascimento" placeholder="Data" />
         </div>
       </div>
       <div class="row">
         <div class="group-row">
           <label>E-mail:</label>
-          <input type="text" name="email" id="email" placeholder="E-mail"/>
+          <input type="text" name="email" id="email" placeholder="E-mail" />
         </div>
       </div>
       <div class="row">
         <div class="group-row">
           <label>Telefone:</label>
-          <input type="text" name="telefone" id="telefone" placeholder="Telefone/Celular"/>
+          <input type="text" name="telefone" id="telefone" placeholder="Telefone/Celular" />
         </div>
       </div>
       <div class="row">
-        <!--<div class="group-row">
-           <label>WhatsApp:</label>
-          <input class="select-padrao" type="checkbox" name="whatsapp" id="whatsapp" placeholder="WhatsApp"/>
-        </div> -->
         <div class="group-row">
           <label>WhatsApp:</label>
-          <input class="checkbox" type="checkbox" name="whatsapp1" id="whatsapp1" placeholder="WhatsApp1"/>
+          <input class="checkbox" type="checkbox" name="whatsapp" id="whatsapp" placeholder="WhatsApp" />
+        </div>
+      </div>
+       <div class="row">
+        <div class="group-row">
+           <perfilpessoa></perfilpessoa>
         </div>
       </div>
       <div class="row">
         <div class="group-row">
           <label>TipoPessoa:</label>
-          <ng-select class="select-padrao" name="perfilPessoa" [(ngModel)]="perfilPessoaOptions" [ngModelOptions]="{standalone: false}">
-            <ng-option *ngFor="let perfil of perfilPessoaOptions" [value]="perfil.value">{{perfil.label}}</ng-option>
-          </ng-select>
-
+          <div class="select-padrao">
+            <ng-select class="select-padrao" [items]="tipoPessoasEnum" [ngModelOptions]="{standalone: true}"
+              bindLabel="nameTipoPessoa" bindValue="idTipoPessoa" placeholder="Selecione Tipo Pessoa" [(ngModel)]="selectTipo">
+            </ng-select>
+            <!-- <p>Selecionado: {{selectTipo}}</p> -->
+          </div>
         </div>
+      </div>
+      <div class="row">
+        <mat-accordion>
+          <!-- ENDEREÇO -->
+          <!-- <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Expanda a sessão necessária!!
+              </mat-panel-title>
+              <mat-panel-description>
+                This is a summary of the content
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <p>This is the primary content of the panel.</p>
+          </mat-expansion-panel> -->
+          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Endereços
+              </mat-panel-title>
+              <mat-panel-description>
+                <!-- Expandir Endereços {{panelOpenState ? 'open' : 'closed'}} -->
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <div class="group-row">
+                <label>Tipo Endereço:</label>
+                <div class="select-padrao">
+                  <ng-select class="select-padrao" [items]="tipoEnderecoEnum" [ngModelOptions]="{standalone: true}"
+                    bindLabel="nameTipoEndereco" bindValue="idTipoEndereco" placeholder="Selecione Tipo Endereço"
+                    [(ngModel)]="selectTipoEndereco">
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="group-row">
+                <label>Logradouro:</label>
+                <input type="text" id="logradouro" name="logradouro" placeholder="Logradouro, nº" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="group-row">
+                <label>Bairro:</label>
+                <input type="text" id="bairro" name="bairro" placeholder="Bairro" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="group-row">
+                <label>CEP:</label>
+                <input type="text" id="cep" name="cep" placeholder="CEP" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="group-row">
+                <label>Cidade:</label>
+                <input type="text" id="cidade" name="cidade" placeholder="Cidade" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="group-row">
+                <label>Estado:</label>
+                <input type="text" id="estado" name="estado" placeholder="Estado" />
+              </div>
+            </div>
+
+          </mat-expansion-panel>
+            <!-- CONTATO -->
+          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Contatos
+              </mat-panel-title>
+              <mat-panel-description>
+
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <div class="group-row">
+                <label>Tipo Contato:</label>
+                <div class="select-padrao">
+                  <ng-select class="select-padrao" [items]="tipoContatoEnum" [ngModelOptions]="{standalone: true}"
+                    bindLabel="nameTipoContato" bindValue="idTipoContato" placeholder="Selecione Tipo Contato"
+                    [(ngModel)]="selectTipoContato">
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="group-row">
+                <label>Nome:</label>
+                <input type="text" id="nomeContato" name="nomeContato" placeholder="Nome do Contato" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="group-row">
+                <label>Telefone:</label>
+                <input type="text" id="telefoneContato" name="telefoneContato" placeholder="Telefone do Contato" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="group-row">
+                <label>E-mail:</label>
+                <input type="text" id="emailContato" name="emailContato" placeholder="Email do Contato" />
+              </div>
+            </div>
+          </mat-expansion-panel>
+          <!-- EMPRESA -->
+          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Empresas
+              </mat-panel-title>
+              <mat-panel-description>
+                <!-- 1Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <div class="group-row">
+                <div class="select-padrao">
+                  <app-selecionar-empresa></app-selecionar-empresa>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
       </div>
     </form>
   </div>

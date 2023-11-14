@@ -220,6 +220,7 @@ input {
         }
     }
 }
+@import "~@ng-select/ng-select/themes/material.theme.css";
 
 .select-padrao {
     background: #fefefe;
@@ -228,7 +229,7 @@ input {
     font-family: "Poppins";
     font-style: normal;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 160%;
     color: #1e1e1e;
     width: 385px;
