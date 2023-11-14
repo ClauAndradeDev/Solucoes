@@ -1,3 +1,4 @@
+import { TipoPessoaModule } from './../../components/tipopessoa/tipopessoa.module';
 import { PerfilPessoaEnum } from 'src/app/models/perfilPessoaEnum.model';
 //import { SelecionarEmpresaModule } from './../../components/selecionar-empresa/selecionar-empresa.module';
 import { Component, OnInit } from '@angular/core';
@@ -39,6 +40,7 @@ export class PessoaComponent implements OnInit {
     private router: Router,
     public selecionarEmpresaModule: SelecionarEmpresaModule,
     public perfilPessoaModule: PerfilPessoaModule,
+    public tipoPessoaModule: TipoPessoaModule,
 
   ) {}
 
@@ -47,11 +49,7 @@ export class PessoaComponent implements OnInit {
   tipoTela: number = 1;
   tableListPessoa: Array<Pessoa>;
 
-  selectTipo: number;
-  tipoPessoasEnum =[
-    {idTipoPessoa: 1, nameTipoPessoa: 'Pessoa Fisica'},
-    {idTipoPessoa: 2, nameTipoPessoa: 'Pessoa Jurídica'}
-  ];
+
 
   selectTipoEndereco: number;
   tipoEnderecoEnum=[
@@ -68,14 +66,14 @@ export class PessoaComponent implements OnInit {
     {idTipoContato: 3, nameTipoContato: 'Residencial'}
   ];
 
-  tipoPessoaOptions: { value: number; label: string }[] = [];
+
   tipoEnderecoOptions: { value: number; label: string }[] = [];
   tipoContatoOptions:  { value: number; label: string }[] = [];
 
   ngOnInit() {
     this.menuService.menuSelecionado = 2;
 
-    this.tipoPessoaOptions = this.enumTipoPessoa.getTipoPessoaOptions();
+
     this.tipoEnderecoOptions = this.enumTipoEndereco.getTipoEnderecoOptions();
     this.tipoContatoOptions = this.enumTipoContato.getTipoContatoOptions();
 

@@ -3,7 +3,6 @@ import { MenuService } from 'src/app/services/menu.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { PerfilPessoaEnum } from 'src/app/models/perfilPessoaEnum.model';
 import { enums } from 'src/app/services/enum.service';
 
 @Component({
