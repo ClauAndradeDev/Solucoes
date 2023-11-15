@@ -1,16 +1,19 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { EnderecoComponent } from './endereco.component';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { TipoPessoaComponent } from './tipopessoa.component';
+import { NgModule } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 
 @NgModule({
   providers: [],
-  declarations: [TipoPessoaComponent],
+  declarations: [EnderecoComponent],
   imports: [CommonModule, FormsModule, NgSelectModule, MatExpansionModule],
-  exports: [TipoPessoaComponent],
+  exports: [EnderecoComponent],
+  //schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
-export class TipoPessoaModule{}
+export class EnderecoModule{
+
+}

@@ -5,10 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { SelectModel } from 'src/app/models/selectModel';
 import { EmpresaService } from 'src/app/services/empresa.service';
 import { CommonModule } from '@angular/common';
-import { NavbarComponent } from '../navbar/navbar.component';
+
 
 @Component({
-  selector: 'app-selecionar-empresa',
+  selector: 'selecionar-empresa',
   templateUrl: './selecionar-empresa.component.html',
   styleUrls: ['./selecionar-empresa.component.scss']
 })
@@ -21,6 +21,9 @@ constructor(public menuSerivce:MenuService,
     public empresaService: EmpresaService,
     public commonModule: CommonModule) {
 }
+
+panelOpenState = false;
+
   ngOnInit(): void {
     this.CarregarEmpresas();
   }

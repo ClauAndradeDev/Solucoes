@@ -20,6 +20,8 @@ export class PerfilPessoaComponent implements OnInit {
     public enumPerfilPessoa: enums) {
   }
 
+  panelOpenState = false;
+
   selectPerfil: number;
   perfilEnum =[
     {idPerfil: 1, namePerfil: 'Cliente'},

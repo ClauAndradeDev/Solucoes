@@ -55,140 +55,23 @@
           <input class="checkbox" type="checkbox" name="whatsapp" id="whatsapp" placeholder="WhatsApp" />
         </div>
       </div>
-       <div class="row">
-        <div class="group-row">
-           <perfilpessoa></perfilpessoa>
-        </div>
-      </div>
-      <div class="row">
-        <div class="group-row">
-          <tipopessoa></tipopessoa>
-        </div>
-      </div>
       <div class="row">
         <mat-accordion>
+          <!-- PERFIL PESSOA -->
+          <perfilpessoa></perfilpessoa>
+
+          <!-- TIPO PESSOA -->
+          <tipopessoa></tipopessoa>
+
           <!-- ENDEREÇO -->
-          <!-- <mat-expansion-panel hideToggle>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Expanda a sessão necessária!!
-              </mat-panel-title>
-              <mat-panel-description>
-                This is a summary of the content
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <p>This is the primary content of the panel.</p>
-          </mat-expansion-panel> -->
-          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Endereços
-              </mat-panel-title>
-              <mat-panel-description>
-                <!-- Expandir Endereços {{panelOpenState ? 'open' : 'closed'}} -->
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <div class="row">
-              <div class="group-row">
-                <label>Tipo Endereço:</label>
-                <div class="select-padrao">
-                  <ng-select class="select-padrao" [items]="tipoEnderecoEnum" [ngModelOptions]="{standalone: true}"
-                    bindLabel="nameTipoEndereco" bindValue="idTipoEndereco" placeholder="Selecione Tipo Endereço"
-                    [(ngModel)]="selectTipoEndereco">
-                  </ng-select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="group-row">
-                <label>Logradouro:</label>
-                <input type="text" id="logradouro" name="logradouro" placeholder="Logradouro, nº" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="group-row">
-                <label>Bairro:</label>
-                <input type="text" id="bairro" name="bairro" placeholder="Bairro" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="group-row">
-                <label>CEP:</label>
-                <input type="text" id="cep" name="cep" placeholder="CEP" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="group-row">
-                <label>Cidade:</label>
-                <input type="text" id="cidade" name="cidade" placeholder="Cidade" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="group-row">
-                <label>Estado:</label>
-                <input type="text" id="estado" name="estado" placeholder="Estado" />
-              </div>
-            </div>
+          <endereco></endereco>
 
-          </mat-expansion-panel>
-            <!-- CONTATO -->
-          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Contatos
-              </mat-panel-title>
-              <mat-panel-description>
+          <!-- CONTATO -->
+          <contato></contato>
 
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <div class="row">
-              <div class="group-row">
-                <label>Tipo Contato:</label>
-                <div class="select-padrao">
-                  <ng-select class="select-padrao" [items]="tipoContatoEnum" [ngModelOptions]="{standalone: true}"
-                    bindLabel="nameTipoContato" bindValue="idTipoContato" placeholder="Selecione Tipo Contato"
-                    [(ngModel)]="selectTipoContato">
-                  </ng-select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="group-row">
-                <label>Nome:</label>
-                <input type="text" id="nomeContato" name="nomeContato" placeholder="Nome do Contato" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="group-row">
-                <label>Telefone:</label>
-                <input type="text" id="telefoneContato" name="telefoneContato" placeholder="Telefone do Contato" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="group-row">
-                <label>E-mail:</label>
-                <input type="text" id="emailContato" name="emailContato" placeholder="Email do Contato" />
-              </div>
-            </div>
-          </mat-expansion-panel>
           <!-- EMPRESA -->
-          <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Empresas
-              </mat-panel-title>
-              <mat-panel-description>
-                <!-- 1Currently I am {{panelOpenState ? 'open' : 'closed'}} -->
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <div class="row">
-              <div class="group-row">
-                <div class="select-padrao">
-                  <app-selecionar-empresa></app-selecionar-empresa>
-                </div>
-              </div>
-            </div>
-          </mat-expansion-panel>
+          <selecionar-empresa></selecionar-empresa>
+
         </mat-accordion>
       </div>
     </form>

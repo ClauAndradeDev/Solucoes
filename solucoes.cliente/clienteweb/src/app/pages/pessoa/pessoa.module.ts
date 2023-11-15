@@ -7,12 +7,13 @@ import { SideBarModule } from 'src/app/components/sidebar/sidebar.module';
 import { MenuService } from 'src/app/services/menu.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule  } from '@angular/material/expansion';
 import { SelecionarEmpresaModule } from 'src/app/components/selecionar-empresa/selecionar-empresa.module';
 import { PerfilPessoaModule } from 'src/app/components/perfilpessoa/perfilpessoa.module';
-import { PerfilPessoaComponent } from 'src/app/components/perfilpessoa/perfilpessoa.component';
 import { TipoPessoaModule } from 'src/app/components/tipopessoa/tipopessoa.module';
+import { EnderecoModule } from 'src/app/components/endereco/endereco.module';
+import { ContatoModule } from 'src/app/components/contato/contato.module';
+
 
 
 @NgModule({
@@ -29,6 +30,8 @@ import { TipoPessoaModule } from 'src/app/components/tipopessoa/tipopessoa.modul
     SelecionarEmpresaModule,
     PerfilPessoaModule,
     TipoPessoaModule,
+    EnderecoModule,
+    ContatoModule,
     ],
   exports: [CommonModule],
 
