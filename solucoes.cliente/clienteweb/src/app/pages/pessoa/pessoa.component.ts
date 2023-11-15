@@ -1,6 +1,5 @@
+import { EnderecoModule } from './../../components/endereco/endereco.module';
 import { TipoPessoaModule } from './../../components/tipopessoa/tipopessoa.module';
-import { PerfilPessoaEnum } from 'src/app/models/perfilPessoaEnum.model';
-//import { SelecionarEmpresaModule } from './../../components/selecionar-empresa/selecionar-empresa.module';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pessoa } from 'src/app/models/pessoa.model';
@@ -41,42 +40,22 @@ export class PessoaComponent implements OnInit {
     public selecionarEmpresaModule: SelecionarEmpresaModule,
     public perfilPessoaModule: PerfilPessoaModule,
     public tipoPessoaModule: TipoPessoaModule,
+    public enderecoModule: EnderecoModule
 
-  ) {}
+  ) { }
 
   panelOpenState = false;
 
   tipoTela: number = 1;
   tableListPessoa: Array<Pessoa>;
 
+  //typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
 
 
-  selectTipoEndereco: number;
-  tipoEnderecoEnum=[
-    {idTipoEndereco: 1, nameTipoEndereco: 'Cobrança'},
-    {idTipoEndereco: 2, nameTipoEndereco: 'Comercial'},
-    {idTipoEndereco: 3, nameTipoEndereco: 'Entrega'},
-    {idTipoEndereco: 4, nameTipoEndereco: 'Residencial'}
-  ];
 
-  selectTipoContato: number;
-  tipoContatoEnum=[
-    {idTipoContato: 1, nameTipoContato: 'Comercial'},
-    {idTipoContato: 2, nameTipoContato: 'Preferencial'},
-    {idTipoContato: 3, nameTipoContato: 'Residencial'}
-  ];
-
-
-  tipoEnderecoOptions: { value: number; label: string }[] = [];
-  tipoContatoOptions:  { value: number; label: string }[] = [];
 
   ngOnInit() {
     this.menuService.menuSelecionado = 2;
-
-
-    this.tipoEnderecoOptions = this.enumTipoEndereco.getTipoEnderecoOptions();
-    this.tipoContatoOptions = this.enumTipoContato.getTipoContatoOptions();
-
   }
 
 

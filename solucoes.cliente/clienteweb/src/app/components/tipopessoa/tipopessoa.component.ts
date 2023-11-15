@@ -19,11 +19,14 @@ constructor(public menuService: MenuService,
   public enumTipolPessoa: enums) {
 }
 
+panelOpenState = false;
+
 selectTipo: number;
 tipoPessoasEnum =[
   {idTipoPessoa: 1, nameTipoPessoa: 'Pessoa Fisica'},
   {idTipoPessoa: 2, nameTipoPessoa: 'Pessoa Jurídica'}
 ];
+
 tipoPessoaOptions: { value: number; label: string }[] = [];
 
   ngOnInit(): void {
