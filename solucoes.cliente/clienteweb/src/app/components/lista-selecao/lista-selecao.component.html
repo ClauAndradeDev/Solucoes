@@ -1,0 +1,18 @@
+<mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      lista
+    </mat-panel-title>
+    <mat-panel-description>
+
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+
+    <mat-selection-list #shoes [multiple]="false">
+      <mat-list-option value="tenis"> tenis </mat-list-option>
+      <mat-list-option value="sapatenis"> sapatenis </mat-list-option>
+      <mat-list-option value="chinelo"> chinelo </mat-list-option>
+    </mat-selection-list>
+
+</mat-expansion-panel>

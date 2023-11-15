@@ -14,6 +14,13 @@ import { TipoPessoaModule } from 'src/app/components/tipopessoa/tipopessoa.modul
 import { EnderecoModule } from 'src/app/components/endereco/endereco.module';
 import { ContatoModule } from 'src/app/components/contato/contato.module';
 
+import { MatListModule } from '@angular/material/list';
+import { ListaSelecaoModule } from 'src/app/components/lista-selecao/lista-selecao.module';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+import { GridViewModule } from 'src/app/components/gridview/gridview.module';
+
 
 
 @NgModule({
@@ -32,6 +39,11 @@ import { ContatoModule } from 'src/app/components/contato/contato.module';
     TipoPessoaModule,
     EnderecoModule,
     ContatoModule,
+    ListaSelecaoModule,
+    MatListModule,
+    MatButtonModule,
+    MatTableModule,
+    GridViewModule
     ],
   exports: [CommonModule],
 

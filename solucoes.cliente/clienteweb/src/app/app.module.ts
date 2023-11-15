@@ -13,7 +13,9 @@ import { AuthGuard } from './services/authGuard.service';
 //import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatExpansionModule} from '@angular/material/expansion';
-
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
 
 // const RxJS = [LoaderInterceptor, HTTPStatus];
 
@@ -30,7 +32,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
-
+    MatListModule,
+    MatButtonModule,
+    MatTableModule
   ],
   providers: [
     AuthGuard,
