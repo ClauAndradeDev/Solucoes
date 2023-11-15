@@ -1,60 +1,46 @@
-<mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      Endereços
-    </mat-panel-title>
-    <mat-panel-description>
-      <!-- Expandir Endereços {{panelOpenState ? 'open' : 'closed'}} -->
-    </mat-panel-description>
-  </mat-expansion-panel-header>
   <div class="row">
     <div class="group-row">
       <label>Tipo Endereço:</label>
       <div class="select-padrao">
         <ng-select class="select-padrao" [items]="tipoEnderecoEnum" [ngModelOptions]="{standalone: true}"
           bindLabel="nameTipoEndereco" bindValue="idTipoEndereco" placeholder="Selecione Tipo Endereço"
-          [(ngModel)]="selectTipoEndereco">
+          [(ngModel)]="enderecoData.selectTipoEndereco">
+
         </ng-select>
+        <!-- <ng-select class="select-padrao" [items]="tipoEnderecoEnum" [ngModelOptions]="{standalone: true}"
+          bindLabel="nameTipoEndereco" bindValue="idTipoEndereco" placeholder="Selecione Tipo Endereço"
+          formControlName="tipoEndereco">
+        </ng-select> -->
       </div>
     </div>
   </div>
   <div class="row">
     <div class="group-row">
       <label>Logradouro:</label>
-      <input type="text" id="logradouro" name="logradouro" placeholder="Logradouro, nº" />
+      <input type="text" id="logradouro" name="logradouro" placeholder="Logradouro, nº" [value]="logradouro" [(ngModel)]="enderecoData.logradouro" />
     </div>
   </div>
   <div class="row">
     <div class="group-row">
       <label>Bairro:</label>
-      <input type="text" id="bairro" name="bairro" placeholder="Bairro" />
+      <input type="text" id="bairro" name="bairro" placeholder="Bairro" [value]="bairro" [(ngModel)]="enderecoData.bairro" />
     </div>
   </div>
   <div class="row">
     <div class="group-row">
       <label>CEP:</label>
-      <input type="text" id="cep" name="cep" placeholder="CEP" />
+      <input type="text" id="cep" name="cep" placeholder="CEP" [value]="cep" [(ngModel)]="enderecoData.cep" />
     </div>
   </div>
   <div class="row">
     <div class="group-row">
       <label>Cidade:</label>
-      <input type="text" id="cidade" name="cidade" placeholder="Cidade" />
+      <input type="text" id="cidade" name="cidade" placeholder="Cidade" [value]="cidade" [(ngModel)]="enderecoData.cidade" />
     </div>
   </div>
   <div class="row">
     <div class="group-row">
       <label>Estado:</label>
-      <input type="text" id="estado" name="estado" placeholder="Estado" />
+      <input type="text" id="estado" name="estado" placeholder="Estado" [value]="estado" [(ngModel)]="enderecoData.estado" />
     </div>
   </div>
-  <div class="row">
-    <div class="group-row">
-      <div class="select-padrao">
-        <button class="btn-primary-confirm">Adicionar</button>
-        <button class="btn-primary-delete">Remover</button>
-      </div>
-
-    </div>
-  </div>
-</mat-expansion-panel>

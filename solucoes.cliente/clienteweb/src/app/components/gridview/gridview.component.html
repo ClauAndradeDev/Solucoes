@@ -1,0 +1,129 @@
+<mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{valor}}
+    </mat-panel-title>
+    <mat-panel-description>
+
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <div class="demo-button-container">
+    <button mat-raised-button (click)="addData()" class="demo-button">
+      Incluir Endereço
+    </button>
+    <button mat-raised-button (click)="mep.toggle()">Adicionar</button>
+    <button mat-raised-button (click)="salvarEndereco()">Salvar</button>
+    <button mat-raised-button (click)="mep.toggle()">Cancelar</button>
+    <!-- <button mat-raised-button [disabled]="!dataSource.length" (click)="removeData()" class="demo-button">
+      Remove data
+    </button> -->
+  </div>
+
+
+  <mat-expansion-panel #mep="matExpansionPanel" (opened)="abrirPainelEndereco = true"
+    (closed)="abrirPainelEndereco = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Endereço
+      </mat-panel-title>
+      <mat-panel-description>
+        <!-- Expandir Endereços {{panelOpenState ? 'open' : 'closed'}} -->
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <!-- <div class="row">
+      <div class="group-row">
+        <label>Tipo Endereço:</label>
+        <div class="select-padrao">
+          <ng-select class="select-padrao" [items]="tipoEnderecoEnum" [ngModelOptions]="{standalone: true}"
+            bindLabel="nameTipoEndereco" bindValue="idTipoEndereco" placeholder="Selecione Tipo Endereço"
+            [(ngModel)]="selectTipoEndereco">
+          </ng-select>
+        </div>
+      </div>
+    </div> -->
+    <!-- <div class="row">
+      <div class="group-row">
+        <label>Logradouro:</label>
+        <input type="text" id="logradouro" name="logradouro" placeholder="Logradouro, nº" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="group-row">
+        <label>Bairro:</label>
+        <input type="text" id="bairro" name="bairro" placeholder="Bairro" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="group-row">
+        <label>CEP:</label>
+        <input type="text" id="cep" name="cep" placeholder="CEP" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="group-row">
+        <label>Cidade:</label>
+        <input type="text" id="cidade" name="cidade" placeholder="Cidade" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="group-row">
+        <label>Estado:</label>
+        <input type="text" id="estado" name="estado" placeholder="Estado" />
+      </div>
+    </div>-->
+
+    <endereco [enderecoData]="enderecoDataParaEnviar">
+
+    </endereco>
+  </mat-expansion-panel>
+
+
+
+
+
+
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+    <!-- IdEnderecoPessoa Column -->
+    <ng-container matColumnDef="idEnderecoPessoa">
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td mat-cell *matCellDef="let element">{{element.idEnderecoPessoa}}</td>
+    </ng-container>
+
+    <!-- TipoEndereço Column -->
+    <ng-container matColumnDef="tipoEnderecoPessoa">
+      <th mat-header-cell *matHeaderCellDef>Tipo Endereço</th>
+      <td mat-cell *matCellDef="let element">{{element.tipoEnderecoPessoa}}</td>
+    </ng-container>
+
+    <!-- Bairro Column -->
+    <ng-container matColumnDef="bairro">
+      <th mat-header-cell *matHeaderCellDef>bairro</th>
+      <td mat-cell *matCellDef="let element">{{element.bairro}}</td>
+    </ng-container>
+
+    <!-- Botão Column -->
+    <ng-container matColumnDef="edicao">
+      <th mat-header-cell *matHeaderCellDef>Alterar</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button (click)="updateData(element.idEnderecoPessoa)" class="demo-button">
+          Editar
+        </button>
+        <button mat-raised-button (click)="mep.toggle()">Abrir form</button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="exclusao">
+      <th mat-header-cell *matHeaderCellDef>Excluir</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button (click)="removeData(element.idEnderecoPessoa)" class="demo-button">
+          Excluir
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+</mat-expansion-panel>

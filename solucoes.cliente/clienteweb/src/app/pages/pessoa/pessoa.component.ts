@@ -1,6 +1,6 @@
 import { EnderecoModule } from './../../components/endereco/endereco.module';
 import { TipoPessoaModule } from './../../components/tipopessoa/tipopessoa.module';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pessoa } from 'src/app/models/pessoa.model';
 import { SelectModel } from 'src/app/models/selectModel';
@@ -46,16 +46,22 @@ export class PessoaComponent implements OnInit {
 
   panelOpenState = false;
 
+
+
   tipoTela: number = 1;
   tableListPessoa: Array<Pessoa>;
 
-  //typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
 
-
-
+@Input()
+set valor(valor:string){
+  if(valor === 'Vue' || valor =='React')
+  valor = 'Endereços';
+this.valor = valor;
+}
 
   ngOnInit() {
     this.menuService.menuSelecionado = 2;
+
   }
 
 
