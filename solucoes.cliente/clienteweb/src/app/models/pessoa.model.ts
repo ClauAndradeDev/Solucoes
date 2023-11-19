@@ -1,9 +1,12 @@
 export class Pessoa {
-  Id: number;
-  NomeRazao: string;
+  map(arg0: (p: any) => { id: any; name: any; }) {
+    throw new Error('Method not implemented.');
+  }
+  Codigo: number;
+  NomeRazaoSocial: string;
   SobreNomeFantasia: string;
-  cpfcnpj: string;
-  rgie: string;
+  CPFCNPJ: string;
+  RGIE: string;
   DataNascimento: Date;
   Email: string;
   Telefone: string;
@@ -15,7 +18,7 @@ export class Pessoa {
   DataCadastro: Date;
 
   /*
-  São necessário?  
+  São necessário?
   Porque vou precisar na verdade da lista de Endereço, Contato, Usuario e Empresas
   */
   IdEmpresa: number;

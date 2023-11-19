@@ -72,6 +72,11 @@ input {
 //   left: 9px;
 // }
 
+.mat-expansion-panel{
+  height: auto;
+  width: 600px;
+}
+
 
 .error-input {
     font-size: 14px;
@@ -266,7 +271,10 @@ span {
     min-height: 42px;
     align-items: center;
 }
-
+//.ng-select {
+//   max-height: 200px; /* Adapte conforme necessário para a altura desejada */
+//   overflow-y: auto;
+// }
 
 
 // Inclusão Tabela

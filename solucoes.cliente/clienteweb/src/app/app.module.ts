@@ -17,6 +17,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 
+
 // const RxJS = [LoaderInterceptor, HTTPStatus];
 
 @NgModule({
@@ -24,7 +25,6 @@ import { MatTableModule } from '@angular/material/table';
   imports: [
     BrowserModule,
     AppRoutingModule,
-
     NgSelectModule,
     BrowserAnimationsModule,
     MatExpansionModule,
@@ -34,7 +34,8 @@ import { MatTableModule } from '@angular/material/table';
     HttpClientModule,
     MatListModule,
     MatButtonModule,
-    MatTableModule
+    MatTableModule,
+
   ],
   providers: [
     AuthGuard,

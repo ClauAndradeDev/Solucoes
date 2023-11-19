@@ -1,4 +1,4 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, Input, NgModule, OnInit } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
@@ -21,6 +21,11 @@ constructor(public menuService: MenuService,
 
 panelOpenState = false;
 
+// isPanelExpanded: boolean = false;
+// onListItemClick(){
+// this.isPanelExpanded = true;
+// }
+
 selectTipo: number;
 tipoPessoasEnum =[
   {idTipoPessoa: 1, nameTipoPessoa: 'Pessoa Fisica'},
@@ -28,6 +33,8 @@ tipoPessoasEnum =[
 ];
 
 tipoPessoaOptions: { value: number; label: string }[] = [];
+
+@Input() tipoPessoaData: any;
 
   ngOnInit(): void {
     this.tipoPessoaOptions = this.enumTipolPessoa.getTipoPessoaOptions();

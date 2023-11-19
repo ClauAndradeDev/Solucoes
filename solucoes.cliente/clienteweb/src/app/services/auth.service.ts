@@ -26,6 +26,7 @@ export class AuthService {
   }
 
   logout() {
+    this.loginService.RetirarAcesso();
     localStorage.removeItem('token');
     this.cookieService.delete('token');
     this.excluirCookie('token', this.usuarioLogado);

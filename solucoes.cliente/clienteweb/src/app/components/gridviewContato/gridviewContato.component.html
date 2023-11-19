@@ -1,0 +1,94 @@
+<mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{valor}}
+    </mat-panel-title>
+    <mat-panel-description>
+
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <div class="demo-button-container">
+    <!-- <button mat-raised-button (click)="addData()" class="demo-button">
+      Incluir Contato
+    </button> -->
+    <button mat-raised-button (click)="matExpansionPanel.toggle()">Adicionar</button>
+    <button mat-raised-button (click)="salvarContato()">Salvar</button>
+    <button mat-raised-button (click)="fecharFormulario(matExpansionPanel)">Cancelar</button>
+  </div>
+
+
+  <mat-expansion-panel #matExpansionPanel (opened)="abrirPainelContato = true"
+    (closed)="abrirPainelContato = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Contato
+      </mat-panel-title>
+      <mat-panel-description>
+        <!-- Expandir Endereços {{panelOpenState ? 'open' : 'closed'}} -->
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <contato [contatoData]="contatoDataParaEnviar"></contato>
+  </mat-expansion-panel>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+    <!-- idContato Column -->
+    <ng-container matColumnDef="idContato">
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td mat-cell *matCellDef="let element">{{element.idContato}}</td>
+    </ng-container>
+
+     <!-- TipoContato Column -->
+     <ng-container matColumnDef="tipoContato">
+      <th mat-header-cell *matHeaderCellDef>IdTipo Contato</th>
+      <td mat-cell *matCellDef="let element">{{element.tipoContato}}</td>
+    </ng-container>
+
+    <!-- TipoDescricao Column -->
+    <ng-container matColumnDef="tipoDescricao">
+      <th mat-header-cell *matHeaderCellDef>Tipo Contato</th>
+      <td mat-cell *matCellDef="let element">{{element.tipoDescricao}}</td>
+    </ng-container>
+
+    <!-- contatoTelefone Column -->
+    <ng-container matColumnDef="contatoTelefone">
+      <th mat-header-cell *matHeaderCellDef>Telefone Contato</th>
+      <td mat-cell *matCellDef="let element">{{element.contatoTelefone}}</td>
+    </ng-container>
+
+    <!-- contatoEmail Column -->
+    <ng-container matColumnDef="contatoEmail">
+      <th mat-header-cell *matHeaderCellDef>E-mail Contato</th>
+      <td mat-cell *matCellDef="let element">{{element.contatoEmail}}</td>
+    </ng-container>
+
+    <!-- contatoNome Column -->
+    <ng-container matColumnDef="contatoNome">
+      <th mat-header-cell *matHeaderCellDef>Nome</th>
+      <td mat-cell *matCellDef="let element">{{element.contatoNome}}</td>
+    </ng-container>
+
+    <!-- Botão Column -->
+    <ng-container matColumnDef="edicao">
+      <th mat-header-cell *matHeaderCellDef>Alterar</th>
+      <td mat-cell *matCellDef="let element">
+        <!-- <button mat-raised-button (click)="updateData(element.idContato)" class="demo-button">
+          Editar
+        </button> -->
+        <button mat-raised-button (click)="abrirFormulario(matExpansionPanel,element)">Editar</button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="exclusao">
+      <th mat-header-cell *matHeaderCellDef>Excluir</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button (click)="removeData(element.idContato)" class="demo-button">
+          Excluir
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+</mat-expansion-panel>

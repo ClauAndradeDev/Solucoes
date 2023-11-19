@@ -11,7 +11,7 @@
     <div class="group-row">
       <div class="select-padrao">
         <ng-select class="select-padrao" [items]="listaEmpresas" [ngModelOptions]="{standalone: true}" bindLabel="name"
-          bindValue="id" placeholder="Selecione Empresa" [(ngModel)]="selectEmpresa" [compareWith]="compararEmpresas">
+          bindValue="id" placeholder="Selecione Empresa" [(ngModel)]="empresaData.selectEmpresa" [compareWith]="compararEmpresas">
         </ng-select>
       </div>
     </div>

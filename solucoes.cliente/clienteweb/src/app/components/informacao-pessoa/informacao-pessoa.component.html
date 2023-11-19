@@ -1,0 +1,40 @@
+<!-- <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Informações Adicionais
+    </mat-panel-title>
+    <mat-panel-description>
+        Tipo Pessoa, Perfil Pessoa, Empresa
+    </mat-panel-description>
+  </mat-expansion-panel-header> -->
+<div class="row">
+  <div class="group-row">
+    <div class="select-padrao">
+      <ng-select [items]="tipoPessoasEnum" [ngModelOptions]="{standalone: true}"
+        bindLabel="nameTipoPessoa" bindValue="idTipoPessoa" placeholder="Selecione Tipo Pessoa" [(ngModel)]="informacaoData.selectTipoPessoa">
+      </ng-select>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="group-row">
+    <!-- <div class="select-padrao"> -->
+      <ng-select class="select-padrao" [items]="perfilEnum" [ngModelOptions]="{standalone: true}"
+        bindLabel="namePerfil" bindValue="idPerfil" placeholder="Selecione Perfil"
+        [(ngModel)]="informacaoData.selectPerfil">
+
+      </ng-select>
+    <!-- </div> -->
+  </div>
+</div>
+<div class="row">
+  <div class="group-row">
+    <div class="select-padrao">
+      <ng-select [items]="listaEmpresas" [ngModelOptions]="{standalone: true}" bindLabel="name"
+        bindValue="id" placeholder="Selecione Empresa" [(ngModel)]="informacaoData.selectEmpresa" [compareWith]="compararEmpresas">
+      </ng-select>
+    </div>
+  </div>
+</div>
+<!-- </mat-expansion-panel> -->
