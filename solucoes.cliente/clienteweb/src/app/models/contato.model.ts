@@ -1,11 +1,11 @@
 export class Contato{
     Id: number;
-    DataCadastro: Date;
+    // DataCadastro: Date;
     Situacao: number;
-    Nome:string;
+    nome:string;
     Telefone:string;
     Email:string;
-    TipoContato: number;
-    idPessoa: number;
+    tipoContato: number;
+    //IdPessoa: number;
 
 }

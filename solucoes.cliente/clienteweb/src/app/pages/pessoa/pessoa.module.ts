@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PessoaComponent } from './pessoa.component';
 import { PessoaRoutingModule } from './pessoa-routing.modules';
@@ -19,12 +19,15 @@ import { ListaSelecaoModule } from 'src/app/components/lista-selecao/lista-selec
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
-import { GridViewModule } from 'src/app/components/gridview/gridview.module';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { InformacaoPessoaModule } from 'src/app/components/informacao-pessoa/informacao-pessoa.module';
+import { GridViewContatoModule } from 'src/app/components/gridviewContato/gridviewContato.module';
+import { ContatoComponent } from 'src/app/components/contato/contato.component';
+import { GridViewEnderecoModule } from 'src/app/components/gridview-endereco/gridview-endereco.module';
 
 
 @NgModule({
-  providers: [MenuService, NavbarModule, SideBarModule],
+  providers: [ContatoComponent],
   declarations: [PessoaComponent],
   imports: [
     CommonModule,
@@ -38,12 +41,14 @@ import { GridViewModule } from 'src/app/components/gridview/gridview.module';
     PerfilPessoaModule,
     TipoPessoaModule,
     EnderecoModule,
-    ContatoModule,
     ListaSelecaoModule,
     MatListModule,
     MatButtonModule,
     MatTableModule,
-    GridViewModule
+    GridViewEnderecoModule,
+    MatFormFieldModule,
+    InformacaoPessoaModule,
+    GridViewContatoModule,
     ],
   exports: [CommonModule],
 

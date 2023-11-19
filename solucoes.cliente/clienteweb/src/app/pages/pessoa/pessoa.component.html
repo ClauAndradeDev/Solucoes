@@ -8,81 +8,95 @@
 
     </div>
     <form class="form-page">
-
+      <div class="row">
+        <div class="group-row">
+          <button mat-raised-button (click)="salvarPessoa()">Salvar</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="group-row">
+          <label>Código:</label>
+          <input type="text" name="codigo" id="codigo" placeholder="Código da Pessoa" [value]="codigo"
+            [(ngModel)]="codigo" readonly />
+        </div>
+        </div>
       <div class="row">
         <div class="group-row">
           <label>Nome/Razão Social:</label>
-          <input type="text" name="razaosocial" id="razaosocial" placeholder="Nome/Razão Social" />
+          <input type="text" name="razaosocial" id="razaosocial" placeholder="Nome/Razão Social" [value]="razaosocial"
+            [(ngModel)]="razaosocial" />
         </div>
       </div>
       <div class="row">
         <div class="group-row">
           <label>SobreNome/Nome Fantasia:</label>
-          <input type="text" name="nomefantasia" id="nomefantasia" placeholder="SobreNome/Nome Fantasia" />
+          <input type="text" name="nomefantasia" id="nomefantasia" placeholder="SobreNome/Nome Fantasia"
+            [value]="nomefantasia" [(ngModel)]="nomefantasia" />
         </div>
       </div>
       <div class="row">
         <div class="group-row">
           <label>CPF/CNPJ:</label>
-          <input type="text" name="cpfcnpj" id="cpfcnpj" placeholder="CPF/CNPJ" />
+          <input type="text" name="cpfcnpj" id="cpfcnpj" placeholder="CPF/CNPJ" [value]="cpfcnpj"
+            [(ngModel)]="cpfcnpj" />
         </div>
       </div>
       <div class="row">
         <div class="group-row">
           <label>RG/IE:</label>
-          <input type="text" name="rgie" id="rgie" placeholder="RG/IE" />
+          <input type="text" name="rgie" id="rgie" placeholder="RG/IE" [value]="rgie" [(ngModel)]="rgie" />
         </div>
       </div>
       <div class="row">
         <div class="group-row">
           <label>Data Nascimento:</label>
-          <input type="Date" name="datanascimento" id="datanascimento" placeholder="Data" />
+          <input type="Date" name="datanascimento" id="datanascimento" placeholder="Data" [value]="datanascimento"
+            [(ngModel)]="datanascimento" />
         </div>
       </div>
       <div class="row">
         <div class="group-row">
           <label>E-mail:</label>
-          <input type="text" name="email" id="email" placeholder="E-mail" />
+          <input type="text" name="email" id="email" placeholder="E-mail" [value]="email" [(ngModel)]="email" />
         </div>
       </div>
       <div class="row">
         <div class="group-row">
           <label>Telefone:</label>
-          <input type="text" name="telefone" id="telefone" placeholder="Telefone/Celular" />
+          <input type="text" name="telefone" id="telefone" placeholder="Telefone/Celular" [value]="telefone"
+            [(ngModel)]="telefone" />
         </div>
       </div>
       <div class="row">
         <div class="group-row">
           <label>WhatsApp:</label>
-          <input class="checkbox" type="checkbox" name="whatsapp" id="whatsapp" placeholder="WhatsApp" />
+          <input class="checkbox" type="checkbox" name="whatsapp" id="whatsapp" placeholder="WhatsApp"
+            [value]="whatsapp" [(ngModel)]="whatsapp" />
         </div>
       </div>
       <div class="row">
-        <mat-accordion>
-          <!-- PERFIL PESSOA -->
-          <perfilpessoa></perfilpessoa>
-
-          <!-- TIPO PESSOA -->
-          <tipopessoa></tipopessoa>
-
-          <!-- ENDEREÇO
-          <endereco></endereco> -->
-
-          <!-- CONTATO -->
-          <contato></contato>
-
-          <!-- EMPRESA -->
-          <selecionar-empresa></selecionar-empresa>
-
-          <lista-selecao></lista-selecao>
-
-          <gridview valor="Endereços">
-
-          </gridview>
-
-        </mat-accordion>
+        <div class="group-row">
+          <div class="row">
+            <div class="group-row">
+              <informacao-pessoa [informacaoData]="informacaoDataParaEnviar"></informacao-pessoa>
+            </div>
+          </div>
+          <mat-accordion>
+            <div class="row">
+              <div class="group-row">
+                <!-- <gridview valor="Endereços"></gridview> -->
+                <gridview-endereco valor="Endereços"></gridview-endereco>
+              </div>
+            </div>
+            <div class="row">
+              <div class="group-row">
+                <gridviewContato valor="Contatos"></gridviewContato>
+              </div>
+            </div>
+          </mat-accordion>
+        </div>
       </div>
-
     </form>
+
   </div>
 </div>

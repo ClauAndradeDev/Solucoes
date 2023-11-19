@@ -24,6 +24,10 @@ export class LoginService extends Service {
     return this.httpClient.post<any>(`${this.controllerUrl}/login`, usuario);
   }
 
+  RetirarAcesso(){
+    return this.httpClient.post<any>(`${this.controllerUrl}/logout`,{});
+  }
+
   // CarregarUsuario(){
   //   return this.httpClient.get<any>(`${this.controllerUrl}`);
   // }

@@ -1,4 +1,4 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, Input, NgModule, OnInit } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
@@ -23,6 +23,7 @@ constructor(public menuSerivce:MenuService,
 }
 
 panelOpenState = false;
+@Input() empresaData: any;
 
   ngOnInit(): void {
     this.CarregarEmpresas();

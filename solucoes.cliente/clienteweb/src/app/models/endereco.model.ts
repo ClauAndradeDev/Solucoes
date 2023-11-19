@@ -6,6 +6,6 @@ export class Endereco{
     CEP: string;
     Cidade: string;
     Estado: string;
-    TipoEndereco: number;
+    tipoEndereco: number;
 
 }
